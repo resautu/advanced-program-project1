@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef ITEM_H
 #define ITEM_H
 #include <string>
@@ -10,7 +10,7 @@ struct Good {
 	double price;
 	int number;
 	char description[101];
-	char seller_id = { 'U' };
+	string seller_id;
 	string sell_time;
 	string sit;
 };

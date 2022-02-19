@@ -43,6 +43,7 @@ void main_menu() {
 			cin >> i;
 		}
 		switch (i) {
+		case 0: {Admin a; a.look_good(); break; }
 		case 1:admin_login(); system("cls"); break;
 		case 2: {User u; u.user_register(); break; }
 		case 3:user_login(); break;
