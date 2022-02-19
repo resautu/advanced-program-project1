@@ -8,7 +8,7 @@ using namespace std;
 #include"User.h"
 class Admin {
 public:
-	
+	void admin_menu(){}
 	void look_good();
 	void search_good();
 	void del_good();

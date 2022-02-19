@@ -3,11 +3,27 @@
 #include"MainMenu.h"
 #include"Administrator.h"
 #include"User.h"
+#include <string>
+#include<windows.h>
+#include<limits.h>
 using namespace std;
-void admin_menu() {
-	
+void admin_login() {
+	system("cls");
+	string name, key;
+	cout << "请输入管理员姓名: ";
+	cin >> name;
+	cout << "请输入密码: ";
+	cin >> key;
+	if (name != "admin" || key != "123456") {
+		cout << endl << endl << "------用户名或密码错误，即将返回主菜单------" << endl;
+		Sleep(500);
+		return;
+	}
+	cout << endl << endl << "------登录成功，欢迎您------" << endl << endl;
+	Admin admin;
+	admin.admin_menu();
 }
-void user_menu() {
+void user_login() {
 
 }
 void main_menu() {
@@ -23,13 +39,13 @@ void main_menu() {
 		while (!cin) {
 			cout << "请输入正确的数字" << endl;
 			cin.clear();
-			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+			cin.ignore(INT_MAX, '\n');
 			cin >> i;
 		}
 		switch (i) {
-		case 1:admin_menu(); break;
+		case 1:admin_login(); break;
 		case 2:user_register(); break;
-		case 3:user_menu(); break;
+		case 3:user_login(); break;
 		case 4:break;
 		case 5:exit(0); break;
 		default:system("cls"); cout << "请按要求输入正确的数字" << endl<<endl; break;

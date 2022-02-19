@@ -14,6 +14,7 @@ class User {
 	string address;
 	double balance;
 public:
+	void user_menu();
 	void user_login();
 	void user_information();
 	void recharge();
