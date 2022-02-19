@@ -1,11 +1,11 @@
 #define _CRT_SECURE_NO_WARNINGS
+#define NOMINMAX
 #include <iostream>
 #include"MainMenu.h"
 #include"Administrator.h"
 #include"User.h"
 #include <string>
 #include<windows.h>
-#include<limits.h>
 using namespace std;
 void admin_login() {
 	system("cls");
@@ -39,14 +39,14 @@ void main_menu() {
 		while (!cin) {
 			cout << "请输入正确的数字" << endl;
 			cin.clear();
-			cin.ignore(INT_MAX, '\n');
+			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			cin >> i;
 		}
 		switch (i) {
-		case 1:admin_login(); break;
-		case 2:user_register(); break;
+		case 1:admin_login(); system("cls"); break;
+		case 2: {User u; u.user_register(); break; }
 		case 3:user_login(); break;
-		case 4:break;
+		case 4:break;                                 //计算器接口
 		case 5:exit(0); break;
 		default:system("cls"); cout << "请按要求输入正确的数字" << endl<<endl; break;
 		}

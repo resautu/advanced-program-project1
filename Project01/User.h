@@ -18,6 +18,7 @@ public:
 	void user_login();
 	void user_information();
 	void recharge();
+	void user_register(){}
 };
 class Buyer :public User {
 public:
@@ -43,5 +44,5 @@ private:
 	vector<Good> goods;
 	vector<Order> orders;
 };
-void user_register(){}
+
 #endif

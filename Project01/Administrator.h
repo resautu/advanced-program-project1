@@ -8,7 +8,7 @@ using namespace std;
 #include"User.h"
 class Admin {
 public:
-	void admin_menu(){}
+	void admin_menu();
 	void look_good();
 	void search_good();
 	void del_good();
@@ -16,8 +16,9 @@ public:
 	void look_user();
 	void del_user();
 private:
-	vector<Good> goods;
-	vector<Order> orders;
-	vector<User> users;
+	vector<Good*> goods;
+	vector<Order*> orders;
+	vector<User*> users;
 };
+
 #endif
