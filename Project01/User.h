@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "Item.h"
+#include "MainMenu.h"
 using namespace std;
 class User {
 	char user_id[5] = { 'U' };
@@ -13,11 +14,9 @@ class User {
 	string address;
 	double balance;
 public:
-	void user_register();
 	void user_login();
-	void user_menu();
 	void user_information();
-
+	void recharge();
 };
 class Buyer :public User {
 public:
@@ -26,7 +25,7 @@ public:
 	void look_good();
 	void look_menu();
 	void search_good();
-
+	
 private:
 	vector<Good> goods;
 	vector<Order> orders;
@@ -43,4 +42,5 @@ private:
 	vector<Good> goods;
 	vector<Order> orders;
 };
+void user_register(){}
 #endif
