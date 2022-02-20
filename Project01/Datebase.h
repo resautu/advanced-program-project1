@@ -2,9 +2,9 @@
 #ifndef DATEBASE_H
 #define DATEBASE_H
 //#include "Administrator.h"
-#include"User.h"
+//#include"User.h"
 #include <vector>
-//#include "Item.h"
+#include "Item.h"
 #include <fstream>
 #include<iostream>
 #include <iomanip>
@@ -12,6 +12,7 @@
 //extern string good_file = "D:/proj1/commodity.txt";
 //extern string user_file = "D:/proj1/Users.txt";
 //extern string order_file = "D:/proj1/Orders.txt";
+
 class Gooding {
 	friend class Admin;
 	friend class User;
@@ -81,7 +82,7 @@ public:
 	}
 	void write_user();
 private:
-	vector< User_information*> users;
+	vector< User_information* > users;
 	string user_file = "D:/proj1/user.txt";
 };
 

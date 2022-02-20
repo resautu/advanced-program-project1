@@ -24,4 +24,13 @@ struct Order {
 	string seller_id ;
 	string buyer_id ;
 };
+struct User_information {
+	string user_id;        //the lenth is less than 5
+	string user_name;
+	string key;
+	string con;
+	string address;
+	double balance;
+	string sit;
+};
 #endif
