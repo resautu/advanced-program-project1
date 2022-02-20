@@ -44,5 +44,8 @@
     <ClCompile Include="Datefunction.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

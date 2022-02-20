@@ -50,6 +50,7 @@ private:
 
 class Usering {
 	friend class Admin;
+	friend class User;
 public:
 	Usering() {
 		fstream f;

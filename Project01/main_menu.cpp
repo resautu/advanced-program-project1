@@ -49,7 +49,7 @@ void main_menu() {
 		switch (i) {
 		case 0: {Admin a(u, o, g); a.look_user(); break; }
 		case 1:admin_login(u,o,g); system("cls"); break;
-		case 2: {User u; u.user_register(); break; }
+		case 2: {User u(u, o, g); u.user_register(); break; }
 		case 3:user_login(); break;
 		case 4:break;                                 //¼ÆËãÆ÷½Ó¿Ú
 		case 5:exit(0); break;
