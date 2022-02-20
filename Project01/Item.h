@@ -21,7 +21,7 @@ struct Order {
 	double money;
 	int number;
 	string deal_time;
-	char seller_id ;
-	char buyer_id ;
+	string seller_id ;
+	string buyer_id ;
 };
 #endif

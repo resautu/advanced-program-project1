@@ -7,6 +7,7 @@
 //#include "Item.h"
 #include <fstream>
 #include<iostream>
+#include <iomanip>
 //extern string good_file = "D:/proj1/commodity.txt";
 //extern string user_file = "D:/proj1/Users.txt";
 //extern string order_file = "D:/proj1/Orders.txt";
@@ -43,7 +44,6 @@ private:
 };
 class Usering {
 	friend class Admin;
-	
 public:
 	Usering() {
 		fstream f;
@@ -68,12 +68,18 @@ public:
 		}
 		f.close();
 	}
+	void print_user(User_information* us) {
+		cout << setw(6) << us->user_id << setw(10) << us->user_name << setw(15) << us->key \
+			<< setw(15) << us->con << setw(20) << us->address << setw(10) << fixed << setprecision(1)<< us->balance << setw(10) << us->sit << endl;
+	}
 private:
 	vector< User_information*> users;
 	string user_file = "D:/proj1/user.txt";
 };
 class Ordering {
 public:
+	friend class Admin;
+	friend class User;
 	Ordering() {
 		fstream f;
 		f.open(order_file, ios::in);
@@ -96,6 +102,10 @@ public:
 			orders.push_back(t);
 		}
 		f.close();
+	}
+	void print_order(Order* paper) {
+		cout <<setw(6)<< paper->order_id << setw(10)<<paper->good_id << setw(11) << fixed << setprecision(1) << paper->money \
+			<< setw(8) << paper->number << setw(14) << paper->deal_time << setw(8) << paper->seller_id << setw(9) << paper->buyer_id << endl;
 	}
 private:
 	vector<Order*> orders;
