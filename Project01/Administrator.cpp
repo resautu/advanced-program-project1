@@ -49,7 +49,19 @@ void Admin::look_good() {
 void Admin::search_good() {
 	string s;
 	cout << "请输入您想要查找的商品： ";
-
+	cin >> s;
+	cout << endl << endl << "*********************************************************************************" << endl;
+	bool nfind = true;
+	for (auto& ele : g.goods) {
+		if (ele->name.find(s) != string::npos) {
+			print_good(ele);
+			nfind = false;
+		}
+	}
+	if (nfind) {
+		cout << "没有找到关键词商品" << endl;
+	}
+	cout << "*********************************************************************************" << endl << endl << endl;
 }
 
 void Admin::del_good() {
