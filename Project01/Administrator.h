@@ -5,9 +5,16 @@ using namespace std;
 #include<string>
 #include<vector>
 #include"Item.h"
-#include"User.h"
+//#include"User.h"
+#include"Datebase.h"
 class Admin {
 public:
+	Admin(Usering& us, Ordering& ord, Gooding& go) {
+		u = us;
+		o = ord ;
+		g = go;
+	}
+	void print_good(Good* t);
 	void admin_menu();
 	void look_good();
 	void search_good();
@@ -16,9 +23,9 @@ public:
 	void look_user();
 	void del_user();
 private:
-	vector<Good*> goods;
-	vector<Order*> orders;
-	vector<User*> users;
+	Usering u;
+	Ordering o;
+	Gooding g;
 };
 
 #endif

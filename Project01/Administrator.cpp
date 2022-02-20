@@ -3,9 +3,6 @@
 #include"Administrator.h"
 #include <fstream>
 #include <iomanip>
-string good_file = "D:/proj1/commodity.txt";
-string user_file = "D:/proj1/Users.txt";
-string order_file = "D:/proj1/Orders.txt";
 using namespace std;
 void Admin :: admin_menu() {
 	system("cls");
@@ -35,37 +32,23 @@ void Admin :: admin_menu() {
 		}
 	}
 }
-
+void Admin :: print_good(Good* t) {
+	cout << left << t->good_id << "  " << t->name << "  " << fixed << setprecision(1) << t->price << "  " << setw(10) << t->sell_time << "     " << t->number << "        " << t->seller_id << "   " << t->sit << "  " << t->description << endl;
+}
 void Admin::look_good() {
 	cout <<endl<<endl<< "*********************************************************************************" << endl;
-	fstream f;
-	f.open(good_file, ios::in);
-	if (!f.is_open()) {
-		cout << endl << "--------文件打开失败--------" << endl; 
-		cout << "*******************************************" << endl;
-		return;
-	}
 	cout << " ID " << "   名称   " << " 价格  " << " 上架时间  " << " 库存数量  " << " 卖家ID  " << " 商品状态 " << "  描 述   " << endl;
-	while (true) {
-		string judge;
-		f >> judge;
-		if (!f) {
-			break;
-		}
-		Good* t = new Good;
-		t->good_id = judge;
-		
-		f >> t->name >> t->price >> t->number >> t->description >> t->seller_id >> t->sell_time >> t->sit;
-		cout << t->good_id<<"  "<< t->name << "  " << fixed << setprecision(1) << t->price << "  " << t->sell_time << "     " << t->number << "        " << t->seller_id << "   " << t->sit << "  " << t->description << endl;
-		
-		goods.push_back(t);
+	for(auto &t : g.goods) {
+		print_good(t);
 	}
-	f.close();
+	
 	cout << "*********************************************************************************" << endl << endl << endl;
 
 }
 
 void Admin::search_good() {
+	string s;
+	cout << "请输入您想要查找的商品： ";
 
 }
 

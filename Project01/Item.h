@@ -6,7 +6,8 @@ using namespace std;
 struct Good {
 	//char good_id[5] = { 'M' };
 	string good_id;
-	char name[11];
+	//char name[11];
+	string name;
 	double price;
 	int number;
 	char description[101];
@@ -15,12 +16,12 @@ struct Good {
 	string sit;
 };
 struct Order {
-	char order_id[5] = { 'T' };
-	char good_id[5] = { 'M' };
+	string order_id  ;
+	char good_id[5] ;
 	double money;
 	int number;
 	string deal_time;
-	char seller_id = { 'U' };
-	char buyer_id = { 'U' };
+	char seller_id ;
+	char buyer_id ;
 };
 #endif

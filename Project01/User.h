@@ -5,14 +5,25 @@
 #include <vector>
 #include "Item.h"
 #include "MainMenu.h"
+
 using namespace std;
-class User {
-	char user_id[5] = { 'U' };
+struct User_information {
+	string user_id;        //the lenth is less than 5
 	char user_name[11];
 	char key[21];
 	string con;
 	string address;
 	double balance;
+	string sit;
+};
+class User {
+	string user_id ;        //the lenth is less than 5
+	char user_name[11];
+	char key[21];
+	string con;
+	string address;
+	double balance;
+	string sit;
 public:
 	void user_menu();
 	void user_login();
@@ -28,9 +39,7 @@ public:
 	void look_menu();
 	void search_good();
 	
-private:
-	vector<Good> goods;
-	vector<Order> orders;
+
 };
 class Seller :public User {
 public:
@@ -40,9 +49,7 @@ public:
 	void change_information();
 	void del_good();
 	void look_order();
-private:
-	vector<Good> goods;
-	vector<Order> orders;
+
 };
 
 #endif

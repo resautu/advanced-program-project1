@@ -3,11 +3,12 @@
 #include <iostream>
 #include"MainMenu.h"
 #include"Administrator.h"
-#include"User.h"
+//#include"User.h"
 #include <string>
 #include<windows.h>
+//#include"Datebase.h"
 using namespace std;
-void admin_login() {
+void admin_login(Usering& us, Ordering& ord, Gooding& go) {
 	system("cls");
 	string name, key;
 	cout << "请输入管理员姓名: ";
@@ -20,7 +21,7 @@ void admin_login() {
 		return;
 	}
 	cout << endl << endl << "------登录成功，欢迎您------" << endl << endl;
-	Admin admin;
+	Admin admin(us, ord, go);
 	admin.admin_menu();
 }
 void user_login() {
@@ -28,6 +29,9 @@ void user_login() {
 }
 void main_menu() {
 	cout << "Welcome to Winter Olympics souvenir trading platform" << endl << endl;
+	Usering u;
+	Ordering o;
+	Gooding g;
 	while (true) {
 		cout << "======================================================================" << endl;
 		cout << "    " << "1、管理员登录 2、用户注册 3、用户登录 4、使用计算器 5、退出程序" << "    " << endl;
@@ -43,8 +47,8 @@ void main_menu() {
 			cin >> i;
 		}
 		switch (i) {
-		case 0: {Admin a; a.look_good(); break; }
-		case 1:admin_login(); system("cls"); break;
+		case 0: {Admin a(u,o,g); a.look_good(); break; }
+		case 1:admin_login(u,o,g); system("cls"); break;
 		case 2: {User u; u.user_register(); break; }
 		case 3:user_login(); break;
 		case 4:break;                                 //计算器接口

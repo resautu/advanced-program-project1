@@ -142,6 +142,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Administrator.h" />
+    <ClInclude Include="Datebase.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Item.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="User.h" />
