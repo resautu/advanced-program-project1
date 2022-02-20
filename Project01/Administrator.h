@@ -14,7 +14,6 @@ public:
 		o = ord ;
 		g = go;
 	}
-	void print_good(Good* t);
 	void admin_menu();
 	void look_good();
 	void search_good();

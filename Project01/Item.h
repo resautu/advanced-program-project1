@@ -10,14 +10,14 @@ struct Good {
 	string name;
 	double price;
 	int number;
-	char description[101];
+	string description;
 	string seller_id;
 	string sell_time;
 	string sit;
 };
 struct Order {
 	string order_id  ;
-	char good_id[5] ;
+	string good_id ;
 	double money;
 	int number;
 	string deal_time;

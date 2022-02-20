@@ -47,7 +47,7 @@ void main_menu() {
 			cin >> i;
 		}
 		switch (i) {
-		case 0: {Admin a(u,o,g); a.look_user(); break; }
+		case 0: {Admin a(u, o, g); a.look_user(); break; }
 		case 1:admin_login(u,o,g); system("cls"); break;
 		case 2: {User u; u.user_register(); break; }
 		case 3:user_login(); break;

@@ -8,6 +8,7 @@
 #include <fstream>
 #include<iostream>
 #include <iomanip>
+#include<algorithm>
 //extern string good_file = "D:/proj1/commodity.txt";
 //extern string user_file = "D:/proj1/Users.txt";
 //extern string order_file = "D:/proj1/Orders.txt";
@@ -39,9 +40,14 @@ public:
 		}
 		f.close();
 	}
+	void print_good(Good* t) {
+		cout << left << t->good_id << "  " << t->name << "  " << fixed << setprecision(1) << t->price << "  " << setw(10) << t->sell_time << "     " << t->number << "        " << t->seller_id << "   " << t->sit << "  " << t->description << endl;
+	}
+	void write_good();
 private:
 	vector<Good*> goods;
 };
+
 class Usering {
 	friend class Admin;
 public:
@@ -72,10 +78,12 @@ public:
 		cout << setw(6) << us->user_id << setw(10) << us->user_name << setw(15) << us->key \
 			<< setw(15) << us->con << setw(20) << us->address << setw(10) << fixed << setprecision(1)<< us->balance << setw(10) << us->sit << endl;
 	}
+	void write_user();
 private:
 	vector< User_information*> users;
 	string user_file = "D:/proj1/user.txt";
 };
+
 class Ordering {
 public:
 	friend class Admin;
@@ -107,8 +115,11 @@ public:
 		cout <<setw(6)<< paper->order_id << setw(10)<<paper->good_id << setw(11) << fixed << setprecision(1) << paper->money \
 			<< setw(8) << paper->number << setw(14) << paper->deal_time << setw(8) << paper->seller_id << setw(9) << paper->buyer_id << endl;
 	}
+	void write_order();
 private:
 	vector<Order*> orders;
 	string order_file = "D:/proj1/order.txt";
 };
+        
+void read_txt();
 #endif

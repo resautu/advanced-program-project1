@@ -9,8 +9,8 @@
 using namespace std;
 struct User_information {
 	string user_id;        //the lenth is less than 5
-	char user_name[11];
-	char key[21];
+	string user_name;
+	string key;
 	string con;
 	string address;
 	double balance;
