@@ -8,20 +8,14 @@
 #include "MainMenu.h"
 using namespace std;
 class User {
-	string user_id ;        //the lenth is less than 5
-	char user_name[11];
-	char key[21];
-	string con;
-	string address;
-	double balance;
-	string sit;
 public:
+	User();
 	User(Usering& us, Ordering& ord, Gooding& go) {
 		u = us;
 		o = ord;
 		g = go;
 	}
-	void user_menu();
+	void user_menu(User_information* information);
 	void user_login();
 	void user_information();
 	void recharge();
@@ -30,10 +24,18 @@ protected:
 	Usering u;
 	Ordering o;
 	Gooding g;
+	User_information* inform;
 };
 
 class Buyer :public User {
 public:
+	Buyer(User_information* information, Usering& us, Ordering& ord, Gooding& go) {
+		inform = information;
+		u = us;
+		o = ord;
+		g = go;
+
+	}
 	void buyer_menu();
 	void buy();
 	void look_good();
@@ -44,6 +46,13 @@ public:
 };
 class Seller :public User {
 public:
+	Seller(User_information* information, Usering& us, Ordering& ord, Gooding& go) {
+		inform = information;
+		u = us;
+		o = ord;
+		g = go;
+
+	}
 	void seller_menu();
 	void release();
 	void look_good();

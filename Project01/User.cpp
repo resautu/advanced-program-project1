@@ -100,13 +100,13 @@ void User::user_register() {
 	u.write_user();
 }
 
-void User::user_menu() {
+void User::user_menu(User_information* information) {
 	system("cls");
 	while (true) {
-		cout << "Welcome! admin" << endl;
-		cout << "===============================================================================================" << endl;
+		cout << "Welcome! user" << endl;
+		cout << "=================================================================================" << endl;
 		cout << "  1、我是买家 2、我是卖家 3、个人信息管理 4、注销登录  " << endl;
-		cout << "===============================================================================================" << endl;
+		cout << "=================================================================================" << endl;
 		cout << "请输入操作序号: ";
 		int i;
 		cin >> i;
@@ -120,8 +120,39 @@ void User::user_menu() {
 		//case 1:look_good(); break;
 		//case 2:search_good(); break;
 		//case 3:del_good(); break;
-		case 4:return; break;
+		case 4:system("cls"); return; break;
 		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
 		}
 	}
+}
+
+void User::user_login() {
+	system("cls");
+	string name, key;
+	cout << "请输入用户名: ";
+	cin >> name;
+	cout << "请输入密码: ";
+	cin >> key;
+	for (auto& ele : u.users) {
+		if (ele->user_name == name) {
+			if (ele->key == key) {
+				if (ele->sit == "封禁") {
+					system("cls");
+					cout << endl << endl << "------您的账户已被封禁，即将返回主菜单------" << endl << endl << endl;
+					return;
+				}
+				cout << endl << endl << "------登录成功，欢迎您------" << endl << endl;
+				user_menu(ele);
+				return;
+			}
+			else {
+				system("cls");
+				cout << endl << endl << "------用户名或密码错误，即将返回主菜单------" << endl << endl << endl;
+				return;
+			}
+		}
+	}
+	system("cls");
+	cout << endl << endl << "------用户名或密码错误，即将返回主菜单------" << endl << endl << endl;
+	return;
 }
