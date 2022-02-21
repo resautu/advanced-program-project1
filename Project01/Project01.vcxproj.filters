@@ -30,6 +30,9 @@
     <ClInclude Include="Datebase.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sundry.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,6 +48,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="User.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sundry function.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

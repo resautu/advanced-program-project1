@@ -5,7 +5,6 @@
 #include"Administrator.h"
 #include"User.h"
 #include <string>
-#include<windows.h>
 //#include"Datebase.h"
 using namespace std;
 void admin_login(Usering& us, Ordering& ord, Gooding& go) {
@@ -17,16 +16,30 @@ void admin_login(Usering& us, Ordering& ord, Gooding& go) {
 	cin >> key;
 	if (name != "admin" || key != "123456") {
 		cout << endl << endl << "------用户名或密码错误，即将返回主菜单------" << endl;
-		Sleep(500);
 		return;
 	}
 	cout << endl << endl << "------登录成功，欢迎您------" << endl << endl;
 	Admin admin(us, ord, go);
 	admin.admin_menu();
 }
-void user_login() {
 
+void user_login(Usering& us, Ordering& ord, Gooding& go) {
+	system("cls");
+	string name, key;
+	cout << "请输入管理员姓名: ";
+	cin >> name;
+	cout << "请输入密码: ";
+	cin >> key;
+	//for(auto & ele:us.users)
+	if (name != "admin" || key != "123456") {
+		cout << endl << endl << "------用户名或密码错误，即将返回主菜单------" << endl;
+		return;
+	}
+	cout << endl << endl << "------登录成功，欢迎您------" << endl << endl;
+	User user(us, ord, go);
+	user.user_menu();
 }
+
 void main_menu() {
 	cout << "Welcome to Winter Olympics souvenir trading platform" << endl << endl;
 	Usering u;
@@ -50,7 +63,7 @@ void main_menu() {
 		case 0: {Admin a(u, o, g); a.look_user(); break; }
 		case 1:admin_login(u,o,g); system("cls"); break;
 		case 2: {User er(u, o, g); er.user_register(); break; }
-		case 3:user_login(); break;
+		//case 3:user_login(u, o, g); system("cls"); break;
 		case 4:break;                                 //计算器接口
 		case 5:exit(0); break;
 		default:system("cls"); cout << "请按要求输入正确的数字" << endl<<endl; break;

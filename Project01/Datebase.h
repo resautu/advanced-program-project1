@@ -52,6 +52,7 @@ private:
 class Usering {
 	friend class Admin;
 	friend class User;
+//	friend void user_login(Usering& us, Ordering& ord, Gooding& go);
 public:
 	Usering() {
 		fstream f;
@@ -70,7 +71,7 @@ public:
 			}
 			User_information* t = new User_information;
 			t->user_id = judge;
-
+			
 			f >> t->user_name >> t->key >> t->con >> t->address >> t->balance >> t->sit;
 			users.push_back(t);
 		}
@@ -124,4 +125,5 @@ private:
 };
         
 void read_txt();
+void user_login(Usering& us, Ordering& ord, Gooding& go);
 #endif

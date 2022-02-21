@@ -53,7 +53,7 @@ public:
 
 };
 
-bool cevalid(string& s);
+bool cevalid(wstring& s);
 
 bool nevalid(string& s);
 
