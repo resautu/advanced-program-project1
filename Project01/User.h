@@ -7,6 +7,7 @@
 #include "Datebase.h"
 #include "MainMenu.h"
 #include <regex>
+#include<time.h>
 using namespace std;
 class User {
 public:

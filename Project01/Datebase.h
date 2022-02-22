@@ -16,6 +16,7 @@
 class Gooding {
 	friend class Admin;
 	friend class Seller;
+	friend class Buyer;
 	string good_file = "D:/proj1/commodity.txt";
 public:
 	Gooding() {
@@ -45,6 +46,7 @@ public:
 		cout << left << t->good_id << "  " << t->name << "  " << fixed << setprecision(1) << t->price << "  " << setw(10) << t->sell_time << "     " << t->number << "        " << t->seller_id << "   " << t->sit << "  " << t->description << endl;
 	}
 	void write_good();
+	void check_good();
 private:
 	vector<Good*> goods;
 };
@@ -82,6 +84,7 @@ public:
 			<< setw(15) << us->con << setw(20) << us->address << setw(10) << fixed << setprecision(1)<< us->balance << setw(10) << us->sit << endl;
 	}
 	void write_user();
+	void balance_change(string id,double money);
 private:
 	vector< User_information* > users;
 	string user_file = "D:/proj1/user.txt";
@@ -91,6 +94,7 @@ class Ordering {
 public:
 	friend class Admin;
 	friend class Seller;
+	friend class Buyer;
 	Ordering() {
 		fstream f;
 		f.open(order_file, ios::in);

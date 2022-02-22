@@ -154,15 +154,15 @@ void Seller::seller_menu() {
 		cout << "  1、发布商品 2、查看发布商品 3、修改商品信息 4、下架商品 5、查看历史订单 6、返回用户主界面  " << endl;
 		cout << "===============================================================================================" << endl;
 		cout << "请输入操作序号: ";
-		int i;
+		string i;
 		cin >> i;
-		while (!cin) {
+		while (!cin || (trim(i) < "1" || trim(i) > "4")) {
 			cout << "请输入正确的数字" << endl;
 			cin.clear();
 			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			cin >> i;
 		}
-		switch (i) {
+		switch (int(trim(i)[0] - '0')) {
 		case 1:release(); system("cls"); break;
 		case 2:look_good(); system("cls"); break;
 		case 3:change_information(); system("cls"); break;
@@ -202,7 +202,7 @@ void Seller::release() {
 	cout << "请输入商品数量（数量为正整数且首位不能为0）: ";
 	cin >> temp;
 	while (!cin || temp[0]=='0' || !nvalid(temp)) {
-		cout << endl << endl << " !!联系方式不合法，请按要求输入!! " << endl;
+		cout << endl << endl << " !!商品数量不合法，请按要求输入!! " << endl;
 		cin.clear();
 		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 		cout << "请输入商品数量（数量为正整数且首位不能为0）: ";
@@ -438,15 +438,15 @@ void Buyer::buyer_menu() {
 		cout << "  1、查看商品列表 2、购买商品 3、搜索商品 4、查看历史订单 5、查看商品详细信息 6、返回用户主界面  " << endl;
 		cout << "===============================================================================================" << endl;
 		cout << "请输入操作序号: ";
-		int i;
+		string i;
 		cin >> i;
-		while (!cin) {
+		while (!cin || (trim(i) < "1" || trim(i) > "4")) {
 			cout << "请输入正确的数字" << endl;
 			cin.clear();
 			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			cin >> i;
 		}
-		switch (i) {
+		switch (int(trim(i)[0] - '0')) {
 		//case 1:release(); system("cls"); break;
 		//case 2:look_good(); system("cls"); break;
 		//case 3:change_information(); system("cls"); break;
@@ -456,4 +456,118 @@ void Buyer::buyer_menu() {
 		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
 		}
 	}
+}
+
+void Buyer::look_good() {
+	cout << endl << endl << "*********************************************************************************" << endl;
+	cout << " ID " << "   名称   " << " 价格  " << " 上架时间  " << " 库存数量  " << " 卖家ID  " << " 商品状态 " << "  描 述   " << endl;
+	for (auto& t : g.goods) {
+		if (t->sit=="销售中") {
+			g.print_good(t);
+		}
+	}
+
+	cout << "*********************************************************************************" << endl << endl << endl;
+}
+
+void Buyer::buy() {
+	string temp;
+	int buy_number;
+	cout << "请输入商品ID：";
+	cin >> temp;
+	while (!cin) {
+		cout << "请输入正确的商品ID:" << endl;
+		cin.clear();
+		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+		cin >> temp;
+	}
+	
+	for (auto& ele : g.goods) {
+		if (ele->good_id == temp && ele->sit == "销售中") {
+			cout << endl << endl << "*********************************************************************************" << endl;
+			cout << " ID " << "   名称   " << " 价格  " << " 上架时间  " << " 库存数量  " << " 卖家ID  " << " 商品状态 " << "  描 述   " << endl;
+			g.print_good(ele);
+			cout << "*********************************************************************************" << endl << endl << endl;
+			cout << "请输入购买数量: ";
+			cin >> temp;
+			while (!cin || temp[0] == '0' || !nvalid(temp)) {
+				cout << endl << endl << " !!商品数量不合法，请按要求输入!! " << endl;
+				cin.clear();
+				cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+				cout << "请输入商品数量（数量为正整数且首位不能为0）: ";
+				cin >> temp;
+			}
+			buy_number = exint(temp);
+			if (ele->number < buy_number) {
+				cout << endl<< "！！欲购买商品数量超过商品库存，购买失败！！" << endl;
+				return;
+			}
+			else if (inform->balance < buy_number * ele->price) {
+				cout << endl << "！！账户余额不足，购买失败！！" << endl;
+				cout << "是否要进入充值界面（y/n）：";
+				cin >> temp;
+				while (!cin || (trim(temp)!="y" && trim(temp)!="n")) {
+					cout << endl << endl << " !!输入不合法，请按要求输入!! " << endl;
+					cin.clear();
+					cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+					cout << "请输入商品数量（数量为正整数且首位不能为0）: ";
+					cin >> temp;
+				}
+				if (temp == "n") {
+					return;
+				}
+				else{
+
+				}
+			
+			}
+			else {
+				ele->number -= buy_number;
+				g.check_good();
+				inform->balance -= buy_number * ele->price;
+				u.balance_change(inform->user_id, inform->balance);
+				Order *paper = new Order;
+				paper->good_id = ele->good_id;
+				paper->money = buy_number * ele->price;
+				paper->number = buy_number;
+				paper->buyer_id = inform->user_id;
+				paper->seller_id = ele->seller_id;
+				time_t t;
+				t = time(NULL);
+				tm* m = localtime(&t);
+				string pt;
+				pt.append(to_string(m->tm_year + 1900));
+				pt.push_back('-');
+				pt.append(to_string(m->tm_mon+1));
+				pt.push_back('-');
+				pt.append(to_string(m->tm_mday));
+				paper->deal_time = pt;
+				paper->order_id.push_back('T');
+				if (o.orders[o.orders.size() - 1]->good_id[3] == '9') {
+					if (o.orders[o.orders.size() - 1]->good_id[2] == '9') {
+						if (o.orders[o.orders.size() - 1]->good_id[1] == '9') {
+							cout << "订单数量已经超过文件承载，将返回主菜单" << endl;
+							return;
+						}
+						paper->order_id.push_back(o.orders[o.orders.size() - 1]->good_id[1] + 1);
+						paper->order_id.push_back('0');
+						paper->order_id.push_back('0');
+					}
+					paper->order_id.push_back(o.orders[o.orders.size() - 1]->good_id[1]);
+					paper->order_id.push_back(o.orders[o.orders.size() - 1]->good_id[2] + 1);
+					paper->order_id.push_back('0');
+				}
+				else {
+					paper->order_id.push_back(o.orders[o.orders.size() - 1]->good_id[1]);
+					paper->order_id.push_back(o.orders[o.orders.size() - 1]->good_id[2]);
+					paper->order_id.push_back(o.orders[o.orders.size() - 1]->good_id[3] + 1);
+				}
+				o.orders.push_back(paper);
+				cout << endl << endl << "******购买成功********" << endl << endl;
+				o.write_order();
+
+			}
+		}
+	}
+
 }

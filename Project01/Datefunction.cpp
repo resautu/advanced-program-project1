@@ -41,6 +41,29 @@ void Ordering::write_order() {
 	f.close();
 }
 
+void Gooding::check_good() {
+	bool judge = false;
+	for (auto& ele : goods) {
+		if (ele->number == 0 && ele->sit!="已下架") {
+			ele->sit = "已下架";
+			judge = true;
+		}
+	}
+	if (judge) {
+		write_good();
+	}
+}
+
+void Usering::balance_change(string id, double money) {
+	for (auto& ele : users) {
+		if (ele->user_id == id) {
+			ele->balance = money;
+			write_user();
+			break;
+		}
+	}
+}
+
 void read_txt() {
 
 }
