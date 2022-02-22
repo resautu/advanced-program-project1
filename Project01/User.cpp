@@ -3,7 +3,9 @@
 #include "User.h"
 #include "sundry.h"
 #include"Item.h"
-//using namespace std;
+
+using namespace std;
+
 void User::user_register() {
 	User_information* t = new User_information;
 	cout << "请输入您的用户名（不超过10个字符，中文汉字或英文字母）: ";
@@ -88,13 +90,13 @@ void User::user_menu(User_information* information) {
 		cout << "请输入操作序号: ";
 		string i;
 		cin >> i;
-		while (!cin || (trim(i)<"1" || trim(i)>"4") {
+		while (!cin || (trim(i) < "1" || trim(i) > "4")) {
 			cout << "请输入正确的数字" << endl;
 			cin.clear();
 			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			cin >> i;
 		}
-		switch (int(trim(i)-'0') {
+		switch (int(trim(i)[0] - '0')) {
 		case 1:; break;
 		case 2: {Seller er(information, u, o, g); er.seller_menu(); break; }
 		case 3:; break;
@@ -103,6 +105,7 @@ void User::user_menu(User_information* information) {
 		}
 	}
 }
+
 
 void User::user_login() {
 	system("cls");
@@ -444,12 +447,12 @@ void Buyer::buyer_menu() {
 			cin >> i;
 		}
 		switch (i) {
-		case 1:release(); system("cls"); break;
-		case 2:look_good(); system("cls"); break;
-		case 3:change_information(); system("cls"); break;
-		case 4:del_good(); system("cls"); break;
-		case 5:look_order(); system("cls"); break;
-		case 6:system("cls"); return; break;
+		//case 1:release(); system("cls"); break;
+		//case 2:look_good(); system("cls"); break;
+		//case 3:change_information(); system("cls"); break;
+		//case 4:del_good(); system("cls"); break;
+		//case 5:look_order(); system("cls"); break;
+		//case 6:system("cls"); return; break;
 		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
 		}
 	}
