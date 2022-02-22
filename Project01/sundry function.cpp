@@ -38,17 +38,18 @@ bool nvalid(string& s) {                 //判断是否全为数字;
 
 bool dnvalid(string& s) {
 	regex d("^(([1-9][0-9]{0,}(\.[0-9]+)?)|[0]\.[0-9]*)$");
-	return regex_match(s, d);
+	return !regex_match(s, d);
 }
 
 double exdouble(string& s) {
 	double sum=0;
 	for (int i = 0; i < s.length(); i++) {
 		if (s[i] == '.') {
-			sum += int(s[i + 1] - '0') / 10;
+			sum += double(s[i + 1] - '0') / 10;
 			return sum;
 		}
-		sum = sum * 10 + int(s[i + 1] - '0');
+		sum = sum * 10 + double(s[i] - '0');
+		cout << double(s[i] - '0') << endl;
 	}
 	return sum;
 }

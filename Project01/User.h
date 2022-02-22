@@ -31,13 +31,13 @@ protected:
 
 class Buyer :public User {
 public:
-	Buyer(User_information* information, Usering& us, Ordering& ord, Gooding& go) {
-		inform = information;
-		u = us;
-		o = ord;
-		g = go;
+	//Buyer(User_information* information, Usering& us, Ordering& ord, Gooding& go) {
+		//inform = information;
+		//u = us;
+		//o = ord;
+		//g = go;
 
-	}
+	//}
 	void buyer_menu();
 	void buy();
 	void look_good();
@@ -48,13 +48,13 @@ public:
 };
 class Seller :public User {
 public:
-	Seller(User_information* information, Usering& us, Ordering& ord, Gooding& go) {
-		inform = information;
-		u = us;
-		o = ord;
-		g = go;
+	//Seller(User_information* information, Usering& us, Ordering& ord, Gooding& go) {
+		//inform = information;
+		//u = us;
+		//o = ord;
+		//g = go;
 
-	}
+	//}
 	void seller_menu();
 	void release();
 	void look_good();
