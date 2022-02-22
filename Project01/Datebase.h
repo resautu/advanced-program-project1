@@ -15,7 +15,7 @@
 
 class Gooding {
 	friend class Admin;
-	friend class User;
+	friend class Seller;
 	string good_file = "D:/proj1/commodity.txt";
 public:
 	Gooding() {
@@ -90,7 +90,7 @@ private:
 class Ordering {
 public:
 	friend class Admin;
-	friend class User;
+	friend class Seller;
 	Ordering() {
 		fstream f;
 		f.open(order_file, ios::in);

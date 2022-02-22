@@ -6,6 +6,7 @@
 #include "Item.h"
 #include "Datebase.h"
 #include "MainMenu.h"
+#include <regex>
 using namespace std;
 class User {
 public:
@@ -41,7 +42,7 @@ public:
 	void look_good();
 	void look_menu();
 	void search_good();
-	
+
 
 };
 class Seller :public User {
@@ -61,10 +62,4 @@ public:
 	void look_order();
 
 };
-
-bool cevalid(wstring& s);
-
-bool nevalid(string& s);
-
-bool nvalid(string& s);
 #endif
