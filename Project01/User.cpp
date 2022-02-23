@@ -22,6 +22,7 @@ void User::user_register() {
 	}
 	for (auto& ele : u.users) {
 		if (ele->user_name == temp) {
+			system("cls");
 			cout << endl << "******该用户名已存在，请重新选择操作******" << endl << endl;
 			return;
 		}
@@ -210,6 +211,7 @@ void User::change_information() {
 		}
 		for (auto& ele : u.users) {
 			if (ele->user_name == temp) {
+				system("cls");
 				cout << endl << "******该用户名已存在，请重新选择操作******" << endl << endl;
 				return;
 			}
@@ -300,7 +302,7 @@ void Seller::seller_menu() {
 			cin >> i;
 		}
 		switch (int(trim(i)[0] - '0')) {
-		case 1:release(); system("cls"); break;
+		case 1:release(); break;
 		case 2:look_good(); break;
 		case 3:change_information(); system("cls"); break;
 		case 4:del_good(); system("cls"); break;
@@ -365,11 +367,11 @@ void Seller::release() {
 	t->description = temp;
 	t->seller_id = inform->user_id;
 	t->sit = "销售中";
-	t->good_id.push_back('U');
+	t->good_id.push_back('M');
 	if (g.goods[g.goods.size() - 1]->good_id[3] == '9') {
 		if (g.goods[g.goods.size() - 1]->good_id[2] == '9') {
 			if (g.goods[g.goods.size() - 1]->good_id[1] == '9') {
-				cout << "用户数量已经超过文件承载，将返回主菜单" << endl;
+				cout << "商品数量已经超过文件承载，将返回主菜单" << endl;
 				return;
 			}
 			t->good_id.push_back(g.goods[g.goods.size() - 1]->good_id[1] + 1);
@@ -386,7 +388,8 @@ void Seller::release() {
 		t->good_id.push_back(g.goods[g.goods.size() - 1]->good_id[3] + 1);
 	}
 	g.goods.push_back(t);
-	cout << endl << endl << "******注册成功********" << endl << endl;
+	system("cls");
+	cout << endl << endl << "******发布成功********" << endl << endl;
 	g.write_good();
 }
 
@@ -669,7 +672,7 @@ void Buyer::buy() {
 				u.balance_change(inform->user_id, inform->balance);
 				Order* paper = new Order;
 				paper->good_id = ele->good_id;
-				paper->money = buy_number * ele->price;
+				paper->money = ele->price;
 				paper->number = buy_number;
 				paper->buyer_id = inform->user_id;
 				paper->seller_id = ele->seller_id;
@@ -684,24 +687,24 @@ void Buyer::buy() {
 				pt.append(to_string(m->tm_mday));
 				paper->deal_time = pt;
 				paper->order_id.push_back('T');
-				if (o.orders[o.orders.size() - 1]->good_id[3] == '9') {
-					if (o.orders[o.orders.size() - 1]->good_id[2] == '9') {
-						if (o.orders[o.orders.size() - 1]->good_id[1] == '9') {
+				if (o.orders[o.orders.size() - 1]->order_id[3] == '9') {
+					if (o.orders[o.orders.size() - 1]->order_id[2] == '9') {
+						if (o.orders[o.orders.size() - 1]->order_id[1] == '9') {
 							cout << "订单数量已经超过文件承载，将返回主菜单" << endl;
 							return;
 						}
-						paper->order_id.push_back(o.orders[o.orders.size() - 1]->good_id[1] + 1);
+						paper->order_id.push_back(o.orders[o.orders.size() - 1]->order_id[1] + 1);
 						paper->order_id.push_back('0');
 						paper->order_id.push_back('0');
 					}
-					paper->order_id.push_back(o.orders[o.orders.size() - 1]->good_id[1]);
-					paper->order_id.push_back(o.orders[o.orders.size() - 1]->good_id[2] + 1);
+					paper->order_id.push_back(o.orders[o.orders.size() - 1]->order_id[1]);
+					paper->order_id.push_back(o.orders[o.orders.size() - 1]->order_id[2] + 1);
 					paper->order_id.push_back('0');
 				}
 				else {
-					paper->order_id.push_back(o.orders[o.orders.size() - 1]->good_id[1]);
-					paper->order_id.push_back(o.orders[o.orders.size() - 1]->good_id[2]);
-					paper->order_id.push_back(o.orders[o.orders.size() - 1]->good_id[3] + 1);
+					paper->order_id.push_back(o.orders[o.orders.size() - 1]->order_id[1]);
+					paper->order_id.push_back(o.orders[o.orders.size() - 1]->order_id[2]);
+					paper->order_id.push_back(o.orders[o.orders.size() - 1]->order_id[3] + 1);
 				}
 				o.orders.push_back(paper);
 				cout << endl << endl << "******购买成功********" << endl << endl;

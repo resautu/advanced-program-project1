@@ -20,4 +20,7 @@ double exdouble(string& s);         //将字符串转变为浮点类型
 int exint(string& s);             //将字符串转变为int类型
 
 string trim(string s);            //去掉用户输入的空格
+
+void _replace(string& s, char c1, char c2);    //将英文逗号在文件中的转换
+
 #endif

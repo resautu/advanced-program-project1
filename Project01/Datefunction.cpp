@@ -11,8 +11,9 @@ void Gooding::write_good() {
 	for (auto& ele : goods) {
 		f << ele->good_id << ',' << ele->name << ',' << ele->price << ',' << ele->number << ',';
 		string s = ele->description;
-		replace(s.begin(), s.end(), ',', '`');
-		f <<ele->description << ',' << ele->seller_id << ',' << ele->sell_time << ',' << ele->sit << endl;
+		_replace(s, '`', '\'');
+		_replace(s, ',', '`');
+		f <<s << ',' << ele->seller_id << ',' << ele->sell_time << ',' << ele->sit << endl;
 	}
 	f.close();
 }

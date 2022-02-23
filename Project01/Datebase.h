@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #ifndef DATEBASE_H
 #define DATEBASE_H
 //#include "Administrator.h"
@@ -9,6 +9,7 @@
 #include<iostream>
 #include <iomanip>
 #include<algorithm>
+#include"sundry.h"
 //extern string good_file = "D:/proj1/commodity.txt";
 //extern string user_file = "D:/proj1/Users.txt";
 //extern string order_file = "D:/proj1/Orders.txt";
@@ -22,22 +23,62 @@ public:
 	Gooding() {
 		fstream f;
 		f.open(good_file, ios::in);
+		string temp,pr,nu;
 		if (!f.is_open()) {
 			f.open(good_file, ios::trunc);
-			if (!f.is_open()) cout << "*********ÉÌÆ·ÎÄ¼þ¼ÓÔØ³ö´í,ÈçÐèÒªÇëÖØÆô³ÌÐò³¢ÊÔ**********" << endl;
+			if (!f.is_open()) cout << "*********å•†å“æ–‡ä»¶åŠ è½½å‡ºé”™,å¦‚éœ€è¦è¯·é‡å¯ç¨‹åºå°è¯•**********" << endl;
 			f.close();
 			return;
 		}
+		f >> temp;
 		while (true) {
+			pr.clear();
+			nu.clear();
 			string judge;
 			f >> judge;
 			if (!f) {
 				break;
 			}
 			Good* t = new Good;
-			t->good_id = judge;
-
-			f >> t->name >> t->price >> t->number >> t->description >> t->seller_id >> t->sell_time >> t->sit;
+			int i;
+			for (i = 0; i < judge.length(); i++) {
+				if (judge[i] == ',')break;
+				t->good_id.push_back(judge[i]);
+			}
+			for (i += 1; i < judge.length(); i++) {
+				if (judge[i] == ',')break;
+				t->name.push_back(judge[i]);
+			}
+			for (i +=1; i < judge.length(); i++) {
+				if (judge[i] == ',') {
+					t->price = exdouble(pr);
+					break;
+				}
+				pr.push_back(judge[i]);
+			}
+			for (i += 1; i < judge.length(); i++) {
+				if (judge[i] == ',') {
+					t->number = exint(nu);
+					break;
+				}
+				nu.push_back(judge[i]);
+			}
+			for (i +=1; i < judge.length(); i++) {
+				if (judge[i] == ',') { _replace(t->description,'`',','); break; }
+				t->description.push_back(judge[i]);
+			}
+			for (i += 1; i < judge.length(); i++) {
+				if (judge[i] == ',') break;
+				t->seller_id.push_back(judge[i]);
+			}
+			for (i += 1; i < judge.length(); i++) {
+				if (judge[i] == ',') break;
+				t->sell_time.push_back(judge[i]);
+			}
+			for (i += 1; i < judge.length(); i++) {
+				if (judge[i] == ',') break;
+				t->sit.push_back(judge[i]);
+			}
 			goods.push_back(t);
 		}
 		f.close();
@@ -61,7 +102,7 @@ public:
 		f.open(user_file, ios::in);
 		if (!f.is_open()) {
 			f.open(user_file, ios::out);
-			if (!f.is_open()) cout << "*********ÓÃ»§ÎÄ¼þ¼ÓÔØ³ö´í£¬ÈçÐèÒªÇëÖØÆô³ÌÐò³¢ÊÔ**********" << endl;
+			if (!f.is_open()) cout << "*********ç”¨æˆ·æ–‡ä»¶åŠ è½½å‡ºé”™ï¼Œå¦‚éœ€è¦è¯·é‡å¯ç¨‹åºå°è¯•**********" << endl;
 			f.close();
 			return;
 		}
@@ -100,7 +141,7 @@ public:
 		f.open(order_file, ios::in);
 		if (!f.is_open()) {
 			f.open(order_file, ios::out);
-			if (!f.is_open()) cout << "*********¶©µ¥ÎÄ¼þ¼ÓÔØ³ö´í£¬ÈçÐèÒªÇëÖØÆô³ÌÐò³¢ÊÔ**********" << endl;
+			if (!f.is_open()) cout << "*********è®¢å•æ–‡ä»¶åŠ è½½å‡ºé”™ï¼Œå¦‚éœ€è¦è¯·é‡å¯ç¨‹åºå°è¯•**********" << endl;
 			f.close();
 			return;
 		}

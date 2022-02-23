@@ -49,7 +49,6 @@ double exdouble(string& s) {
 			return sum;
 		}
 		sum = sum * 10 + double(s[i] - '0');
-		cout << double(s[i] - '0') << endl;
 	}
 	return sum;
 }
@@ -68,4 +67,12 @@ string trim(string s) {
 	s.erase(0, s.find_first_not_of(" "));
 	s.erase(s.find_last_not_of(" ") + 1);
 	return s;
+}
+
+void _replace(string& s, char c1, char c2) {
+	for (auto& ele : s) {
+		if (ele == c1) {
+			ele = c2;
+		}
+	}
 }

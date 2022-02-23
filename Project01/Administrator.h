@@ -14,6 +14,7 @@ public:
 		o = ord ;
 		g = go;
 	}
+	void admin_login();
 	void admin_menu();
 	void look_good();
 	void search_good();
@@ -21,6 +22,9 @@ public:
 	void look_order();
 	void look_user();
 	void del_user();
+	void deb() {
+		cout << g.goods[0]->name << endl;
+	}
 private:
 	Usering u;
 	Ordering o;

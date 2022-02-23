@@ -4,6 +4,23 @@
 #include <fstream>
 #include <iomanip>
 using namespace std;
+
+void Admin::admin_login() {
+	system("cls");
+	string name, key;
+	cout << "请输入管理员姓名: ";
+	cin >> name;
+	cout << "请输入密码: ";
+	cin >> key;
+	if (name != "admin" || key != "123456") {
+		system("cls");
+		cout << endl << endl << "------用户名或密码错误，即将返回主菜单------" << endl << endl << endl;
+		return;
+	}
+	cout << endl << endl << "------登录成功，欢迎您------" << endl << endl;
+	admin_menu();
+}
+
 void Admin :: admin_menu() {
 	system("cls");
 	while (true) {
@@ -32,7 +49,6 @@ void Admin :: admin_menu() {
 		}
 	}
 }
-
 
 void Admin::look_good() {
 	cout <<endl<<endl<< "*********************************************************************************" << endl;
