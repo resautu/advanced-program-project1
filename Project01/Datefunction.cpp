@@ -42,16 +42,15 @@ void Ordering::write_order() {
 }
 
 void Gooding::check_good() {
-	bool judge = false;
+	
 	for (auto& ele : goods) {
-		if (ele->number == 0 && ele->sit!="已下架") {
+		if (ele->number == 0 && ele->sit != "已下架") {
 			ele->sit = "已下架";
-			judge = true;
+
 		}
 	}
-	if (judge) {
-		write_good();
-	}
+	write_good();
+	
 }
 
 void Usering::balance_change(string id, double money) {

@@ -97,14 +97,16 @@ void User::user_menu(User_information* information) {
 			cin >> i;
 		}
 		switch (int(trim(i)[0] - '0')) {
-		case 1:; break;
+		case 1: {
+			User* er = new User(u, o, g);
+			((Buyer*)er)->inform = information;
+			((Buyer*)er)->buyer_menu();
+			break;
+		}
 		case 2: {
 			//Seller er(information, u, o, g); er.seller_menu(); 
 			User* er=new User(u,o,g);
 			((Seller*)er)->inform = information;
-			//er->u = u;
-			//er->o = o;
-			//er->g = g;
 			((Seller*)er)->seller_menu();
 			break; 
 		}
@@ -408,14 +410,18 @@ void Seller::del_good() {
 }
 
 void Seller::look_order() {
+	bool nfind = true;
 	cout << endl << endl << "*********************************************************************************" << endl;
 	cout << " 订单ID " << "   商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
 	for (auto& t : o.orders) {
 		if (t->seller_id == inform->user_id) {
 			o.print_order(t);
+			nfind = false;
 		}
 	}
-
+	if (nfind) {
+		cout << "******您暂时没有订单******" << endl;
+	}
 	cout << "*********************************************************************************" << endl << endl << endl;
 }
 
@@ -441,19 +447,19 @@ void Buyer::buyer_menu() {
 		cout << "请输入操作序号: ";
 		string i;
 		cin >> i;
-		while (!cin || (trim(i) < "1" || trim(i) > "4")) {
-			cout << "请输入正确的数字" << endl;
+		while (!cin || (trim(i) < "1" || trim(i) > "6")) {
+			cout << "请输入正确的选项" << endl;
 			cin.clear();
 			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			cin >> i;
 		}
 		switch (int(trim(i)[0] - '0')) {
-			//case 1:release(); system("cls"); break;
-			//case 2:look_good(); system("cls"); break;
-			//case 3:change_information(); system("cls"); break;
-			//case 4:del_good(); system("cls"); break;
-			//case 5:look_order(); system("cls"); break;
-			//case 6:system("cls"); return; break;
+			case 1:look_good(); break;
+			case 2:buy(); break;
+			case 3:search_good(); break;
+			case 4:look_order(); break;
+			case 5:look_good_information(); break;
+			case 6:system("cls"); return; break;
 		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
 		}
 	}
@@ -571,4 +577,70 @@ void Buyer::buy() {
 		}
 	}
 
+}
+
+void Buyer::search_good() {
+	string s;
+	cout << "请输入您想要查找的商品： ";
+	cin >> s;
+	while (!cin) {
+		cout << "请输入正确的商品ID" << endl;
+		cin.clear();
+		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+		cin >> s;
+	}
+	cout << endl << endl << "*********************************************************************************" << endl;
+	bool nfind = true;
+	for (auto& ele : g.goods) {
+		if (ele->name.find(s) != string::npos && ele->sit!="已下架") {
+			g.print_good(ele);
+			nfind = false;
+		}
+	}
+	if (nfind) {
+		cout << "没有找到关键词相关商品,请重新选择操作" << endl;
+	}
+	cout << "*********************************************************************************" << endl << endl << endl;
+}
+
+void Buyer::look_order() {
+	bool nfind = true;
+	cout << endl << endl << "*********************************************************************************" << endl;
+	cout << " 订单ID " << "   商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
+	for (auto& t : o.orders) {
+		if (t->buyer_id == inform->user_id) {
+			o.print_order(t);
+			nfind = false;
+		}
+	}
+	if (nfind) {
+		cout << "******您暂时没有订单******" << endl;
+	}
+
+	cout << "*********************************************************************************" << endl << endl << endl;
+}
+
+void Buyer::look_good_information() {
+	string s;
+	cout << "请输入您想要查找的商品： ";
+	cin >> s;
+	while (!cin) {
+		cout << "请输入正确的商品ID" << endl;
+		cin.clear();
+		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+		cin >> s;
+	}
+	cout << endl << endl << "*********************************************************************************" << endl;
+	bool nfind = true;
+	for (auto& ele : g.goods) {
+		if (ele->name.find(s) != string::npos && ele->sit != "已下架") {
+			cout << "商品ID：" << ele->good_id << endl << "商品名称：" << ele->name << endl << "商品价格" << fixed << setprecision(1) << ele->price << endl \
+				<< "上架时间：" << ele->sell_time << endl << "商品描述：" << ele->description << endl << "商品卖家：" << ele->seller_id << endl;
+			cout << "*********************************************************************************" << endl << endl << endl;
+		}
+	}
+	
+		cout << "没有找到关键词相关商品或商品已下架,请重新选择操作" << endl;
+	
+	cout << "*********************************************************************************" << endl << endl << endl;
 }

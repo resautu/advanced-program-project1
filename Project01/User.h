@@ -41,9 +41,9 @@ public:
 	void buyer_menu();
 	void buy();
 	void look_good();
-	void look_menu();
+	void look_good_information();
 	void search_good();
-
+	void look_order();
 
 };
 class Seller :public User {

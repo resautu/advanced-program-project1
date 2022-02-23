@@ -49,6 +49,12 @@ void Admin::search_good() {
 	string s;
 	cout << "请输入您想要查找的商品： ";
 	cin >> s;
+	while (!cin) {
+		cout << "请输入正确的商品ID" << endl;
+		cin.clear();
+		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+		cin >> s;
+	}
 	cout << endl << endl << "*********************************************************************************" << endl;
 	bool nfind = true;
 	for (auto& ele : g.goods) {
