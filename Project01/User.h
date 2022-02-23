@@ -22,6 +22,9 @@ public:
 	void user_information();
 	void recharge();
 	void user_register();
+	void gover_inform();
+	void look_information();
+	void change_information();
 protected:
 	Usering u;
 	Ordering o;

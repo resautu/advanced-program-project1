@@ -20,6 +20,12 @@ void User::user_register() {
 		cin >> temp;
 		ctemp = s_to_ws(temp);
 	}
+	for (auto& ele : u.users) {
+		if (ele->user_name == temp) {
+			cout << endl << "******该用户名已存在，请重新选择操作******" << endl << endl;
+			return;
+		}
+	}
 	t->user_name = temp;
 	cout << "请输入您的密码（不超过20个字符，只由小写字母和数字组成）: ";
 	cin >> temp;
@@ -91,7 +97,8 @@ void User::user_menu(User_information* information) {
 		string i;
 		cin >> i;
 		while (!cin || (trim(i) < "1" || trim(i) > "4")) {
-			cout << "请输入正确的数字" << endl;
+			cout << "输入不合法，请重新输入" << endl;
+			cout << "请输入操作序号: ";
 			cin.clear();
 			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			cin >> i;
@@ -110,13 +117,12 @@ void User::user_menu(User_information* information) {
 			((Seller*)er)->seller_menu();
 			break; 
 		}
-		case 3:; break;
+		case 3:gover_inform(); break;
 		case 4:system("cls"); return; break;
 		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
 		}
 	}
 }
-
 
 void User::user_login() {
 	system("cls");
@@ -134,6 +140,7 @@ void User::user_login() {
 					return;
 				}
 				cout << endl << endl << "------登录成功，欢迎您------" << endl << endl;
+				inform = ele;
 				user_menu(ele);
 				return;
 			}
@@ -147,6 +154,133 @@ void User::user_login() {
 	system("cls");
 	cout << endl << endl << "------用户名或密码错误，即将返回主菜单------" << endl << endl << endl;
 	return;
+}
+
+void User::gover_inform() {
+	system("cls");
+	while (true) {
+		cout << "Welcome! user" << endl;
+		cout << "=================================================================================" << endl;
+		cout << "  1、查看信息 2、修改信息 3、充值 4、返回用户主界面  " << endl;
+		cout << "=================================================================================" << endl;
+		cout << "请输入操作序号: ";
+		string i;
+		cin >> i;
+		while (!cin || (trim(i) < "1" || trim(i) > "4")) {
+			cout << "输入不合法，请重新输入" << endl;
+			cout << "请输入操作序号: ";
+			cin.clear();
+			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+			cin >> i;
+		}
+		switch (int(trim(i)[0] - '0')) {
+		case 1: look_information(); break;
+		case 2: change_information(); break;
+		case 3:recharge(); break;
+		case 4:system("cls"); return; break;
+		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
+		}
+	}
+}
+
+void User::change_information() {
+	cout << "请选择修改的属性（1、用户名 2、联系方式 3、地址）: ";
+	string i;
+	cin >> i;
+	while (!cin || (trim(i) < "1" || trim(i) > "3")) {
+		cout << "输入不合法，请重新输入" << endl;
+		cout << "请选择修改的属性（1、用户名 2、联系方式 3、地址）: ";
+		cin.clear();
+		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+		cin >> i;
+	}
+	switch (int(trim(i)[0] - '0')) {
+	case 1: {
+		cout << "请输入您的用户名（不超过10个字符，中文汉字或英文字母）: ";
+		string temp;
+		cin >> temp;
+		wstring ctemp = s_to_ws(temp);
+		while (!cin || ctemp.size() > 10 || !cevalid(ctemp)) {
+			cout << endl << endl << " !!用户名不合法，请按要求输入!! " << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+			cout << "请输入您的用户名（不超过10个字符，中文汉字或英文字母）: ";
+			cin >> temp;
+			ctemp = s_to_ws(temp);
+		}
+		for (auto& ele : u.users) {
+			if (ele->user_name == temp) {
+				cout << endl << "******该用户名已存在，请重新选择操作******" << endl << endl;
+				return;
+			}
+		}
+		inform->user_name = temp;
+		u.write_user();
+		cout << endl << "******修改成功******" << endl;
+		break;
+	}
+	case 2: {
+		string temp;
+		cout << "请输入您的联系方式（不超过20个字符，只由数字组成）: ";
+		cin >> temp;
+		while (!cin || temp.size() > 20 || !nvalid(temp)) {
+			cout << endl << endl << " !!联系方式不合法，请按要求输入!! " << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+			cout << "请输入您的联系方式（不超过20个字符，只由数字组成）: ";
+			cin >> temp;
+		}
+		inform->con = temp;
+		u.write_user();
+		cout << endl << "******修改成功******" << endl;
+		break;
+	}
+	case 3: {
+		string temp;
+		cout << "请输入您的联系方式（不超过20个字符，只由数字组成）: ";
+		cin >> temp;
+		wstring ctemp = s_to_ws(temp);
+		while (!cin || ctemp.size() > 20 || !cevalid(ctemp)) {
+			cout << endl << endl << " !!地址不合法，请按要求输入!! " << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+			cout << "请输入您的地址（不超过20个字符，中文汉字或英文字母）: ";
+			cin >> temp;
+			ctemp = s_to_ws(temp);
+		}
+		inform->address = temp;
+		u.write_user();
+		cout << endl << "******修改成功******" << endl;
+		break;
+	}
+	default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
+	}
+}
+
+void User::look_information() {
+	cout << endl << endl << "*********************************************************************************" << endl;
+	
+	for (auto& ele : u.users) {
+		if (ele->user_id==inform->user_id) {
+			cout << "用户名：" << ele->user_name << endl << "联系方式：" << ele->con << endl << "地址：" << ele->address << endl << "钱包余额：" << ele->balance << endl;
+			cout << "*********************************************************************************" << endl << endl << endl;
+		}
+	}
+}
+
+void User::recharge() {
+	string temp;
+	cout << "请输入商品价格（系统将为您保留一位小数，即舍去后续小数）: ";
+	cin >> temp;
+	while (!cin || dnvalid(temp)) {
+		cout << endl << endl << " !!商品价格不合法，请按要求输入!! " << endl;
+		cin.clear();
+		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+		cout << "请输入商品价格（系统将自动为您保留一位小数）: ";
+		cin >> temp;
+	}
+	inform->balance += exdouble(temp);
+	u.write_user();
 }
 
 void Seller::seller_menu() {
