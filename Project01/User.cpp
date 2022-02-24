@@ -20,7 +20,7 @@ void User::user_register() {
 		cin >> temp;
 		ctemp = s_to_ws(temp);
 	}
-	for (auto& ele : u.users) {
+	for (auto& ele : u->users) {
 		if (ele->user_name == temp) {
 			system("cls");
 			cout << endl << "******该用户名已存在，请重新选择操作******" << endl << endl;
@@ -63,28 +63,28 @@ void User::user_register() {
 	t->balance = 0;
 	t->sit = "正常";
 	t->user_id.push_back('U');
-	if (u.users[u.users.size() - 1]->user_id[3] == '9') {
-		if (u.users[u.users.size() - 1]->user_id[2] == '9') {
-			if (u.users[u.users.size() - 1]->user_id[1] == '9') {
+	if (u->users[u->users.size() - 1]->user_id[3] == '9') {
+		if (u->users[u->users.size() - 1]->user_id[2] == '9') {
+			if (u->users[u->users.size() - 1]->user_id[1] == '9') {
 				cout << "用户数量已经超过文件承载，将返回主菜单" << endl;
 				return;
 			}
-			t->user_id.push_back(u.users[u.users.size() - 1]->user_id[1] + 1);
+			t->user_id.push_back(u->users[u->users.size() - 1]->user_id[1] + 1);
 			t->user_id.push_back('0');
 			t->user_id.push_back('0');
 		}
-		t->user_id.push_back(u.users[u.users.size() - 1]->user_id[1]);
-		t->user_id.push_back(u.users[u.users.size() - 1]->user_id[2] + 1);
+		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[1]);
+		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[2] + 1);
 		t->user_id.push_back('0');
 	}
 	else {
-		t->user_id.push_back(u.users[u.users.size() - 1]->user_id[1]);
-		t->user_id.push_back(u.users[u.users.size() - 1]->user_id[2]);
-		t->user_id.push_back(u.users[u.users.size() - 1]->user_id[3] + 1);
+		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[1]);
+		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[2]);
+		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[3] + 1);
 	}
-	u.users.push_back(t);
+	u->users.push_back(t);
 	cout << endl << endl << "******注册成功********" << endl << endl;
-	u.write_user();
+	u->write_user();
 }
 
 void User::user_menu(User_information* information) {
@@ -132,7 +132,7 @@ void User::user_login() {
 	cin >> name;
 	cout << "请输入密码: ";
 	cin >> key;
-	for (auto& ele : u.users) {
+	for (auto& ele : u->users) {
 		if (ele->user_name == name) {
 			if (ele->key == key) {
 				if (ele->sit == "封禁") {
@@ -209,7 +209,7 @@ void User::change_information() {
 			cin >> temp;
 			ctemp = s_to_ws(temp);
 		}
-		for (auto& ele : u.users) {
+		for (auto& ele : u->users) {
 			if (ele->user_name == temp) {
 				system("cls");
 				cout << endl << "******该用户名已存在，请重新选择操作******" << endl << endl;
@@ -217,7 +217,7 @@ void User::change_information() {
 			}
 		}
 		inform->user_name = temp;
-		u.write_user();
+		u->write_user();
 		cout << endl << "******修改成功******" << endl;
 		break;
 	}
@@ -233,7 +233,7 @@ void User::change_information() {
 			cin >> temp;
 		}
 		inform->con = temp;
-		u.write_user();
+		u->write_user();
 		cout << endl << "******修改成功******" << endl;
 		break;
 	}
@@ -251,7 +251,7 @@ void User::change_information() {
 			ctemp = s_to_ws(temp);
 		}
 		inform->address = temp;
-		u.write_user();
+		u->write_user();
 		cout << endl << "******修改成功******" << endl;
 		break;
 	}
@@ -262,7 +262,7 @@ void User::change_information() {
 void User::look_information() {
 	cout << endl << endl << "*********************************************************************************" << endl;
 
-	for (auto& ele : u.users) {
+	for (auto& ele : u->users) {
 		if (ele->user_id == inform->user_id) {
 			cout << "用户名：" << ele->user_name << endl << "联系方式：" << ele->con << endl << "地址：" << ele->address << endl << "钱包余额：" << ele->balance << endl;
 			cout << "*********************************************************************************" << endl << endl << endl;
@@ -282,7 +282,7 @@ void User::recharge() {
 		cin >> temp;
 	}
 	inform->balance += exdouble(temp);
-	u.write_user();
+	u->write_user();
 }
 
 void Seller::seller_menu() {
@@ -368,24 +368,24 @@ void Seller::release() {
 	t->seller_id = inform->user_id;
 	t->sit = "销售中";
 	t->good_id.push_back('M');
-	if (g.goods[g.goods.size() - 1]->good_id[3] == '9') {
-		if (g.goods[g.goods.size() - 1]->good_id[2] == '9') {
-			if (g.goods[g.goods.size() - 1]->good_id[1] == '9') {
+	if (g->goods[g->goods.size() - 1]->good_id[3] == '9') {
+		if (g->goods[g->goods.size() - 1]->good_id[2] == '9') {
+			if (g->goods[g->goods.size() - 1]->good_id[1] == '9') {
 				cout << "商品数量已经超过文件承载，将返回主菜单" << endl;
 				return;
 			}
-			t->good_id.push_back(g.goods[g.goods.size() - 1]->good_id[1] + 1);
+			t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[1] + 1);
 			t->good_id.push_back('0');
 			t->good_id.push_back('0');
 		}
-		t->good_id.push_back(g.goods[g.goods.size() - 1]->good_id[1]);
-		t->good_id.push_back(g.goods[g.goods.size() - 1]->good_id[2] + 1);
+		t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[1]);
+		t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[2] + 1);
 		t->good_id.push_back('0');
 	}
 	else {
-		t->good_id.push_back(g.goods[g.goods.size() - 1]->good_id[1]);
-		t->good_id.push_back(g.goods[g.goods.size() - 1]->good_id[2]);
-		t->good_id.push_back(g.goods[g.goods.size() - 1]->good_id[3] + 1);
+		t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[1]);
+		t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[2]);
+		t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[3] + 1);
 	}
 	time_t cl;
 	cl = time(NULL);
@@ -398,10 +398,10 @@ void Seller::release() {
 	pt.push_back('-');
 	pt.append(to_string(m->tm_mday));
 	t->sell_time = pt;
-	g.goods.push_back(t);
+	g->goods.push_back(t);
 	system("cls");
 	cout << endl << endl << "******发布成功********" << endl << endl;
-	g.write_good();
+	g->write_good();
 }
 
 void Seller::change_information() {
@@ -417,7 +417,7 @@ void Seller::change_information() {
 		cout << endl << endl << "请输入被修改的商品ID: ";
 		cin >> temp;
 	}
-	for (auto& ele : g.goods) {
+	for (auto& ele : g->goods) {
 		if (ele->good_id == temp) {
 			if (ele->seller_id != inform->user_id) {
 				cout << endl << "!!此商品不属于您，您无权对此商品进行操作！！" << endl;
@@ -459,7 +459,7 @@ void Seller::change_information() {
 				}
 				if (trim(temp) == "y") {
 					ele->price = new_price;
-					g.write_good();
+					g->write_good();
 				}
 				else { return; }
 				break;
@@ -498,7 +498,7 @@ void Seller::change_information() {
 				}
 				if (trim(temp) == "y") {
 					ele->description = new_description;
-					g.write_good();
+					g->write_good();
 				}
 				else { return; }
 				break;
@@ -516,14 +516,14 @@ void Seller::del_good() {
 	cout << endl << endl << "*********************************************************************************" << endl;
 	int nfind = 0;
 	Good* de = new Good;
-	for (auto& ele : g.goods) {
+	for (auto& ele : g->goods) {
 		if (ele->good_id == i) {
 			if (ele->seller_id != inform->user_id) {
 				cout << endl << "!!此商品不属于您，您无权对此商品进行操作!！" << endl;
 				return;
 			}
 			cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
-			g.print_good(ele);
+			g->print_good(ele);
 			if (ele->sit == "已下架") {
 				nfind = 1;
 				cout << "该商品已下架，请重新选择操作" << endl;
@@ -548,7 +548,7 @@ void Seller::del_good() {
 		}
 		if (trim(chos) == "y") {
 			de->sit = "已下架";
-			g.write_good();
+			g->write_good();
 			cout << "下架成功！" << endl << endl;
 		}
 		else if (trim(chos) == "n") {
@@ -561,9 +561,9 @@ void Seller::look_order() {
 	bool nfind = true;
 	cout << endl << endl << "*********************************************************************************" << endl;
 	cout << " 订单ID " << "   商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
-	for (auto& t : o.orders) {
+	for (auto& t : o->orders) {
 		if (t->seller_id == inform->user_id) {
-			o.print_order(t);
+			o->print_order(t);
 			nfind = false;
 		}
 	}
@@ -576,9 +576,9 @@ void Seller::look_order() {
 void Seller::look_good() {
 	cout << endl << endl << "*********************************************************************************" << endl;
 	cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
-	for (auto& t : g.goods) {
+	for (auto& t : g->goods) {
 		if (t->seller_id == inform->user_id) {
-			g.print_good(t);
+			g->print_good(t);
 		}
 	}
 
@@ -616,9 +616,9 @@ void Buyer::buyer_menu() {
 void Buyer::look_good() {
 	cout << endl << endl << "*********************************************************************************" << endl;
 	cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
-	for (auto& t : g.goods) {
+	for (auto& t : g->goods) {
 		if (t->sit == "销售中") {
-			g.print_good(t);
+			g->print_good(t);
 		}
 	}
 
@@ -637,11 +637,11 @@ void Buyer::buy() {
 		cin >> temp;
 	}
 
-	for (auto& ele : g.goods) {
+	for (auto& ele : g->goods) {
 		if (ele->good_id == temp && ele->sit == "销售中") {
 			cout << endl << endl << "*********************************************************************************" << endl;
 			cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
-			g.print_good(ele);
+			g->print_good(ele);
 			cout << "*********************************************************************************" << endl << endl << endl;
 			cout << "请输入购买数量: ";
 			cin >> temp;
@@ -678,9 +678,9 @@ void Buyer::buy() {
 			}
 			else {
 				ele->number -= buy_number;
-				g.check_good();
+				g->check_good();
 				inform->balance -= buy_number * ele->price;
-				u.balance_change(inform->user_id, inform->balance);
+				u->balance_change(inform->user_id, inform->balance);
 				Order* paper = new Order;
 				paper->good_id = ele->good_id;
 				paper->money = ele->price;
@@ -699,28 +699,28 @@ void Buyer::buy() {
 				pt.append(to_string(m->tm_mday));
 				paper->deal_time = pt;
 				paper->order_id.push_back('T');
-				if (o.orders[o.orders.size() - 1]->order_id[3] == '9') {
-					if (o.orders[o.orders.size() - 1]->order_id[2] == '9') {
-						if (o.orders[o.orders.size() - 1]->order_id[1] == '9') {
+				if (o->orders[o->orders.size() - 1]->order_id[3] == '9') {
+					if (o->orders[o->orders.size() - 1]->order_id[2] == '9') {
+						if (o->orders[o->orders.size() - 1]->order_id[1] == '9') {
 							cout << "订单数量已经超过文件承载，将返回主菜单" << endl;
 							return;
 						}
-						paper->order_id.push_back(o.orders[o.orders.size() - 1]->order_id[1] + 1);
+						paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[1] + 1);
 						paper->order_id.push_back('0');
 						paper->order_id.push_back('0');
 					}
-					paper->order_id.push_back(o.orders[o.orders.size() - 1]->order_id[1]);
-					paper->order_id.push_back(o.orders[o.orders.size() - 1]->order_id[2] + 1);
+					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[1]);
+					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[2] + 1);
 					paper->order_id.push_back('0');
 				}
 				else {
-					paper->order_id.push_back(o.orders[o.orders.size() - 1]->order_id[1]);
-					paper->order_id.push_back(o.orders[o.orders.size() - 1]->order_id[2]);
-					paper->order_id.push_back(o.orders[o.orders.size() - 1]->order_id[3] + 1);
+					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[1]);
+					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[2]);
+					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[3] + 1);
 				}
-				o.orders.push_back(paper);
+				o->orders.push_back(paper);
 				cout << endl << endl << "******购买成功********" << endl << endl;
-				o.write_order();
+				o->write_order();
 
 			}
 		}
@@ -740,10 +740,10 @@ void Buyer::search_good() {
 	}
 	cout << endl << endl << "*********************************************************************************" << endl;
 	bool nfind = true;
-	for (auto& ele : g.goods) {
+	for (auto& ele : g->goods) {
 		if (ele->name.find(s) != string::npos && ele->sit != "已下架") {
 			cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
-			g.print_good(ele);
+			g->print_good(ele);
 			nfind = false;
 		}
 	}
@@ -757,9 +757,9 @@ void Buyer::look_order() {
 	bool nfind = true;
 	cout << endl << endl << "*********************************************************************************" << endl;
 	cout << " 订单ID " << "   商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
-	for (auto& t : o.orders) {
+	for (auto& t : o->orders) {
 		if (t->buyer_id == inform->user_id) {
-			o.print_order(t);
+			o->print_order(t);
 			nfind = false;
 		}
 	}
@@ -782,7 +782,7 @@ void Buyer::look_good_information() {
 	}
 	cout << endl << endl << "*********************************************************************************" << endl;
 	bool nfind = true;
-	for (auto& ele : g.goods) {
+	for (auto& ele : g->goods) {
 		if (ele->name.find(s) != string::npos && ele->sit != "已下架") {
 			cout << "商品ID：" << ele->good_id << endl << "商品名称：" << ele->name << endl << "商品价格" << fixed << setprecision(1) << ele->price << endl \
 				<< "上架时间：" << ele->sell_time << endl << "商品描述：" << ele->description << endl << "商品卖家：" << ele->seller_id << endl;

@@ -9,7 +9,7 @@ using namespace std;
 #include"Datebase.h"
 class Admin {
 public:
-	Admin(Usering& us, Ordering& ord, Gooding& go) {
+	Admin(Usering* us, Ordering* ord, Gooding* go) {
 		u = us;
 		o = ord;
 		g = go;
@@ -23,9 +23,9 @@ public:
 	void look_user();
 	void del_user();
 private:
-	Usering u;
-	Ordering o;
-	Gooding g;
+	Usering* u;
+	Ordering* o;
+	Gooding* g;
 };
 
 #endif

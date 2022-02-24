@@ -9,9 +9,9 @@
 using namespace std;
 
 void main_menu() {
-	Usering u;
-	Ordering o;
-	Gooding g;
+	Usering* u = new Usering;
+	Ordering* o = new Ordering;
+	Gooding* g = new Gooding;
 	while (true) {
 		cout << "Welcome to Winter Olympics souvenir trading platform" << endl << endl;
 		cout << "======================================================================" << endl;
@@ -28,7 +28,7 @@ void main_menu() {
 			cin >> i;
 		}
 		switch (i) {
-		case 0: {Admin a(u, o, g); a.look_good(); break; }
+		case 0: {Admin a(u, o, g); a.look_order(); break; }
 		case 1: {Admin a(u, o, g); a.admin_login(); break; }
 		case 2: {User er(u, o, g); er.user_register(); break; }
 		case 3: {User er(u, o, g); er.user_login(); break; }

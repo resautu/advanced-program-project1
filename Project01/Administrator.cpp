@@ -53,8 +53,8 @@ void Admin::admin_menu() {
 void Admin::look_good() {
 	cout << endl << endl << "*********************************************************************************" << endl;
 	cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
-	for (auto& t : g.goods) {
-		g.print_good(t);
+	for (auto& t : g->goods) {
+		g->print_good(t);
 	}
 
 	cout << "*********************************************************************************" << endl << endl << endl;
@@ -73,9 +73,9 @@ void Admin::search_good() {
 	}
 	cout << endl << endl << "*********************************************************************************" << endl;
 	bool nfind = true;
-	for (auto& ele : g.goods) {
+	for (auto& ele : g->goods) {
 		if (ele->name.find(s) != string::npos) {
-			g.print_good(ele);
+			g->print_good(ele);
 			nfind = false;
 		}
 	}
@@ -92,10 +92,10 @@ void Admin::del_good() {                               //this function should wr
 	cout << endl << endl << "*********************************************************************************" << endl;
 	int nfind = 0;
 	Good* de = new Good;
-	for (auto& ele : g.goods) {
+	for (auto& ele : g->goods) {
 		if (ele->good_id == i) {
 			cout << " ID " << "   名称   " << " 价格  " << " 上架时间  " << " 库存数量  " << " 卖家ID  " << " 商品状态 " << "  描 述   " << endl;
-			g.print_good(ele);
+			g->print_good(ele);
 			if (ele->sit == "已下架") {
 				nfind = 1;
 				cout << "该商品已下架，请重新选择操作" << endl;
@@ -120,7 +120,7 @@ void Admin::del_good() {                               //this function should wr
 		}
 		if (chos == "y") {
 			de->sit = "已下架";
-			g.write_good();
+			g->write_good();
 			cout << "下架成功！" << endl << endl;
 		}
 		else if (chos == "n") {
@@ -131,9 +131,9 @@ void Admin::del_good() {                               //this function should wr
 
 void Admin::look_order() {
 	cout << endl << endl << "*********************************************************************************" << endl;
-	cout << " 订单ID " << "   商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
-	for (auto& t : o.orders) {
-		o.print_order(t);
+	cout << "   订单ID " << " 商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
+	for (auto& t : o->orders) {
+		o->print_order(t);
 	}
 
 	cout << "*********************************************************************************" << endl << endl << endl;
@@ -142,9 +142,9 @@ void Admin::look_order() {
 
 void Admin::look_user() {
 	cout << endl << endl << "*********************************************************************************" << endl;
-	cout << " 用户ID " << "   用户名   " << "       密码      " << "  联系方式  " << "          地址   " << "   钱包余额  " << " 用户状态 " << endl;
-	for (auto& t : u.users) {
-		u.print_user(t);
+	cout << "用户ID " << "    用户名   " << "       密码      " << "    联系方式  " << "          地址   " << "       钱包余额  " << "用户状态 " << endl;
+	for (auto& t : u->users) {
+		u->print_user(t);
 	}
 
 	cout << "*********************************************************************************" << endl << endl << endl;
@@ -157,9 +157,9 @@ void Admin::del_user() {
 	cout << endl << endl << "*********************************************************************************" << endl;
 	int nfind = 0;
 	User_information* de = new User_information;
-	for (auto& ele : u.users) {
+	for (auto& ele : u->users) {
 		if (ele->user_id == i) {
-			u.print_user(ele);
+			u->print_user(ele);
 			if (ele->sit == "封禁") {
 				nfind = 1;
 				cout << "该用户已封禁，请重新选择操作" << endl;
@@ -184,11 +184,11 @@ void Admin::del_user() {
 		}
 		if (chos == "y") {
 			de->sit = "封禁";
-			for (auto& e : g.goods) {
+			for (auto& e : g->goods) {
 				if (e->seller_id == de->user_id) {
 					e->sit = "已下架";
-					g.write_good();
-					u.write_user();
+					g->write_good();
+					u->write_user();
 				}
 			}
 			cout << "封禁成功！" << endl << endl;

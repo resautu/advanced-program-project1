@@ -12,7 +12,7 @@ using namespace std;
 class User {
 public:
 	User();
-	User(Usering& us, Ordering& ord, Gooding& go) {
+	User(Usering* us, Ordering* ord, Gooding* go) {
 		u = us;
 		o = ord;
 		g = go;
@@ -26,9 +26,9 @@ public:
 	void look_information();
 	void change_information();
 protected:
-	Usering u;
-	Ordering o;
-	Gooding g;
+	Usering* u;
+	Ordering* o;
+	Gooding* g;
 	User_information* inform;
 };
 
