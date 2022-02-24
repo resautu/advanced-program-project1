@@ -387,6 +387,17 @@ void Seller::release() {
 		t->good_id.push_back(g.goods[g.goods.size() - 1]->good_id[2]);
 		t->good_id.push_back(g.goods[g.goods.size() - 1]->good_id[3] + 1);
 	}
+	time_t cl;
+	cl = time(NULL);
+	tm* m = localtime(&cl);
+	string pt;
+	pt.append(to_string(m->tm_year + 1900));
+	pt.push_back('-');
+	if (m->tm_mon + 1 < 10) pt.push_back('0');
+	pt.append(to_string(m->tm_mon + 1));
+	pt.push_back('-');
+	pt.append(to_string(m->tm_mday));
+	t->sell_time = pt;
 	g.goods.push_back(t);
 	system("cls");
 	cout << endl << endl << "******发布成功********" << endl << endl;
@@ -511,7 +522,7 @@ void Seller::del_good() {
 				cout << endl << "!!此商品不属于您，您无权对此商品进行操作!！" << endl;
 				return;
 			}
-			cout << " ID " << "   名称   " << " 价格  " << " 上架时间  " << " 库存数量  " << " 卖家ID  " << " 商品状态 " << "    商品描述    " << endl;
+			cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 			g.print_good(ele);
 			if (ele->sit == "已下架") {
 				nfind = 1;
@@ -564,7 +575,7 @@ void Seller::look_order() {
 
 void Seller::look_good() {
 	cout << endl << endl << "*********************************************************************************" << endl;
-	cout << " ID " << "   名称   " << " 价格  " << " 上架时间  " << " 库存数量  " << " 卖家ID  " << " 商品状态 " << "  描 述   " << endl;
+	cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 	for (auto& t : g.goods) {
 		if (t->seller_id == inform->user_id) {
 			g.print_good(t);
@@ -604,7 +615,7 @@ void Buyer::buyer_menu() {
 
 void Buyer::look_good() {
 	cout << endl << endl << "*********************************************************************************" << endl;
-	cout << " ID " << "   名称   " << " 价格  " << " 上架时间  " << " 库存数量  " << " 卖家ID  " << " 商品状态 " << "  描 述   " << endl;
+	cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 	for (auto& t : g.goods) {
 		if (t->sit == "销售中") {
 			g.print_good(t);
@@ -629,7 +640,7 @@ void Buyer::buy() {
 	for (auto& ele : g.goods) {
 		if (ele->good_id == temp && ele->sit == "销售中") {
 			cout << endl << endl << "*********************************************************************************" << endl;
-			cout << " ID " << "   名称   " << " 价格  " << " 上架时间  " << " 库存数量  " << " 卖家ID  " << " 商品状态 " << "  描 述   " << endl;
+			cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 			g.print_good(ele);
 			cout << "*********************************************************************************" << endl << endl << endl;
 			cout << "请输入购买数量: ";
@@ -682,6 +693,7 @@ void Buyer::buy() {
 				string pt;
 				pt.append(to_string(m->tm_year + 1900));
 				pt.push_back('-');
+				if (m->tm_mon + 1 < 10) pt.push_back('0');
 				pt.append(to_string(m->tm_mon + 1));
 				pt.push_back('-');
 				pt.append(to_string(m->tm_mday));
@@ -730,6 +742,7 @@ void Buyer::search_good() {
 	bool nfind = true;
 	for (auto& ele : g.goods) {
 		if (ele->name.find(s) != string::npos && ele->sit != "已下架") {
+			cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 			g.print_good(ele);
 			nfind = false;
 		}

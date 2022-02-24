@@ -86,7 +86,7 @@ public:
 	}
 	void print_good(Good* t) {
 
-		cout << left << t->good_id << "  " << t->name << "  " << fixed << setprecision(1) << t->price << "  " << setw(10) << t->sell_time << "     " << t->number << "        " << t->seller_id << "   " << t->sit << "  " << t->description << endl;
+		cout << left << setw(12) << t->good_id << setw(15) << t->name << setw(12) << fixed << setprecision(1) << t->price << setw(15) << t->sell_time << setw(8) << t->number << setw(8) << t->seller_id << setw(8) << t->sit << endl;
 	}
 	void write_good();
 	void check_good();
