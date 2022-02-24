@@ -11,7 +11,7 @@ class Admin {
 public:
 	Admin(Usering& us, Ordering& ord, Gooding& go) {
 		u = us;
-		o = ord ;
+		o = ord;
 		g = go;
 	}
 	void admin_login();
@@ -22,9 +22,6 @@ public:
 	void look_order();
 	void look_user();
 	void del_user();
-	void deb() {
-		cout << g.goods[0]->name << endl;
-	}
 private:
 	Usering u;
 	Ordering o;

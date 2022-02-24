@@ -2,16 +2,16 @@
 #include "sundry.h"
 wstring s_to_ws(string& s)
 {
-    setlocale(LC_ALL, "chs");
-    const char* temp = s.c_str();
-    int l = s.size() + 1;
-    wchar_t* dest = new wchar_t[l];
-    wmemset(dest, 0, l);
-    mbstowcs(dest, temp, l);
-    wstring result = dest;
-    delete[]dest;
-    setlocale(LC_ALL, "C");
-    return result;
+	setlocale(LC_ALL, "chs");
+	const char* temp = s.c_str();
+	int l = s.size() + 1;
+	wchar_t* dest = new wchar_t[l];
+	wmemset(dest, 0, l);
+	mbstowcs(dest, temp, l);
+	wstring result = dest;
+	delete[]dest;
+	setlocale(LC_ALL, "C");
+	return result;
 }
 
 bool cevalid(wstring& s) {                //ÅÐ¶ÏÊÇ·ñÎªºº×ÖºÍÓ¢ÎÄ×ÖÄ¸;
@@ -42,7 +42,7 @@ bool dnvalid(string& s) {
 }
 
 double exdouble(string& s) {
-	double sum=0;
+	double sum = 0;
 	for (int i = 0; i < s.length(); i++) {
 		if (s[i] == '.') {
 			sum += double(s[i + 1] - '0') / 10;
@@ -54,7 +54,7 @@ double exdouble(string& s) {
 }
 
 int exint(string& s) {
-	int sum=0;
+	int sum = 0;
 	for (auto& c : s) {
 		sum = sum * 10 + int(c - '0');
 	}

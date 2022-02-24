@@ -28,13 +28,13 @@ void main_menu() {
 			cin >> i;
 		}
 		switch (i) {
-		case 0: {Admin a(u, o, g); a.deb(); break; }
+		case 0: {Admin a(u, o, g); a.look_user(); break; }
 		case 1: {Admin a(u, o, g); a.admin_login(); break; }
 		case 2: {User er(u, o, g); er.user_register(); break; }
 		case 3: {User er(u, o, g); er.user_login(); break; }
 		case 4:break;                                 //计算器接口
 		case 5:exit(0); break;
-		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
+		default:system("cls"); cout << "请按要求输入正确的数??" << endl << endl; break;
 		}
 	}
 }

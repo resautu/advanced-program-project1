@@ -113,10 +113,10 @@ void User::user_menu(User_information* information) {
 		}
 		case 2: {
 			//Seller er(information, u, o, g); er.seller_menu(); 
-			User* er=new User(u,o,g);
+			User* er = new User(u, o, g);
 			((Seller*)er)->inform = information;
 			((Seller*)er)->seller_menu();
-			break; 
+			break;
 		}
 		case 3:gover_inform(); break;
 		case 4:system("cls"); return; break;
@@ -261,9 +261,9 @@ void User::change_information() {
 
 void User::look_information() {
 	cout << endl << endl << "*********************************************************************************" << endl;
-	
+
 	for (auto& ele : u.users) {
-		if (ele->user_id==inform->user_id) {
+		if (ele->user_id == inform->user_id) {
 			cout << "用户名：" << ele->user_name << endl << "联系方式：" << ele->con << endl << "地址：" << ele->address << endl << "钱包余额：" << ele->balance << endl;
 			cout << "*********************************************************************************" << endl << endl << endl;
 		}
@@ -591,12 +591,12 @@ void Buyer::buyer_menu() {
 			cin >> i;
 		}
 		switch (int(trim(i)[0] - '0')) {
-			case 1:look_good(); break;
-			case 2:buy(); break;
-			case 3:search_good(); break;
-			case 4:look_order(); break;
-			case 5:look_good_information(); break;
-			case 6:system("cls"); return; break;
+		case 1:look_good(); break;
+		case 2:buy(); break;
+		case 3:search_good(); break;
+		case 4:look_order(); break;
+		case 5:look_good_information(); break;
+		case 6:system("cls"); return; break;
 		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
 		}
 	}
@@ -729,7 +729,7 @@ void Buyer::search_good() {
 	cout << endl << endl << "*********************************************************************************" << endl;
 	bool nfind = true;
 	for (auto& ele : g.goods) {
-		if (ele->name.find(s) != string::npos && ele->sit!="已下架") {
+		if (ele->name.find(s) != string::npos && ele->sit != "已下架") {
 			g.print_good(ele);
 			nfind = false;
 		}
@@ -776,8 +776,8 @@ void Buyer::look_good_information() {
 			cout << "*********************************************************************************" << endl << endl << endl;
 		}
 	}
-	
-		cout << "没有找到关键词相关商品或商品已下架,请重新选择操作" << endl;
-	
+
+	cout << "没有找到关键词相关商品或商品已下架,请重新选择操作" << endl;
+
 	cout << "*********************************************************************************" << endl << endl << endl;
 }

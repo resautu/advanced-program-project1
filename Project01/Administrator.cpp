@@ -21,7 +21,7 @@ void Admin::admin_login() {
 	admin_menu();
 }
 
-void Admin :: admin_menu() {
+void Admin::admin_menu() {
 	system("cls");
 	while (true) {
 		cout << "Welcome! admin" << endl;
@@ -51,12 +51,12 @@ void Admin :: admin_menu() {
 }
 
 void Admin::look_good() {
-	cout <<endl<<endl<< "*********************************************************************************" << endl;
+	cout << endl << endl << "*********************************************************************************" << endl;
 	cout << " ID " << "   名称   " << " 价格  " << " 上架时间  " << " 库存数量  " << " 卖家ID  " << " 商品状态 " << "  描 述   " << endl;
-	for(auto &t : g.goods) {
+	for (auto& t : g.goods) {
 		g.print_good(t);
 	}
-	
+
 	cout << "*********************************************************************************" << endl << endl << endl;
 
 }
@@ -87,11 +87,11 @@ void Admin::search_good() {
 
 void Admin::del_good() {                               //this function should write the document
 	cout << endl << "请输入您想要下架的商品ID： ";
-	string i,chos;
+	string i, chos;
 	cin >> i;
 	cout << endl << endl << "*********************************************************************************" << endl;
 	int nfind = 0;
-	Good* de=new Good;
+	Good* de = new Good;
 	for (auto& ele : g.goods) {
 		if (ele->good_id == i) {
 			cout << " ID " << "   名称   " << " 价格  " << " 上架时间  " << " 库存数量  " << " 卖家ID  " << " 商品状态 " << "  描 述   " << endl;
@@ -104,14 +104,14 @@ void Admin::del_good() {                               //this function should wr
 			else { nfind = 2; de = ele; break; }
 		}
 	}
-	if (nfind==0) {
+	if (nfind == 0) {
 		cout << "没有搜索到您想要下架的商品，请重新选择操作" << endl;
 	}
 	cout << "*********************************************************************************" << endl << endl << endl;
 	if (nfind == 2) {
 		cout << "是否将该商品下架(y/n): ";
 		cin >> chos;
-		while (!cin || (chos!="y" && chos !="n")) {
+		while (!cin || (chos != "y" && chos != "n")) {
 			cout << "请按要求输入" << endl;
 			cout << "是否将该商品下架(y/n): ";
 			cin.clear();
@@ -127,7 +127,7 @@ void Admin::del_good() {                               //this function should wr
 			cout << "下架取消，请重新选择您的操作" << endl << endl;
 		}
 	}
-}               
+}
 
 void Admin::look_order() {
 	cout << endl << endl << "*********************************************************************************" << endl;
