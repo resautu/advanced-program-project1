@@ -63,7 +63,11 @@ void User::user_register() {
 	t->balance = 0;
 	t->sit = "正常";
 	t->user_id.push_back('U');
-	if (u->users[u->users.size() - 1]->user_id[3] == '9') {
+	if (u->users.size() == 0) {
+		string st = "001";
+		t->user_id.append(st);
+	}
+	else if (u->users[u->users.size() - 1]->user_id[3] == '9') {
 		if (u->users[u->users.size() - 1]->user_id[2] == '9') {
 			if (u->users[u->users.size() - 1]->user_id[1] == '9') {
 				cout << "用户数量已经超过文件承载，将返回主菜单" << endl;
@@ -383,7 +387,11 @@ void Seller::release() {
 	t->seller_id = inform->user_id;
 	t->sit = "销售中";
 	t->good_id.push_back('M');
-	if (g->goods[g->goods.size() - 1]->good_id[3] == '9') {
+	if (g->goods.size() == 0) {
+		string st = "001";
+		t->good_id.append(st);
+	}
+	else if (g->goods[g->goods.size() - 1]->good_id[3] == '9') {
 		if (g->goods[g->goods.size() - 1]->good_id[2] == '9') {
 			if (g->goods[g->goods.size() - 1]->good_id[1] == '9') {
 				cout << "商品数量已经超过文件承载，将返回主菜单" << endl;
@@ -714,7 +722,11 @@ void Buyer::buy() {
 				pt.append(to_string(m->tm_mday));
 				paper->deal_time = pt;
 				paper->order_id.push_back('T');
-				if (o->orders[o->orders.size() - 1]->order_id[3] == '9') {
+				if (o->orders.size() == 0) {
+					string st = "001";
+					paper->order_id.append(st);
+				}
+				else if (o->orders[o->orders.size() - 1]->order_id[3] == '9') {
 					if (o->orders[o->orders.size() - 1]->order_id[2] == '9') {
 						if (o->orders[o->orders.size() - 1]->order_id[1] == '9') {
 							cout << "订单数量已经超过文件承载，将返回主菜单" << endl;
