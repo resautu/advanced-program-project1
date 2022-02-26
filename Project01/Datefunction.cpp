@@ -2,7 +2,10 @@
 #include <iostream>
 #include "Datebase.h"
 using namespace std;
-
+string good_file = "D:/proj1/commodity.txt";
+string user_file = "D:/proj1/user.txt";
+string order_file = "D:/proj1/order.txt";
+string reorder_file = "D:/proj1/reorder.txt";
 void Gooding::write_good() {
 	fstream f;
 	f.open(good_file, ios::out);
@@ -36,8 +39,19 @@ void Ordering::write_order() {
 	if (!f) { cout << "订单文件输出出现错误，请重启程序尝试" << endl; exit(0); }
 	f << "订单ID,商品ID,交易单价,数量,交易时间,卖家ID,买家ID" << endl;
 	for (auto& ele : orders) {
-		f << ele->order_id << ',' << ele->good_id << ',' << ele->money << ',' << ele->number << ',' << ele->deal_time << ',' << ele->seller_id << ',' \
+		f << ele->order_id << ',' << ele->good_id << ',' << fixed << setprecision(1) << ele->money << ',' << ele->number << ',' << ele->deal_time << ',' << ele->seller_id << ',' \
 			<< ele->buyer_id << endl;
+	}
+	f.close();
+}
+
+void Reordering::write_reorder() {
+	fstream f;
+	f.open(reorder_file, ios::out);
+	if (!f) { cout << "交易记录文件输出出现错误，请重启程序尝试" << endl; exit(0); }
+	f << "卖家Id,充值金额,充值时间" << endl;
+	for (auto& ele : reorders) {
+		f << ele->user_id << ',' << fixed << setprecision(1) << ele->money << ',' << ele->deal_time << endl;
 	}
 	f.close();
 }
@@ -64,6 +78,4 @@ void Usering::balance_change(string id, double money) {
 	}
 }
 
-void read_txt() {
 
-}

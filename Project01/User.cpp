@@ -106,14 +106,13 @@ void User::user_menu(User_information* information) {
 		}
 		switch (int(trim(i)[0] - '0')) {
 		case 1: {
-			User* er = new User(u, o, g);
+			User* er = new User(u, o, g, r);
 			((Buyer*)er)->inform = information;
 			((Buyer*)er)->buyer_menu();
 			break;
 		}
 		case 2: {
-			//Seller er(information, u, o, g); er.seller_menu(); 
-			User* er = new User(u, o, g);
+			User* er = new User(u, o, g, r);
 			((Seller*)er)->inform = information;
 			((Seller*)er)->seller_menu();
 			break;
@@ -272,15 +271,31 @@ void User::look_information() {
 
 void User::recharge() {
 	string temp;
-	cout << "请输入商品价格（系统将为您保留一位小数，即舍去后续小数）: ";
+	cout << "请输入充值金额（系统将为您保留一位小数，即舍去后续小数）: ";
 	cin >> temp;
 	while (!cin || dnvalid(temp)) {
 		cout << endl << endl << " !!商品价格不合法，请按要求输入!! " << endl;
 		cin.clear();
 		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-		cout << "请输入商品价格（系统将自动为您保留一位小数）: ";
+		cout << "请输入充值金额（系统将自动为您保留一位小数）: ";
 		cin >> temp;
 	}
+	Reorder* re = new Reorder;
+	re->user_id = inform->user_id;
+	re->money = exdouble(temp);
+	time_t t;
+	t = time(NULL);
+	tm* m = localtime(&t);
+	string pt;
+	pt.append(to_string(m->tm_year + 1900));
+	pt.push_back('-');
+	if (m->tm_mon + 1 < 10) pt.push_back('0');
+	pt.append(to_string(m->tm_mon + 1));
+	pt.push_back('-');
+	pt.append(to_string(m->tm_mday));
+	re->deal_time = pt;
+	r->reorders.push_back(re);
+	r->write_reorder();
 	inform->balance += exdouble(temp);
 	u->write_user();
 }

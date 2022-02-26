@@ -75,6 +75,7 @@ void Admin::search_good() {
 	bool nfind = true;
 	for (auto& ele : g->goods) {
 		if (ele->name.find(s) != string::npos) {
+			cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 			g->print_good(ele);
 			nfind = false;
 		}
@@ -94,7 +95,7 @@ void Admin::del_good() {                               //this function should wr
 	Good* de = new Good;
 	for (auto& ele : g->goods) {
 		if (ele->good_id == i) {
-			cout << " ID " << "   名称   " << " 价格  " << " 上架时间  " << " 库存数量  " << " 卖家ID  " << " 商品状态 " << "  描 述   " << endl;
+			cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 			g->print_good(ele);
 			if (ele->sit == "已下架") {
 				nfind = 1;
@@ -141,13 +142,13 @@ void Admin::look_order() {
 }
 
 void Admin::look_user() {
-	cout << endl << endl << "*********************************************************************************" << endl;
+	cout << endl << endl << "***************************************************************************************************" << endl;
 	cout << "用户ID " << "    用户名   " << "       密码      " << "    联系方式  " << "          地址   " << "       钱包余额  " << "用户状态 " << endl;
 	for (auto& t : u->users) {
 		u->print_user(t);
 	}
 
-	cout << "*********************************************************************************" << endl << endl << endl;
+	cout << "***************************************************************************************************" << endl << endl << endl;
 }
 
 void Admin::del_user() {

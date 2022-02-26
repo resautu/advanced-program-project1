@@ -16,13 +16,13 @@ struct Good {
 	string sit;
 };
 struct Order {
-	string order_id  ;
-	string good_id ;
+	string order_id;
+	string good_id;
 	double money;
 	int number;
 	string deal_time;
-	string seller_id ;
-	string buyer_id ;
+	string seller_id;
+	string buyer_id;
 };
 struct User_information {
 	string user_id;        //the lenth is less than 5
@@ -32,5 +32,10 @@ struct User_information {
 	string address;
 	double balance;
 	string sit;
+};
+struct Reorder {
+	string user_id;
+	double money;
+	string deal_time;
 };
 #endif

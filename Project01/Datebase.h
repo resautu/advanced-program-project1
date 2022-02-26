@@ -11,15 +11,14 @@
 #include <iomanip>
 #include<algorithm>
 #include"sundry.h"
-//extern string good_file = "D:/proj1/commodity.txt";
-//extern string user_file = "D:/proj1/Users.txt";
-//extern string order_file = "D:/proj1/Orders.txt";
-
+extern string good_file;
+extern string user_file;
+extern string order_file;
+extern string reorder_file;
 class Gooding {
 	friend class Admin;
 	friend class Seller;
 	friend class Buyer;
-	string good_file = "D:/proj1/commodity.txt";
 public:
 	Gooding() {
 		fstream f;
@@ -97,7 +96,6 @@ private:
 class Usering {
 	friend class Admin;
 	friend class User;
-	//	friend void user_login(Usering& us, Ordering& ord, Gooding& go);
 public:
 	Usering() {
 		fstream f;
@@ -161,7 +159,6 @@ public:
 	void balance_change(string id, double money);
 private:
 	vector< User_information* > users;
-	string user_file = "D:/proj1/user.txt";
 };
 
 class Ordering {
@@ -235,9 +232,53 @@ public:
 	void write_order();
 private:
 	vector<Order*> orders;
-	string order_file = "D:/proj1/order.txt";
 };
 
-void read_txt();
-void user_login(Usering& us, Ordering& ord, Gooding& go);
+class Reordering {
+	friend class User;
+public:
+	Reordering() {
+		fstream f;
+		f.open(reorder_file, ios::in);
+		if (!f.is_open()) {
+			f.open(order_file, ios::out);
+			if (!f.is_open()) cout << "*********充值记录文件加载出错，如需要请重启程序尝试**********" << endl;
+			f.close();
+			return;
+		}
+		string temp, pr;
+		f >> temp;
+		while (true) {
+			pr.clear();
+			string judge;
+			f >> judge;
+			if (!f) {
+				break;
+			}
+			Reorder* t = new Reorder;
+			int i;
+			for (i = 0; i < judge.length(); i++) {
+				if (judge[i] == ',')break;
+				t->user_id.push_back(judge[i]);
+			}
+			for (i += 1; i < judge.length(); i++) {
+				if (judge[i] == ',') {
+					t->money = exdouble(pr);
+					break;
+				}
+				pr.push_back(judge[i]);
+			}
+			for (i += 1; i < judge.length(); i++) {
+				if (judge[i] == ',') break;
+				t->deal_time.push_back(judge[i]);
+			}
+			reorders.push_back(t);
+		}
+		f.close();
+	}
+	void write_reorder();
+private:
+	vector<Reorder*> reorders;
+};
+
 #endif

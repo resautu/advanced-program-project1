@@ -12,10 +12,11 @@ using namespace std;
 class User {
 public:
 	User();
-	User(Usering* us, Ordering* ord, Gooding* go) {
+	User(Usering* us, Ordering* ord, Gooding* go, Reordering* re) {
 		u = us;
 		o = ord;
 		g = go;
+		r = re;
 	}
 	void user_menu(User_information* information);
 	void user_login();
@@ -29,18 +30,12 @@ protected:
 	Usering* u;
 	Ordering* o;
 	Gooding* g;
+	Reordering* r;
 	User_information* inform;
 };
 
 class Buyer :public User {
 public:
-	//Buyer(User_information* information, Usering& us, Ordering& ord, Gooding& go) {
-		//inform = information;
-		//u = us;
-		//o = ord;
-		//g = go;
-
-	//}
 	void buyer_menu();
 	void buy();
 	void look_good();
@@ -51,13 +46,6 @@ public:
 };
 class Seller :public User {
 public:
-	//Seller(User_information* information, Usering& us, Ordering& ord, Gooding& go) {
-		//inform = information;
-		//u = us;
-		//o = ord;
-		//g = go;
-
-	//}
 	void seller_menu();
 	void release();
 	void look_good();
