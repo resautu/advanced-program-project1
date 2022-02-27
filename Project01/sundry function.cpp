@@ -20,6 +20,7 @@ bool cevalid(wstring& s) {                //ÅÐ¶ÏÊÇ·ñÎªºº×ÖºÍÓ¢ÎÄ×ÖÄ¸;
 	}
 	return true;
 }
+
 bool nevalid(string& s) {                 //ÅÐ¶ÏÊÇ·ñÎªÐ¡Ð´×ÖÄ¸ºÍÊý×Ö;
 	for (auto& ele : s) {
 		if (!((ele >= 'a' && ele <= 'z') || (ele >= '0' && ele <= '9'))) {
@@ -69,6 +70,16 @@ string trim(string s) {
 	return s;
 }
 
+string new_trim(string s) {
+	if (s.empty()) return s;
+	string res;
+	for (auto c : s) {
+		if (c != ' ') res.push_back(c);
+	}
+	if (res.length() > 1) res[0] = '9';
+	return res;
+}
+
 void _replace(string& s, char c1, char c2) {
 	for (auto& ele : s) {
 		if (ele == c1) {
@@ -89,4 +100,14 @@ string double_to_string(double d) {
 		}
 		res.push_back(s[i]);
 	}
+}
+
+string cal_trim(string s) {
+	string res;
+	for (auto c : s) {
+		if (c != ' ') {
+			res.push_back(c);
+		}
+	}
+	return res;
 }

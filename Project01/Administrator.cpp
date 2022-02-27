@@ -29,15 +29,15 @@ void Admin::admin_menu() {
 		cout << "  1、查看所有商品 2、搜索商品 3、下架商品 4、查看所有订单 5、查看所有用户 6、封禁用户 7、注销  " << endl;
 		cout << "===============================================================================================" << endl;
 		cout << "请输入操作序号: ";
-		int i;
-		cin >> i;
-		while (!cin) {
+		string temp;
+		cin >> temp;
+		while (!cin || new_trim(temp)[0] < '1' || new_trim(temp)[0]>'7') {
 			cout << "请输入正确的数字" << endl;
 			cin.clear();
 			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-			cin >> i;
+			cin >> temp;
 		}
-		switch (i) {
+		switch (int(trim(temp)[0] - '0')) {
 		case 1:look_good(); break;
 		case 2:search_good(); break;
 		case 3:del_good(); break;
@@ -113,7 +113,7 @@ void Admin::del_good() {                               //this function should wr
 	if (nfind == 2) {
 		cout << "是否将该商品下架(y/n): ";
 		cin >> chos;
-		while (!cin || (chos != "y" && chos != "n")) {
+		while (!cin || (new_trim(chos) != "y" && new_trim(chos) != "n")) {
 			cout << "请按要求输入" << endl;
 			cout << "是否将该商品下架(y/n): ";
 			cin.clear();
@@ -161,7 +161,7 @@ void Admin::del_user() {
 	cout << endl << "请输入您想要封禁的用户ID： ";
 	string i, chos;
 	cin >> i;
-	cout << endl << endl << "*********************************************************************************" << endl;
+	cout << endl << endl << "*****************************************************************************************" << endl;
 	int nfind = 0;
 	User_information* de = new User_information;
 	for (auto& ele : u->users) {
@@ -178,11 +178,11 @@ void Admin::del_user() {
 	if (nfind == 0) {
 		cout << "没有搜索到您想要封禁的用户，请重新选择操作" << endl;
 	}
-	cout << "*********************************************************************************" << endl << endl << endl;
+	cout << "*****************************************************************************************" << endl << endl << endl;
 	if (nfind == 2) {
 		cout << "是否将该用户封禁(y/n): ";
 		cin >> chos;
-		while (!cin || (chos != "y" && chos != "n")) {
+		while (!cin || (new_trim(chos) != "y" && new_trim(chos) != "n")) {
 			cout << "请按要求输入" << endl;
 			cout << "是否将该用户封禁(y/n): ";
 			cin.clear();

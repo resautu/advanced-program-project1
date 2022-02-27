@@ -110,7 +110,7 @@ void User::user_menu(User_information* information) {
 		cout << "请输入操作序号: ";
 		string i;
 		cin >> i;
-		while (!cin || (trim(i) < "1" || trim(i) > "4")) {
+		while (!cin || (new_trim(i) < "1" || new_trim(i) > "4")) {
 			cout << "输入不合法，请重新输入" << endl;
 			cout << "请输入操作序号: ";
 			cin.clear();
@@ -276,7 +276,7 @@ void User::look_information() {
 
 	for (auto& ele : u->users) {
 		if (ele->user_id == inform->user_id) {
-			cout << "用户名：" << ele->user_name << endl << "联系方式：" << ele->con << endl << "地址：" << ele->address << endl << "钱包余额：" << ele->balance << endl;
+			cout << "用户名：" << ele->user_name << endl << "联系方式：" << ele->con << endl << "地址：" << ele->address << endl << "钱包余额：" << fixed << setprecision(1) << ele->balance << endl;
 			cout << "*********************************************************************************" << endl << endl << endl;
 		}
 	}
@@ -323,7 +323,7 @@ void Seller::seller_menu() {
 		cout << "请输入操作序号: ";
 		string i;
 		cin >> i;
-		while (!cin || (trim(i) < "1" || trim(i) > "6")) {
+		while (!cin || (new_trim(i) < "1" || new_trim(i) > "6")) {
 			cout << "请输入正确的数字" << endl;
 			cin.clear();
 			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
@@ -435,7 +435,7 @@ void Seller::release() {
 	vals.push_back(double_to_string(t->price));
 	vals.push_back(to_string(t->number));
 	vals.push_back(t->description);
-	sq->Insert(good_file, vals);
+	sq->Insert(good_file_name, vals);
 	g->goods.push_back(t);
 	system("cls");
 	cout << endl << endl << "******发布成功********" << endl << endl;
@@ -583,7 +583,7 @@ void Seller::del_good() {
 	if (nfind == 2) {
 		cout << "是否将该商品下架(y/n): ";
 		cin >> chos;
-		while (!cin || (trim(chos) != "y" && trim(chos) != "n")) {
+		while (!cin || (new_trim(chos) != "y" && new_trim(chos) != "n")) {
 			cout << "请按要求输入" << endl;
 			cout << "是否将该商品下架(y/n): ";
 			cin.clear();
@@ -644,7 +644,7 @@ void Buyer::buyer_menu() {
 		cout << "请输入操作序号: ";
 		string i;
 		cin >> i;
-		while (!cin || (trim(i) < "1" || trim(i) > "6")) {
+		while (!cin || (new_trim(i) < "1" || new_trim(i) > "6")) {
 			cout << "请输入正确的选项" << endl;
 			cin.clear();
 			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
