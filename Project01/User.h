@@ -12,11 +12,12 @@ using namespace std;
 class User {
 public:
 	User();
-	User(Usering* us, Ordering* ord, Gooding* go, Reordering* re) {
+	User(Usering* us, Ordering* ord, Gooding* go, Reordering* re, Sqling* s) {
 		u = us;
 		o = ord;
 		g = go;
 		r = re;
+		sq = s;
 	}
 	void user_menu(User_information* information);
 	void user_login();
@@ -32,6 +33,7 @@ protected:
 	Gooding* g;
 	Reordering* r;
 	User_information* inform;
+	Sqling* sq;
 };
 
 class Buyer :public User {

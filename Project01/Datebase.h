@@ -15,6 +15,11 @@ extern string good_file;
 extern string user_file;
 extern string order_file;
 extern string reorder_file;
+extern string sql_file;
+extern string good_file_name;
+extern string user_file_name;
+extern string order_file_name;
+
 class Gooding {
 	friend class Admin;
 	friend class Seller;
@@ -25,7 +30,7 @@ public:
 		f.open(good_file, ios::in);
 		string temp, pr, nu;
 		if (!f.is_open()) {
-			f.open(good_file, ios::trunc);
+			f.open(good_file, ios::out);
 			if (!f.is_open()) cout << "*********商品文件加载出错,如需要请重启程序尝试**********" << endl;
 			f.close();
 			return;
@@ -279,6 +284,64 @@ public:
 	void write_reorder();
 private:
 	vector<Reorder*> reorders;
+};
+
+class Sqling {
+public:
+	Sqling() {
+		fstream f;
+		f.open(sql_file, ios::in);
+		char temp[200];
+		string s;
+		if (!f.is_open()) {
+			f.open(sql_file, ios::out);
+			if (!f.is_open()) cout << "*********sql指令文件加载出错,如需要请重启程序尝试**********" << endl;
+			f.close();
+			return;
+		}
+		f.getline(temp, 200);
+		while (true) {
+			if (strlen(temp) == 0) break;
+			s = temp;
+			sqls.push_back(s);
+			f.getline(temp, 200);
+		}
+	}
+	void Select(string file_name, bool complex = false, string col_name = "0", string _name = "0") {
+		string s = "SELECT * FROM ";
+		s.append(file_name);
+		if (complex) {
+			s.append(" WHERE " + col_name + " CONTAINS " + _name);
+		}
+		write_sql(s);
+	}
+	void Insert(string file_name, string val1 = "-1", string val2 = "-1", string val3 = "-1", string val4 = "-1", string val5 = "-1", string val6 = "-1", string val7 = "-1", string val8 = "-1") {
+		string s = "INSERT INTO ";
+		s.append(file_name + " VALUES (");
+		if (val1 != "-1") s.append(val1);
+		if (val2 != "-1") s.append("," + val2);
+		if (val3 != "-1") s.append("," + val3);
+		if (val4 != "-1") s.append("," + val4);
+		if (val5 != "-1") s.append("," + val5);
+		if (val6 != "-1") s.append("," + val6);
+		if (val7 != "-1") s.append("," + val7);
+		if (val8 != "-1") s.append("," + val8);
+		s.append(")");
+		write_sql(s);
+	}
+	void Update(string file_name, string lim, string val1 = "-1", string val2 = "-1", string val3 = "-1", string val4 = "-1", string val5 = "-1") {
+		string s;
+		s.append("UPDATE " + file_name + " SET " + val1);
+		if (val2 != "-1") s.append(", " + val2);
+		if (val3 != "-1") s.append(", " + val3);
+		if (val4 != "-1") s.append(", " + val4);
+		if (val5 != "-1") s.append(", " + val5);
+		s.append(" WHERE " + lim);
+		write_sql(s);
+	}
+private:
+	void write_sql(string s);
+	vector<string> sqls;
 };
 
 #endif

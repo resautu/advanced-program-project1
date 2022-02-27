@@ -86,6 +86,7 @@ void User::user_register() {
 		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[2]);
 		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[3] + 1);
 	}
+	sq->Insert(user_file_name, t->user_id, t->user_name, t->key, t->con, t->address, "0", t->sit);
 	u->users.push_back(t);
 	cout << endl << endl << "******注册成功********" << endl << endl;
 	u->write_user();
@@ -110,13 +111,13 @@ void User::user_menu(User_information* information) {
 		}
 		switch (int(trim(i)[0] - '0')) {
 		case 1: {
-			User* er = new User(u, o, g, r);
+			User* er = new User(u, o, g, r, sq);
 			((Buyer*)er)->inform = information;
 			((Buyer*)er)->buyer_menu();
 			break;
 		}
 		case 2: {
-			User* er = new User(u, o, g, r);
+			User* er = new User(u, o, g, r, sq);
 			((Seller*)er)->inform = information;
 			((Seller*)er)->seller_menu();
 			break;
@@ -421,6 +422,7 @@ void Seller::release() {
 	pt.push_back('-');
 	pt.append(to_string(m->tm_mday));
 	t->sell_time = pt;
+	sq->Insert(good_file, t->name, to_string(t->price), to_string(t->number), t->description);
 	g->goods.push_back(t);
 	system("cls");
 	cout << endl << endl << "******发布成功********" << endl << endl;
@@ -481,6 +483,7 @@ void Seller::change_information() {
 					cin >> temp;
 				}
 				if (trim(temp) == "y") {
+					sq->Update(good_file, "商品ID = " + ele->good_id, "价格 = " + to_string(ele->price));
 					ele->price = new_price;
 					g->write_good();
 				}
@@ -520,6 +523,7 @@ void Seller::change_information() {
 					cin >> temp;
 				}
 				if (trim(temp) == "y") {
+					sq->Update(good_file_name, "商品ID = " + ele->good_id, "商品描述 = " + ele->description);
 					ele->description = new_description;
 					g->write_good();
 				}
@@ -570,6 +574,7 @@ void Seller::del_good() {
 			cin >> chos;
 		}
 		if (trim(chos) == "y") {
+			sq->Update(good_file_name, "商品ID = " + de->good_id, "商品状态 = 已下架");
 			de->sit = "已下架";
 			g->write_good();
 			cout << "下架成功！" << endl << endl;
@@ -581,6 +586,7 @@ void Seller::del_good() {
 }
 
 void Seller::look_order() {
+	sq->Select(order_file_name);
 	bool nfind = true;
 	cout << endl << endl << "*********************************************************************************" << endl;
 	cout << " 订单ID " << "   商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
@@ -597,6 +603,7 @@ void Seller::look_order() {
 }
 
 void Seller::look_good() {
+	sq->Select(good_file_name);
 	cout << endl << endl << "*********************************************************************************" << endl;
 	cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 	for (auto& t : g->goods) {
@@ -637,6 +644,7 @@ void Buyer::buyer_menu() {
 }
 
 void Buyer::look_good() {
+	sq->Select(good_file_name);
 	cout << endl << endl << "*********************************************************************************" << endl;
 	cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 	for (auto& t : g->goods) {
@@ -745,6 +753,8 @@ void Buyer::buy() {
 					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[2]);
 					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[3] + 1);
 				}
+				sq->Insert(order_file_name, paper->order_id, paper->good_id, to_string(paper->money), to_string(paper->number), paper->deal_time, paper->seller_id, paper->buyer_id);
+				sq->Update(good_file_name, "商品ID = " + paper->good_id, "数量 = " + to_string(ele->number));
 				o->orders.push_back(paper);
 				cout << endl << endl << "******购买成功********" << endl << endl;
 				o->write_order();
@@ -765,6 +775,7 @@ void Buyer::search_good() {
 		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 		cin >> s;
 	}
+	sq->Select(good_file_name, true, "名称", s);
 	cout << endl << endl << "*********************************************************************************" << endl;
 	bool nfind = true;
 	for (auto& ele : g->goods) {
@@ -781,6 +792,7 @@ void Buyer::search_good() {
 }
 
 void Buyer::look_order() {
+	sq->Select(order_file_name);
 	bool nfind = true;
 	cout << endl << endl << "*********************************************************************************" << endl;
 	cout << " 订单ID " << "   商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
@@ -799,7 +811,7 @@ void Buyer::look_order() {
 
 void Buyer::look_good_information() {
 	string s;
-	cout << "请输入您想要查找的商品： ";
+	cout << "请输入您想要查找的商品ID： ";
 	cin >> s;
 	while (!cin) {
 		cout << "请输入正确的商品ID" << endl;
@@ -807,6 +819,7 @@ void Buyer::look_good_information() {
 		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 		cin >> s;
 	}
+	sq->Select(good_file_name, true, "商品ID", s);
 	cout << endl << endl << "*********************************************************************************" << endl;
 	bool nfind = true;
 	for (auto& ele : g->goods) {

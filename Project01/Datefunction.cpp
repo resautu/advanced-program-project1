@@ -6,6 +6,11 @@ string good_file = "D:/proj1/commodity.txt";
 string user_file = "D:/proj1/user.txt";
 string order_file = "D:/proj1/order.txt";
 string reorder_file = "D:/proj1/reorder.txt";
+string sql_file = "D:/proj1/commands.txt";
+string good_file_name = "commodity";
+string user_file_name = "user";
+string order_file_name = "order";
+
 void Gooding::write_good() {
 	fstream f;
 	f.open(good_file, ios::out);
@@ -78,4 +83,40 @@ void Usering::balance_change(string id, double money) {
 	}
 }
 
+void Sqling::write_sql(string s) {
+	time_t t;
+	t = time(NULL);
+	tm* m = localtime(&t);
+	string pt;
+	pt.append(to_string(m->tm_year + 1900));
+	pt.push_back('-');
+	if (m->tm_mon + 1 < 10) pt.push_back('0');
+	pt.append(to_string(m->tm_mon + 1));
+	pt.push_back('-');
+	pt.append(to_string(m->tm_mday));
+	pt.push_back(' ');
+	pt.append(to_string(m->tm_hour));
+	pt.push_back(':');
+	pt.append(to_string(m->tm_min));
+	pt.push_back(':');
+	pt.append(to_string(m->tm_sec));
+	pt.append(": ");
+	pt.append(s);
+	sqls.push_back(pt);
+	fstream f;
+	f.open(sql_file, ios::out);
+	if (!f) { cout << "sql命令文件输出出现错误，请重启程序尝试" << endl; exit(0); }
+	for (auto& str : sqls) {
+		f << str << endl;
+	}
+	f.close();
+}
 
+//void Sqling::Select(string file_name, bool complex = false, string col_name = NULL, string _name = NULL) {
+	//string s = "SELECT * FROM ";
+	//s.append(file_name);
+	//if (complex) {
+		//s.append(" WHERE " + col_name + " CONTAINS " + _name);
+	//}
+	//write_sql(s);
+//}

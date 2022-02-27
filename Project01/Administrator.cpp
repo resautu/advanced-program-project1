@@ -56,7 +56,7 @@ void Admin::look_good() {
 	for (auto& t : g->goods) {
 		g->print_good(t);
 	}
-
+	sq->Select(good_file_name);
 	cout << "*********************************************************************************" << endl << endl << endl;
 
 }
@@ -71,6 +71,7 @@ void Admin::search_good() {
 		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 		cin >> s;
 	}
+	sq->Select(good_file_name, true, "名称", s);
 	cout << endl << endl << "*********************************************************************************" << endl;
 	bool nfind = true;
 	for (auto& ele : g->goods) {
@@ -123,6 +124,7 @@ void Admin::del_good() {                               //this function should wr
 			de->sit = "已下架";
 			g->write_good();
 			cout << "下架成功！" << endl << endl;
+			sq->Update(good_file_name, "商品ID = " + de->good_id, "商品状态 = 已下架");
 		}
 		else if (chos == "n") {
 			cout << "下架取消，请重新选择您的操作" << endl << endl;
@@ -131,6 +133,7 @@ void Admin::del_good() {                               //this function should wr
 }
 
 void Admin::look_order() {
+	sq->Select(order_file_name);
 	cout << endl << endl << "*********************************************************************************" << endl;
 	cout << "   订单ID " << " 商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
 	for (auto& t : o->orders) {
@@ -142,6 +145,7 @@ void Admin::look_order() {
 }
 
 void Admin::look_user() {
+	sq->Select(user_file_name);
 	cout << endl << endl << "***************************************************************************************************" << endl;
 	cout << "用户ID " << "    用户名   " << "       密码      " << "    联系方式  " << "          地址   " << "       钱包余额  " << "用户状态 " << endl;
 	for (auto& t : u->users) {
@@ -184,14 +188,17 @@ void Admin::del_user() {
 			cin >> chos;
 		}
 		if (chos == "y") {
+
 			de->sit = "封禁";
 			for (auto& e : g->goods) {
 				if (e->seller_id == de->user_id) {
+					sq->Update(good_file_name, "卖家ID = " + e->seller_id, "商品状态 = 已下架");
 					e->sit = "已下架";
 					g->write_good();
-					u->write_user();
 				}
 			}
+			sq->Update(user_file_name, "用户ID = " + de->user_id, "用户状态 = 封禁");
+			u->write_user();
 			cout << "封禁成功！" << endl << endl;
 		}
 		else if (chos == "n") {
