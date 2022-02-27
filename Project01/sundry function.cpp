@@ -76,3 +76,17 @@ void _replace(string& s, char c1, char c2) {
 		}
 	}
 }
+
+string double_to_string(double d) {
+	string s = to_string(d);
+	int i = 0;
+	string res;
+	for (; i < s.length(); i++) {
+		if (s[i] == '.') {
+			res.push_back(s[i]);
+			res.push_back(s[i + 1]);
+			return res;
+		}
+		res.push_back(s[i]);
+	}
+}

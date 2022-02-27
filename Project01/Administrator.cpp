@@ -124,7 +124,9 @@ void Admin::del_good() {                               //this function should wr
 			de->sit = "已下架";
 			g->write_good();
 			cout << "下架成功！" << endl << endl;
-			sq->Update(good_file_name, "商品ID = " + de->good_id, "商品状态 = 已下架");
+			vector<string> valsu;
+			valsu.push_back("商品状态 = 已下架");
+			sq->Update(good_file_name, "商品ID = " + de->good_id, valsu);
 		}
 		else if (chos == "n") {
 			cout << "下架取消，请重新选择您的操作" << endl << endl;
@@ -192,12 +194,16 @@ void Admin::del_user() {
 			de->sit = "封禁";
 			for (auto& e : g->goods) {
 				if (e->seller_id == de->user_id) {
-					sq->Update(good_file_name, "卖家ID = " + e->seller_id, "商品状态 = 已下架");
+					vector<string> valsu;
+					valsu.push_back("商品状态 = 已下架");
+					sq->Update(good_file_name, "卖家ID = " + e->seller_id, valsu);
 					e->sit = "已下架";
 					g->write_good();
 				}
 			}
-			sq->Update(user_file_name, "用户ID = " + de->user_id, "用户状态 = 封禁");
+			vector<string> valsu;
+			valsu.push_back("用户状态 = 封禁");
+			sq->Update(user_file_name, "用户ID = " + de->user_id, valsu);
 			u->write_user();
 			cout << "封禁成功！" << endl << endl;
 		}

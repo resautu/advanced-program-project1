@@ -86,7 +86,15 @@ void User::user_register() {
 		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[2]);
 		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[3] + 1);
 	}
-	sq->Insert(user_file_name, t->user_id, t->user_name, t->key, t->con, t->address, "0", t->sit);
+	vector<string> vals;
+	vals.push_back(t->user_id);
+	vals.push_back(t->user_name);
+	vals.push_back(t->key);
+	vals.push_back(t->con);
+	vals.push_back(t->address);
+	vals.push_back("0");
+	vals.push_back(t->sit);
+	sq->Insert(user_file_name, vals);
 	u->users.push_back(t);
 	cout << endl << endl << "******注册成功********" << endl << endl;
 	u->write_user();
@@ -422,7 +430,12 @@ void Seller::release() {
 	pt.push_back('-');
 	pt.append(to_string(m->tm_mday));
 	t->sell_time = pt;
-	sq->Insert(good_file, t->name, to_string(t->price), to_string(t->number), t->description);
+	vector<string> vals;
+	vals.push_back(t->name);
+	vals.push_back(double_to_string(t->price));
+	vals.push_back(to_string(t->number));
+	vals.push_back(t->description);
+	sq->Insert(good_file, vals);
 	g->goods.push_back(t);
 	system("cls");
 	cout << endl << endl << "******发布成功********" << endl << endl;
@@ -483,7 +496,9 @@ void Seller::change_information() {
 					cin >> temp;
 				}
 				if (trim(temp) == "y") {
-					sq->Update(good_file, "商品ID = " + ele->good_id, "价格 = " + to_string(ele->price));
+					vector<string> valsu;
+					valsu.push_back("价格 = " + to_string(ele->price));
+					sq->Update(good_file, "商品ID = " + ele->good_id, valsu);
 					ele->price = new_price;
 					g->write_good();
 				}
@@ -523,7 +538,9 @@ void Seller::change_information() {
 					cin >> temp;
 				}
 				if (trim(temp) == "y") {
-					sq->Update(good_file_name, "商品ID = " + ele->good_id, "商品描述 = " + ele->description);
+					vector<string> valsu;
+					valsu.push_back("商品描述 = " + ele->description);
+					sq->Update(good_file_name, "商品ID = " + ele->good_id, valsu);
 					ele->description = new_description;
 					g->write_good();
 				}
@@ -574,7 +591,9 @@ void Seller::del_good() {
 			cin >> chos;
 		}
 		if (trim(chos) == "y") {
-			sq->Update(good_file_name, "商品ID = " + de->good_id, "商品状态 = 已下架");
+			vector<string> valsu;
+			valsu.push_back("商品状态 = 已下架");
+			sq->Update(good_file_name, "商品ID = " + de->good_id, valsu);
 			de->sit = "已下架";
 			g->write_good();
 			cout << "下架成功！" << endl << endl;
@@ -753,8 +772,19 @@ void Buyer::buy() {
 					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[2]);
 					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[3] + 1);
 				}
-				sq->Insert(order_file_name, paper->order_id, paper->good_id, to_string(paper->money), to_string(paper->number), paper->deal_time, paper->seller_id, paper->buyer_id);
-				sq->Update(good_file_name, "商品ID = " + paper->good_id, "数量 = " + to_string(ele->number));
+				vector<string> vals;
+				vals.push_back(paper->order_id);
+				vals.push_back(paper->good_id);
+				vals.push_back(double_to_string(paper->money));
+				vals.push_back(to_string(paper->number));
+				vals.push_back(paper->deal_time);
+				vals.push_back(paper->seller_id);
+				vals.push_back(paper->buyer_id);
+				sq->Insert(order_file_name, vals);
+				vector<string> valsu;
+				valsu.push_back("数量 = " + to_string(ele->number));
+				if (ele->sit == "已下架") valsu.push_back("商品状态 = 已下架");
+				sq->Update(good_file_name, "商品ID = " + paper->good_id, valsu);
 				o->orders.push_back(paper);
 				cout << endl << endl << "******购买成功********" << endl << endl;
 				o->write_order();

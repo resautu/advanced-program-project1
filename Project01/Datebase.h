@@ -315,27 +315,23 @@ public:
 		}
 		write_sql(s);
 	}
-	void Insert(string file_name, string val1 = "-1", string val2 = "-1", string val3 = "-1", string val4 = "-1", string val5 = "-1", string val6 = "-1", string val7 = "-1", string val8 = "-1") {
+	void Insert(string file_name, vector<string> vals) {
 		string s = "INSERT INTO ";
 		s.append(file_name + " VALUES (");
-		if (val1 != "-1") s.append(val1);
-		if (val2 != "-1") s.append("," + val2);
-		if (val3 != "-1") s.append("," + val3);
-		if (val4 != "-1") s.append("," + val4);
-		if (val5 != "-1") s.append("," + val5);
-		if (val6 != "-1") s.append("," + val6);
-		if (val7 != "-1") s.append("," + val7);
-		if (val8 != "-1") s.append("," + val8);
+		s.append(vals[0]);
+		for (int i = 1; i < vals.size(); i++)
+		{
+			s.append("," + vals[i]);
+		}
 		s.append(")");
 		write_sql(s);
 	}
-	void Update(string file_name, string lim, string val1 = "-1", string val2 = "-1", string val3 = "-1", string val4 = "-1", string val5 = "-1") {
+	void Update(string file_name, string lim, vector<string> vals) {
 		string s;
-		s.append("UPDATE " + file_name + " SET " + val1);
-		if (val2 != "-1") s.append(", " + val2);
-		if (val3 != "-1") s.append(", " + val3);
-		if (val4 != "-1") s.append(", " + val4);
-		if (val5 != "-1") s.append(", " + val5);
+		s.append("UPDATE " + file_name + " SET " + vals[0]);
+		for (int i = 1; i < vals.size(); i++) {
+			s.append(", " + vals[i]);
+		}
 		s.append(" WHERE " + lim);
 		write_sql(s);
 	}
