@@ -112,11 +112,3 @@ void Sqling::write_sql(string s) {
 	f.close();
 }
 
-//void Sqling::Select(string file_name, bool complex = false, string col_name = NULL, string _name = NULL) {
-	//string s = "SELECT * FROM ";
-	//s.append(file_name);
-	//if (complex) {
-		//s.append(" WHERE " + col_name + " CONTAINS " + _name);
-	//}
-	//write_sql(s);
-//}

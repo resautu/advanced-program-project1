@@ -102,12 +102,4 @@ string double_to_string(double d) {
 	}
 }
 
-string cal_trim(string s) {
-	string res;
-	for (auto c : s) {
-		if (c != ' ') {
-			res.push_back(c);
-		}
-	}
-	return res;
-}
+

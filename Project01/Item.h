@@ -4,9 +4,7 @@
 #include <string>
 using namespace std;
 struct Good {
-	//char good_id[5] = { 'M' };
 	string good_id;
-	//char name[11];
 	string name;
 	double price;
 	int number;

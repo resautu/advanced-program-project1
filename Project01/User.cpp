@@ -48,14 +48,14 @@ void User::user_register() {
 		cin >> temp;
 	}
 	t->con = temp;
-	cout << "请输入您的地址（不超过20个字符，中文汉字或英文字母）: ";
+	cout << "请输入您的地址（不超过40个字符，中文汉字或英文字母）: ";
 	cin >> temp;
 	ctemp = s_to_ws(temp);
-	while (!cin || ctemp.size() > 20 || !cevalid(ctemp)) {
+	while (!cin || ctemp.size() > 40 || !cevalid(ctemp)) {
 		cout << endl << endl << " !!地址不合法，请按要求输入!! " << endl;
 		cin.clear();
 		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-		cout << "请输入您的地址（不超过20个字符，中文汉字或英文字母）: ";
+		cout << "请输入您的地址（不超过40个字符，中文汉字或英文字母）: ";
 		cin >> temp;
 		ctemp = s_to_ws(temp);
 	}
@@ -311,6 +311,7 @@ void User::recharge() {
 	r->write_reorder();
 	inform->balance += exdouble(temp);
 	u->write_user();
+	cout << endl << endl << "**************充值成功**************" << endl << endl << endl;
 }
 
 void Seller::seller_menu() {
@@ -343,15 +344,15 @@ void Seller::seller_menu() {
 
 void Seller::release() {
 	Good* t = new Good;
-	cout << "请输入商品名称（不超过10个字符，中文汉字或英文字母）: ";
+	cout << "请输入商品名称（不超过20个字符，中文汉字或英文字母）: ";
 	string temp;
 	cin >> temp;
 	wstring ctemp = s_to_ws(temp);
-	while (!cin || ctemp.size() > 10 || !cevalid(ctemp)) {
+	while (!cin || ctemp.size() > 20 || !cevalid(ctemp)) {
 		cout << endl << endl << " !!商品名称不合法，请按要求输入!! " << endl;
 		cin.clear();
 		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-		cout << "请输入商品名称（不超过10个字符，中文汉字或英文字母）: ";
+		cout << "请输入商品名称（不超过20个字符，中文汉字或英文字母）: ";
 		cin >> temp;
 		ctemp = s_to_ws(temp);
 	}
