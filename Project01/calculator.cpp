@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "calculator.h"
 using namespace std;
+double divede_zero = -114514.31415926;
 string cal_trim(string s) {
 	if (s.empty()) return s;
 	string res;
@@ -10,11 +11,39 @@ string cal_trim(string s) {
 	return res;
 }
 
+bool side_co(string& s) {
+	for (int i = 0; i < s.length(); i++) {
+		if (s[i] == '.') {
+			if (i == 0 || i == s.length() - 1) return false;
+			else if (s[i - 1] < '0' || s[i - 1]>'9' || s[i + 1] < '0' || s[i + 1]>'9') return false;
+		}
+	}
+	return true;
+}
+
+bool hide_op(string& s) {
+	for (int i = 0; i < s.length(); i++) {
+		if (s[i] == '(' && i != 0) {
+			if (s[i - 1] <= '9' && s[i - 1] >= '0') {
+				return false;
+			}
+		}
+		else if (s[i] == ')' && i != s.length() - 1) {
+			if (s[i - 1] <= '9' && s[i - 1] >= '0') {
+				return false;
+			}
+		}
+	}
+}
+
 bool space_match(string& s) {
 	for (int i = 1; i < s.length(); i++) {
 		if (((s[i - 1] < '9' && s[i - 1]>'0') || s[i - 1] == '.') && s[i] == ' ') {
-			for (int j = i; j < s.length(); i++) {
-				if ((s[j] < '9' && s[j]>'0') || s[j] == '.') {
+			for (int j = i; j < s.length(); j++) {
+				if (s[j] == '+' || s[j] == '-' || s[j] == '/' || s[j] == '*' || s[j] == '(' || s[j] == ')') {
+					break;
+				}
+				else if ((s[j] < '9' && s[j]>'0') || s[j] == '.') {
 					return false;
 				}
 			}
@@ -35,30 +64,37 @@ double bracket_match(string& s) {
 }
 
 void calculator_menu(string s) {
-	string temp;
+	string te;
 	if (s == "-1") {
-		cout << "请输入您要计算的表达式：";
-		//getline(cin, temp);
-		cin >> temp;
-		while (!expr_valid(temp)) {
-			cout << "请输入正确的数字" << endl;
+		cout << "请输入您要计算的表达式：" << endl;
+		getline(cin, te);
+		while (!expr_valid(te)) {
+			cout << "请输入您要计算的表达式" << endl;
 			cin.clear();
-			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-			cin >> temp;
+			//			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+			te.clear();
+			getline(cin, te);
 		}
 
 	}
-	else { temp = s; }
-	if (!expr_valid(temp)) {
+	else { te = s; }
+	if (!expr_valid(te)) {
 		calculator_menu("-1");
 	}
-	string expr = cal_trim(temp);
+	string expr = cal_trim(te);
 	vector<double> digit = cal_exdouble(expr);
 	string new_expr = cal_exstring(expr);
 	string stand_expr = trans(new_expr);
-	cout << endl << endl << "计算结果为：";
-	cout << calculator(stand_expr, digit) << endl;
-
+	cout << stand_expr << endl;
+	double res = calculator(stand_expr, digit);
+	if (res == divede_zero) {
+		cout << endl << "****出现除0错误****" << endl << endl;
+		calculator_menu("-1");
+	}
+	else {
+		cout << endl << endl << "计算结果为：";
+		cout << res << endl;
+	}
 }
 
 bool expr_valid(string& s) {
@@ -73,6 +109,14 @@ bool expr_valid(string& s) {
 	}
 	else if (!space_match(s)) {
 		cout << endl << "****数字间及小数点与数字之间不能有空格****" << endl;
+		return false;
+	}
+	else if (!hide_op(s)) {
+		cout << endl << "****请不要存在隐藏（默认）的运算符****" << endl;
+		return false;
+	}
+	else if (!side_co(s)) {
+		cout << endl << "****小数点前后必须与数字相连****" << endl;
 		return false;
 	}
 	s = cal_trim(s);
@@ -139,7 +183,7 @@ string cal_exstring(string& s) {
 				i++;
 			}
 		}
-		if (i != s.length() - 1 && i != s.length()) {
+		if (i != s.length()) {
 			res.push_back(s[i]);
 		}
 	}
@@ -153,6 +197,9 @@ vector<double> cal_exdouble(string& s) {
 		if ((ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '(' || ch == ')') && temp.length() != 0) {
 			res.push_back(exdouble(temp));
 			temp.clear();
+		}
+		else if ((ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '(' || ch == ')') && temp.length() == 0) {
+			continue;
 		}
 		else {
 			temp.push_back(ch);
@@ -193,8 +240,10 @@ double calculator(string& s, vector<double> digit) {
 			st.pop();
 			op1 = st.top();
 			st.pop();
+			if (ch == '/' && op2 == 0) return divede_zero;
 			st.push(operator_trans(ch, op1, op2));
 		}
 	}
 	return st.top();
 }
+

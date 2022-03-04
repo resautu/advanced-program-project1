@@ -8,6 +8,7 @@
 #include<regex>
 #include<stack>
 #include<vector>
+extern double divede_zero;
 void make_expr();                //利用订单构造表达式
 
 void calculator_menu(string s);      //计算器菜单
@@ -33,4 +34,8 @@ string cal_exstring(string& s);            //将表达式中的浮点数用特殊的符号表示
 double operator_trans(char ch, double op1, double op2);           //运算函数
 
 double calculator(string& s, vector<double> digit);       //实际计算函数
+
+bool hide_op(string& s);                  //判断是否存在隐藏的运算符
+
+bool side_co(string& s);                  //判断小数点前是否有数字
 #endif
