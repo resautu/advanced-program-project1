@@ -172,11 +172,18 @@ void User::user_login() {
 string User::make_expr() {
 	vector<double> inc, o_dec, o_inc;
 	map<int, string> so_dec, so_inc;
+	map<int, string>::iterator it;
 	for (auto& ele : r->reorders) {
 		if (ele->user_id == inform->user_id) inc.push_back(ele->money);
 	}
 	for (auto& ele : o->orders) {
 		if (ele->buyer_id == inform->user_id) {
+			if (so_dec.find(ele->number) == so_dec.end()) {
+				so_dec.insert(pair<int, string>(ele->number, "+" + double_to_string(ele->money)));
+			}
+			else {
+				so_dec[ele->number].append("+" + double_to_string(ele->money));
+			}
 			for (int i = 0; i < ele->number; i++) {
 				o_dec.push_back(ele->money);
 			}
@@ -184,14 +191,21 @@ string User::make_expr() {
 	}
 	for (auto& ele : o->orders) {
 		if (ele->seller_id == inform->user_id) {
+			if (so_inc.find(ele->number) == so_inc.end()) {
+				so_inc.insert(pair<int, string>(ele->number, "+" + double_to_string(ele->money)));
+			}
+			else {
+				so_inc[ele->number].append("+" + double_to_string(ele->money));
+			}
 			for (int i = 0; i < ele->number; i++) {
 				o_inc.push_back(ele->money);
 			}
 		}
 	}
-	string tes;
+	string tes, stes;
 	for (auto ele : inc) {
 		tes.append("+" + double_to_string(ele));
+		stes.append("+" + double_to_string(ele));
 	}
 	for (auto ele : o_dec) {
 		tes.append("-" + double_to_string(ele));
@@ -201,7 +215,37 @@ string User::make_expr() {
 	}
 	string StandardExpression = tes.substr(1);
 	cout << StandardExpression << endl;
-	return StandardExpression;
+	for (auto ele : so_dec) {
+		if (ele.first == 1) {
+			stes.append("-" + ele.second.substr(1));
+		}
+		else {
+			if (side_count(ele.second)) {
+				stes.append("-" + to_string(ele.first) + "*(" + ele.second.substr(1) + ")");
+			}
+			else {
+				stes.append("-" + to_string(ele.first) + "*" + ele.second.substr(1));
+			}
+		}
+
+	}
+	for (auto ele : so_inc) {
+		if (ele.first == 1) {
+			stes.append("+" + ele.second.substr(1));
+		}
+		else {
+			if (side_count(ele.second)) {
+				stes.append("+" + to_string(ele.first) + "*(" + ele.second.substr(1) + ")");
+			}
+			else {
+				stes.append("+" + to_string(ele.first) + "*" + ele.second.substr(1));
+			}
+		}
+
+	}
+	string SimplyExpression = stes.substr(1);
+	cout << SimplyExpression << endl;
+	return SimplyExpression;
 }
 
 void User::gover_inform() {

@@ -29,7 +29,7 @@ bool hide_op(string& s) {
 			}
 		}
 		else if (s[i] == ')' && i != s.length() - 1) {
-			if (s[i - 1] <= '9' && s[i - 1] >= '0') {
+			if (s[i + 1] <= '9' && s[i + 1] >= '0') {
 				return false;
 			}
 		}

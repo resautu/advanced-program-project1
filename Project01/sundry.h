@@ -29,6 +29,8 @@ string double_to_string(double d);     //将double类型转换为保留一位小数的字符串;
 
 string dint_to_string(double d);       //将小数全是0的double保留整数部分
 
+bool side_count(string& s);                //判断字符串中小数点是否超过1，超过则返回true，否则返回false
+
 //string cal_trim(string s);             //专用于计算器的字符串空格处理
 
 #endif

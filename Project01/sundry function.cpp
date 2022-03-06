@@ -111,3 +111,12 @@ string dint_to_string(double d) {
 	}
 	return res;
 }
+
+bool side_count(string& s) {
+	int count = 0;
+	for (auto ch : s) {
+		if (ch == '.') count++;
+		if (count > 1) return true;
+	}
+	return false;
+}
