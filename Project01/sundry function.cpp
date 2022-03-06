@@ -102,4 +102,12 @@ string double_to_string(double d) {
 	}
 }
 
-
+string dint_to_string(double d) {
+	string s = to_string(d);
+	string res;
+	for (auto ch : s) {
+		if (ch == '.') break;
+		res.push_back(ch);
+	}
+	return res;
+}

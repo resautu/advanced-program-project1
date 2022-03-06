@@ -8,6 +8,8 @@
 #include "MainMenu.h"
 #include <regex>
 #include<time.h>
+#include"calculator.h"
+#include<map>
 using namespace std;
 class User {
 public:
@@ -27,6 +29,7 @@ public:
 	void gover_inform();
 	void look_information();
 	void change_information();
+	string make_expr();
 protected:
 	Usering* u;
 	Ordering* o;
@@ -46,6 +49,7 @@ public:
 	void look_order();
 
 };
+
 class Seller :public User {
 public:
 	void seller_menu();

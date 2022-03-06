@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "calculator.h"
 using namespace std;
-double divede_zero = -114514.31415926;
+string divede_zero = "****出现除0错误****";
 string cal_trim(string s) {
 	if (s.empty()) return s;
 	string res;
@@ -63,7 +63,7 @@ double bracket_match(string& s) {
 	return true;
 }
 
-void calculator_menu(string s) {
+string calculator_menu(string s) {
 	string te;
 	if (s == "-1") {
 		cout << "请输入您要计算的表达式：" << endl;
@@ -71,7 +71,6 @@ void calculator_menu(string s) {
 		while (!expr_valid(te)) {
 			cout << "请输入您要计算的表达式" << endl;
 			cin.clear();
-			//			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			te.clear();
 			getline(cin, te);
 		}
@@ -85,16 +84,20 @@ void calculator_menu(string s) {
 	vector<double> digit = cal_exdouble(expr);
 	string new_expr = cal_exstring(expr);
 	string stand_expr = trans(new_expr);
-	cout << stand_expr << endl;
-	double res = calculator(stand_expr, digit);
+	//cout << stand_expr << endl;
+	string res = calculator(stand_expr, digit);
 	if (res == divede_zero) {
-		cout << endl << "****出现除0错误****" << endl << endl;
+		cout << endl << res << endl << endl;
 		calculator_menu("-1");
 	}
 	else {
-		cout << endl << endl << "计算结果为：";
-		cout << res << endl;
+		if (s == "-1") {
+			cout << endl << endl << "计算结果为：";
+			cout << res << endl;
+		}
+		return res;
 	}
+	return "0";
 }
 
 bool expr_valid(string& s) {
@@ -224,13 +227,11 @@ double operator_trans(char ch, double op1, double op2) {
 	}
 }
 
-double calculator(string& s, vector<double> digit) {
+string calculator(string& s, vector<double> digit) {
 	stack<double> st;
 	int count = 0;
 	double op1, op2;
-	//cout << "debug:  " << s[5] << endl;
 	for (auto ch : s) {
-		//if (ch == '\0') continue;
 		if (ch == '#') {
 			st.push(digit[count]);
 			count++;
@@ -244,6 +245,9 @@ double calculator(string& s, vector<double> digit) {
 			st.push(operator_trans(ch, op1, op2));
 		}
 	}
-	return st.top();
+	if (st.top() == (int)st.top()) {
+		return dint_to_string(st.top());
+	}
+	return double_to_string(st.top());
 }
 

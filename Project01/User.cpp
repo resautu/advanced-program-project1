@@ -169,6 +169,41 @@ void User::user_login() {
 	return;
 }
 
+string User::make_expr() {
+	vector<double> inc, o_dec, o_inc;
+	map<int, string> so_dec, so_inc;
+	for (auto& ele : r->reorders) {
+		if (ele->user_id == inform->user_id) inc.push_back(ele->money);
+	}
+	for (auto& ele : o->orders) {
+		if (ele->buyer_id == inform->user_id) {
+			for (int i = 0; i < ele->number; i++) {
+				o_dec.push_back(ele->money);
+			}
+		}
+	}
+	for (auto& ele : o->orders) {
+		if (ele->seller_id == inform->user_id) {
+			for (int i = 0; i < ele->number; i++) {
+				o_inc.push_back(ele->money);
+			}
+		}
+	}
+	string tes;
+	for (auto ele : inc) {
+		tes.append("+" + double_to_string(ele));
+	}
+	for (auto ele : o_dec) {
+		tes.append("-" + double_to_string(ele));
+	}
+	for (auto ele : o_inc) {
+		tes.append("+" + double_to_string(ele));
+	}
+	string StandardExpression = tes.substr(1);
+	cout << StandardExpression << endl;
+	return StandardExpression;
+}
+
 void User::gover_inform() {
 	system("cls");
 	while (true) {
@@ -272,11 +307,14 @@ void User::change_information() {
 }
 
 void User::look_information() {
+	string balance = calculator_menu(make_expr());
+
 	cout << endl << endl << "*********************************************************************************" << endl;
 
 	for (auto& ele : u->users) {
 		if (ele->user_id == inform->user_id) {
-			cout << "用户名：" << ele->user_name << endl << "联系方式：" << ele->con << endl << "地址：" << ele->address << endl << "钱包余额：" << fixed << setprecision(1) << ele->balance << endl;
+			//cout << "用户名：" << ele->user_name << endl << "联系方式：" << ele->con << endl << "地址：" << ele->address << endl << "钱包余额：" << fixed << setprecision(1) << ele->balance << endl;
+			cout << "用户名：" << ele->user_name << endl << "联系方式：" << ele->con << endl << "地址：" << ele->address << endl << "钱包余额：" << balance << endl;
 			cout << "*********************************************************************************" << endl << endl << endl;
 		}
 	}
@@ -333,8 +371,8 @@ void Seller::seller_menu() {
 		switch (int(trim(i)[0] - '0')) {
 		case 1:release(); break;
 		case 2:look_good(); break;
-		case 3:change_information(); system("cls"); break;
-		case 4:del_good(); system("cls"); break;
+		case 3:change_information(); break;
+		case 4:del_good(); break;
 		case 5:look_order(); break;
 		case 6:system("cls"); return; break;
 		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
@@ -459,6 +497,7 @@ void Seller::change_information() {
 	for (auto& ele : g->goods) {
 		if (ele->good_id == temp) {
 			if (ele->seller_id != inform->user_id) {
+				system("cls");
 				cout << endl << "!!此商品不属于您，您无权对此商品进行操作！！" << endl;
 				return;
 			}
@@ -723,7 +762,9 @@ void Buyer::buy() {
 					return;
 				}
 				else {
-
+					system("cls");
+					recharge();
+					return;
 				}
 
 			}
@@ -731,6 +772,12 @@ void Buyer::buy() {
 				ele->number -= buy_number;
 				g->check_good();
 				inform->balance -= buy_number * ele->price;
+				for (auto& seller : u->users) {
+					if (seller->user_id == ele->seller_id) {
+						seller->balance += buy_number * ele->price;
+						u->write_user();
+					}
+				}
 				u->balance_change(inform->user_id, inform->balance);
 				Order* paper = new Order;
 				paper->good_id = ele->good_id;

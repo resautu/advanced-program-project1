@@ -1,13 +1,10 @@
 #pragma once
 #ifndef DATEBASE_H
 #define DATEBASE_H
-//#include "Administrator.h"
-//#include"User.h"
 #include <vector>
 #include "Item.h"
 #include <fstream>
 #include<iostream>
-//#pragma execution_character_set("utf-8")
 #include <iomanip>
 #include<algorithm>
 #include"sundry.h"
@@ -101,6 +98,7 @@ private:
 class Usering {
 	friend class Admin;
 	friend class User;
+	friend class Buyer;
 public:
 	Usering() {
 		fstream f;
@@ -171,6 +169,7 @@ public:
 	friend class Admin;
 	friend class Seller;
 	friend class Buyer;
+	friend class User;
 	Ordering() {
 		fstream f;
 		f.open(order_file, ios::in);

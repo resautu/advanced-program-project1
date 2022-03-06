@@ -25,7 +25,9 @@ string new_trim(string s);		//去掉用户输入的空格,并简单判断用户输入的合法性(菜单
 
 void _replace(string& s, char c1, char c2);    //将英文逗号在文件中的转换
 
-string double_to_string(double d);     //将double类型转换为保留一位小数的字符串;     
+string double_to_string(double d);     //将double类型转换为保留一位小数的字符串;   
+
+string dint_to_string(double d);       //将小数全是0的double保留整数部分
 
 //string cal_trim(string s);             //专用于计算器的字符串空格处理
 
