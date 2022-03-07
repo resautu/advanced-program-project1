@@ -137,7 +137,7 @@ void Admin::del_good() {                               //this function should wr
 void Admin::look_order() {
 	sq->Select(order_file_name);
 	cout << endl << endl << "*********************************************************************************" << endl;
-	cout << "   订单ID " << " 商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
+	cout << "订单ID " << " 商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
 	for (auto& t : o->orders) {
 		o->print_order(t);
 	}

@@ -30,7 +30,7 @@ void main_menu() {
 			cin >> temp;
 		}
 		switch (int(trim(temp)[0] - '0')) {
-			//case 0: {Admin a(u, o, g, s); a.look_good(); break; }
+			//case 0: {Admin a(u, o, g, s); a.look_order(); break; }
 		case 1: {Admin a(u, o, g, s); a.admin_login(); break; }
 		case 2: {User er(u, o, g, r, s); er.user_register(); break; }
 		case 3: {User er(u, o, g, r, s); er.user_login(); break; }

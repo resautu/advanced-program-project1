@@ -427,7 +427,7 @@ void Seller::seller_menu() {
 void Seller::release() {
 	Good* t = new Good;
 	cout << "请输入商品名称（不超过20个字符，中文汉字或英文字母）: ";
-	string temp;
+	string temp, desc;
 	cin >> temp;
 	wstring ctemp = s_to_ws(temp);
 	while (!cin || ctemp.size() > 20 || !cevalid(ctemp)) {
@@ -460,8 +460,10 @@ void Seller::release() {
 	}
 	t->number = exint(temp);
 	cout << "请输入商品描述（不超过100个字符）: ";
-	cin >> temp;
-	ctemp = s_to_ws(temp);
+	cin.clear();
+	cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+	getline(cin, desc);
+	ctemp = s_to_ws(desc);
 	while (!cin || ctemp.size() > 20) {
 		if (ctemp.size() > 20) {
 			cout << endl << endl << " !!描述长度超过字符限制，请按要求输入!! " << endl;
@@ -472,8 +474,8 @@ void Seller::release() {
 		cin.clear();
 		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 		cout << "请输入商品描述（不超过100个字符）: ";
-		cin >> temp;
-		ctemp = s_to_ws(temp);
+		getline(cin, desc);
+		ctemp = s_to_ws(desc);
 	}
 	t->description = temp;
 	t->seller_id = inform->user_id;
@@ -527,7 +529,7 @@ void Seller::release() {
 
 void Seller::change_information() {
 	cout << endl << endl << "请输入被修改的商品ID: ";
-	string temp;
+	string temp, desc;
 	cin >> temp;
 	double new_price;
 	string new_description;
@@ -592,10 +594,12 @@ void Seller::change_information() {
 			case 2: {
 				wstring ctemp;
 				cout << "请输入商品新的描述（不超过100个字符）: ";
-				cin >> temp;
-				ctemp = s_to_ws(temp);
-				while (!cin || ctemp.size() > 20) {
-					if (ctemp.size() > 20) {
+				cin.clear();
+				cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+				getline(cin, desc);
+				ctemp = s_to_ws(desc);
+				while (!cin || ctemp.size() > 100) {
+					if (ctemp.size() > 100) {
 						cout << endl << endl << " !!描述长度超过字符限制，请按要求输入!! " << endl;
 					}
 					else {
@@ -604,10 +608,10 @@ void Seller::change_information() {
 					cin.clear();
 					cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 					cout << "请输入商品新的描述（不超过100个字符）: ";
-					cin >> temp;
-					ctemp = s_to_ws(temp);
+					getline(cin, desc);
+					ctemp = s_to_ws(desc);
 				}
-				new_description = temp;
+				new_description = desc;
 				cout << "请确定商品修改的商品信息无误！" << endl;
 				cout << "********************************************************************" << endl;
 				cout << "商品ID：" << ele->good_id << endl << "商品名称：" << ele->name << endl << "商品价格：" << ele->price << endl << "商品描述：" << new_description << endl;
@@ -623,9 +627,9 @@ void Seller::change_information() {
 				}
 				if (trim(temp) == "y") {
 					vector<string> valsu;
+					ele->description = new_description;
 					valsu.push_back("商品描述 = " + ele->description);
 					sq->Update(good_file_name, "商品ID = " + ele->good_id, valsu);
-					ele->description = new_description;
 					g->write_good();
 				}
 				else { return; }
@@ -692,7 +696,7 @@ void Seller::look_order() {
 	sq->Select(order_file_name);
 	bool nfind = true;
 	cout << endl << endl << "*********************************************************************************" << endl;
-	cout << " 订单ID " << "   商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
+	cout << "订单ID " << " 商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
 	for (auto& t : o->orders) {
 		if (t->seller_id == inform->user_id) {
 			o->print_order(t);
@@ -917,7 +921,7 @@ void Buyer::look_order() {
 	sq->Select(order_file_name);
 	bool nfind = true;
 	cout << endl << endl << "*********************************************************************************" << endl;
-	cout << " 订单ID " << "   商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
+	cout << "订单ID " << " 商品ID   " << " 交易单价  " << " 数量  " << "  交易时间   " << " 卖家ID  " << " 买家ID " << endl;
 	for (auto& t : o->orders) {
 		if (t->buyer_id == inform->user_id) {
 			o->print_order(t);

@@ -66,7 +66,7 @@ public:
 				nu.push_back(judge[i]);
 			}
 			for (i += 1; i < judge.length(); i++) {
-				if (judge[i] == ',') { _replace(t->description, '`', ','); break; }
+				if (judge[i] == ',') break;
 				t->description.push_back(judge[i]);
 			}
 			for (i += 1; i < judge.length(); i++) {
@@ -230,7 +230,7 @@ public:
 		f.close();
 	}
 	void print_order(Order* paper) {
-		cout << setw(8) << paper->order_id << setw(8) << paper->good_id << setw(11) << fixed << setprecision(1) << paper->money \
+		cout << left << setw(8) << paper->order_id << setw(10) << paper->good_id << setw(11) << fixed << setprecision(1) << paper->money \
 			<< setw(8) << paper->number << setw(14) << paper->deal_time << setw(8) << paper->seller_id << setw(9) << paper->buyer_id << endl;
 	}
 	void write_order();

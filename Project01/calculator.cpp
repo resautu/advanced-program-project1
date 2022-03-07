@@ -2,6 +2,7 @@
 #include "calculator.h"
 using namespace std;
 string divede_zero = "****出现除0错误****";
+string single_op = "****请不要使用一元运算（‘-’除外）****";
 string cal_trim(string s) {
 	if (s.empty()) return s;
 	string res;
@@ -52,6 +53,30 @@ bool space_match(string& s) {
 	return true;
 }
 
+bool op_judge(string& s) {
+	for (int i = 0; i < s.length(); i++) {
+		if (s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/') {
+			if (i == s.length() - 1) return false;
+			else if (s[i + 1] == '+' || s[i + 1] == '-' || s[i + 1] == '*' || s[i + 1] == '/') return false;
+		}
+	}
+	return true;
+}
+
+bool side_judge(string& s) {
+	bool judge = false;
+	for (auto ch : s) {
+		if (ch == '.') {
+			if (judge == true) return false;
+			judge = true;
+		}
+		else if ((ch <= '0' || ch >= '9') && ch != '.' && judge) {
+			judge = false;
+		}
+	}
+	return true;
+}
+
 double bracket_match(string& s) {
 	int lef = 0, righ = 0;
 	for (auto ch : s) {
@@ -90,6 +115,10 @@ string calculator_menu(string s) {
 		cout << endl << res << endl << endl;
 		calculator_menu("-1");
 	}
+	else if (res == single_op) {
+		cout << endl << res << endl << endl;
+		calculator_menu("-1");
+	}
 	else {
 		if (s == "-1") {
 			cout << endl << endl << "计算结果为：";
@@ -102,12 +131,17 @@ string calculator_menu(string s) {
 
 bool expr_valid(string& s) {
 	regex _side("^(([0-9]|[\*]|[\+]|[-]|[/]|[\)]|[\(]|[ ]|[.])*)$");
+	string expr_judge = cal_trim(s);
 	if (!regex_match(s, _side)) {
 		cout << endl << "****符号不合法****" << endl;
 		return false;
 	}
 	else if (!bracket_match(s)) {
 		cout << endl << "****括号不匹配****" << endl;
+		return false;
+	}
+	else if (!side_judge(expr_judge)) {
+		cout << endl << "****小数点使用错误****" << endl;
 		return false;
 	}
 	else if (!space_match(s)) {
@@ -120,6 +154,10 @@ bool expr_valid(string& s) {
 	}
 	else if (!side_co(s)) {
 		cout << endl << "****小数点前后必须与数字相连****" << endl;
+		return false;
+	}
+	else if (!op_judge(expr_judge)) {
+		cout << endl << "****操作符存在误用（注：不支持自增自检运算）****" << endl;
 		return false;
 	}
 	s = cal_trim(s);
@@ -139,7 +177,6 @@ string trans(string& s) {
 	stack<char> st;
 	string result;
 	for (auto ch : s) {
-		//		if (ch <= '9' && ch >= '0' || ch == '.' || ch == '|') {
 		if (ch == '#') {
 			result.push_back(ch);
 		}
@@ -161,7 +198,7 @@ string trans(string& s) {
 				st.push(ch);
 			}
 			else {
-				while (!st.empty()) {
+				while (!st.empty() && st.top() != '(') {
 					result.push_back(st.top());
 					st.pop();
 				}
@@ -229,8 +266,10 @@ double operator_trans(char ch, double op1, double op2) {
 
 string calculator(string& s, vector<double> digit) {
 	stack<double> st;
-	int count = 0;
+	int count = 0, sub_count;
 	double op1, op2;
+	int i = 0;
+	bool judge;
 	for (auto ch : s) {
 		if (ch == '#') {
 			st.push(digit[count]);
@@ -239,11 +278,38 @@ string calculator(string& s, vector<double> digit) {
 		else {
 			op2 = st.top();
 			st.pop();
-			op1 = st.top();
-			st.pop();
+			if (ch == '-') {
+				if (st.size() == 0) {
+					op1 = 0;
+				}
+				else {
+					sub_count = 0;
+					for (int j = i; j <= s.length(); j++) {
+						if (j == s.length() || s[j] == '#') {
+							if (sub_count > st.size()) {
+								op1 = 0;
+							}
+							else {
+								op1 = st.top();
+								st.pop();
+							}
+							break;
+						}
+						sub_count++;
+					}
+				}
+			}
+			else {
+				if (st.size() == 0) {
+					return single_op;
+				}
+				op1 = st.top();
+				st.pop();
+			}
 			if (ch == '/' && op2 == 0) return divede_zero;
 			st.push(operator_trans(ch, op1, op2));
 		}
+		i++;
 	}
 	if (st.top() == (int)st.top()) {
 		return dint_to_string(st.top());

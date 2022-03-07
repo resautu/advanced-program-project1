@@ -9,6 +9,7 @@
 #include<stack>
 #include<vector>
 extern string divede_zero;
+extern string single_op;
 void make_expr();                //利用订单构造表达式
 
 string calculator_menu(string s);      //计算器菜单
@@ -38,4 +39,8 @@ string calculator(string& s, vector<double> digit);       //实际计算函数
 bool hide_op(string& s);                  //判断是否存在隐藏的运算符
 
 bool side_co(string& s);                  //判断小数点前是否有数字
+
+bool op_judge(string& s);                //判断是否存在操作符误用
+
+bool side_judge(string& s);              //判断小数点是否使用不合法
 #endif
