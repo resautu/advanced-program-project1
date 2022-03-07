@@ -10,6 +10,7 @@
 #include<vector>
 extern string divede_zero;
 extern string single_op;
+extern string digitsjudge;
 void make_expr();                //利用订单构造表达式
 
 string calculator_menu(string s);      //计算器菜单
@@ -28,7 +29,7 @@ string trans(string& s);                   //将中缀表达式转化为逆波兰表达式
 
 int prior(char ch);                        //判断表达式的优先级
 
-vector<double> cal_exdouble(string& s);               //将表达式中的字符串形式的浮点数转化为特殊符号标注
+vector<double> cal_exdouble(string& s, string& jud);               //将表达式中的字符串形式的浮点数转化为特殊符号标注
 
 string cal_exstring(string& s);            //将表达式中的浮点数用特殊的符号表示
 
@@ -43,4 +44,6 @@ bool side_co(string& s);                  //判断小数点前是否有数字
 bool op_judge(string& s);                //判断是否存在操作符误用
 
 bool side_judge(string& s);              //判断小数点是否使用不合法
+
+bool digits_judge(string& s);            //判断输入表达式中小数位数是否合法
 #endif

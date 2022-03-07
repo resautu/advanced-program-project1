@@ -3,6 +3,7 @@
 using namespace std;
 string divede_zero = "****出现除0错误****";
 string single_op = "****请不要使用一元运算（‘-’除外）****";
+string digitsjudge = "****本计算器支持的浮点数小数最多一位****";
 string cal_trim(string s) {
 	if (s.empty()) return s;
 	string res;
@@ -77,6 +78,13 @@ bool side_judge(string& s) {
 	return true;
 }
 
+bool digits_judge(string& s) {
+	for (int i = 0; i < s.length(); i++) {
+		if (s[i] == '.' && i < s.length() - 2) return false;
+	}
+	return true;
+}
+
 double bracket_match(string& s) {
 	int lef = 0, righ = 0;
 	for (auto ch : s) {
@@ -105,8 +113,12 @@ string calculator_menu(string s) {
 	if (!expr_valid(te)) {
 		calculator_menu("-1");
 	}
-	string expr = cal_trim(te);
-	vector<double> digit = cal_exdouble(expr);
+	string expr = cal_trim(te), jud;
+	vector<double> digit = cal_exdouble(expr, jud);
+	if (jud == digitsjudge) {
+		cout << endl << jud << endl << endl;
+		calculator_menu("-1");
+	}
 	string new_expr = cal_exstring(expr);
 	string stand_expr = trans(new_expr);
 	//cout << stand_expr << endl;
@@ -230,11 +242,15 @@ string cal_exstring(string& s) {
 	return res;
 }
 
-vector<double> cal_exdouble(string& s) {
+vector<double> cal_exdouble(string& s, string& jud) {
 	vector<double> res;
 	string temp;
 	for (auto ch : s) {
 		if ((ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '(' || ch == ')') && temp.length() != 0) {
+			if (!digits_judge(temp)) {
+				jud = digitsjudge;
+				return res;
+			}
 			res.push_back(exdouble(temp));
 			temp.clear();
 		}
