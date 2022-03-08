@@ -202,6 +202,9 @@ string User::make_expr() {
 			}
 		}
 	}
+	if (inc.empty() && o_dec.empty() && o_inc.empty()) {
+		return "0";
+	}
 	string tes, stes;
 	for (auto ele : inc) {
 		tes.append("+" + double_to_string(ele));
@@ -330,14 +333,14 @@ void User::change_information() {
 	}
 	case 3: {
 		string temp;
-		cout << "请输入您的联系方式（不超过20个字符，只由数字组成）: ";
+		cout << "请输入您的地址（不超过40个字符，只由数字组成）: ";
 		cin >> temp;
 		wstring ctemp = s_to_ws(temp);
-		while (!cin || ctemp.size() > 20 || !cevalid(ctemp)) {
+		while (!cin || ctemp.size() > 40 || !cevalid(ctemp)) {
 			cout << endl << endl << " !!地址不合法，请按要求输入!! " << endl;
 			cin.clear();
 			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-			cout << "请输入您的地址（不超过20个字符，中文汉字或英文字母）: ";
+			cout << "请输入您的地址（不超过40个字符，中文汉字或英文字母）: ";
 			cin >> temp;
 			ctemp = s_to_ws(temp);
 		}
@@ -807,6 +810,7 @@ void Buyer::buy() {
 					cin >> temp;
 				}
 				if (temp == "n") {
+					system("cls");
 					return;
 				}
 				else {
@@ -949,8 +953,8 @@ void Buyer::look_good_information() {
 	cout << endl << endl << "*********************************************************************************" << endl;
 	bool nfind = true;
 	for (auto& ele : g->goods) {
-		if (ele->name.find(s) != string::npos && ele->sit != "已下架") {
-			cout << "商品ID：" << ele->good_id << endl << "商品名称：" << ele->name << endl << "商品价格" << fixed << setprecision(1) << ele->price << endl \
+		if (ele->good_id == s && ele->sit != "已下架") {
+			cout << "商品ID：" << ele->good_id << endl << "商品名称：" << ele->name << endl << "商品价格：" << fixed << setprecision(1) << ele->price << endl \
 				<< "上架时间：" << ele->sell_time << endl << "商品描述：" << ele->description << endl << "商品卖家：" << ele->seller_id << endl;
 			cout << "*********************************************************************************" << endl << endl << endl;
 		}

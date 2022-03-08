@@ -245,7 +245,7 @@ public:
 		fstream f;
 		f.open(reorder_file, ios::in);
 		if (!f.is_open()) {
-			f.open(order_file, ios::out);
+			f.open(reorder_file, ios::out);
 			if (!f.is_open()) cout << "*********充值记录文件加载出错，如需要请重启程序尝试**********" << endl;
 			f.close();
 			return;
