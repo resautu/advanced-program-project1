@@ -63,11 +63,12 @@ int exint(string& s) {
 }
 
 string trim(string s) {
-	if (s.empty())
-		return s;
-	s.erase(0, s.find_first_not_of(" "));
-	s.erase(s.find_last_not_of(" ") + 1);
-	return s;
+	if (s.empty()) return s;
+	string res;
+	for (auto c : s) {
+		if (c != ' ') res.push_back(c);
+	}
+	return res;
 }
 
 string new_trim(string s) {
