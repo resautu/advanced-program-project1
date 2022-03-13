@@ -71,7 +71,7 @@ bool side_judge(string& s) {
 			if (judge == true) return false;
 			judge = true;
 		}
-		else if ((ch <= '0' || ch >= '9') && ch != '.' && judge) {
+		else if ((ch < '0' || ch > '9') && ch != '.' && judge) {
 			judge = false;
 		}
 	}
@@ -100,6 +100,7 @@ string calculator_menu(string s) {
 	string te;
 	if (s == "-1") {
 		cout << "请输入您要计算的表达式：" << endl;
+		te.clear();
 		cin.clear();
 		getline(cin, te);
 		while (!expr_valid(te)) {
@@ -119,6 +120,7 @@ string calculator_menu(string s) {
 	if (jud == digitsjudge) {
 		cout << endl << jud << endl << endl;
 		calculator_menu("-1");
+		return "-1";
 	}
 	string new_expr = cal_exstring(expr);
 	string stand_expr = trans(new_expr);
@@ -127,10 +129,12 @@ string calculator_menu(string s) {
 	if (res == divede_zero) {
 		cout << endl << res << endl << endl;
 		calculator_menu("-1");
+		return "-1";
 	}
 	else if (res == single_op) {
 		cout << endl << res << endl << endl;
 		calculator_menu("-1");
+		return "-1";
 	}
 	else {
 		if (s == "-1") {
@@ -170,7 +174,7 @@ bool expr_valid(string& s) {
 		return false;
 	}
 	else if (!op_judge(expr_judge)) {
-		cout << endl << "****操作符存在误用（注：不支持自增自检运算）****" << endl;
+		cout << endl << "****操作符存在误用（注：不支持自增自减运算）****" << endl;
 		return false;
 	}
 	s = cal_trim(s);
@@ -261,6 +265,9 @@ vector<double> cal_exdouble(string& s, string& jud) {
 		else {
 			temp.push_back(ch);
 		}
+	}
+	if (!digits_judge(temp)) {
+		jud = digitsjudge;
 	}
 	res.push_back(exdouble(temp));
 	return res;
