@@ -32,13 +32,17 @@ public:
 			f.close();
 			return;
 		}
-		f >> temp;
+		//f >> temp;
+		getline(f, temp);
+		temp.clear();
 		while (true) {
 			pr.clear();
 			nu.clear();
 			string judge;
-			f >> judge;
-			if (!f) {
+			judge.clear();
+			getline(f, judge);
+			//f >> judge;
+			if (!f || judge.length() == 0) {
 				break;
 			}
 			Good* t = new Good;

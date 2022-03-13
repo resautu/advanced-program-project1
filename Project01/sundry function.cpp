@@ -66,7 +66,7 @@ string trim(string s) {
 	if (s.empty()) return s;
 	string res;
 	for (auto c : s) {
-		if (c != ' ') res.push_back(c);
+		if (c != ' ' && c != '\n') res.push_back(c);
 	}
 	return res;
 }

@@ -100,6 +100,7 @@ string calculator_menu(string s) {
 	string te;
 	if (s == "-1") {
 		cout << "请输入您要计算的表达式：" << endl;
+		cin.clear();
 		getline(cin, te);
 		while (!expr_valid(te)) {
 			cout << "请输入您要计算的表达式" << endl;

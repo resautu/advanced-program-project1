@@ -59,6 +59,7 @@ void User::user_register() {
 		cin >> temp;
 		ctemp = s_to_ws(temp);
 	}
+	cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 	t->address = temp;
 	t->balance = 0;
 	t->sit = "正常";
@@ -109,13 +110,13 @@ void User::user_menu(User_information* information) {
 		cout << "=================================================================================" << endl;
 		cout << "请输入操作序号: ";
 		string i;
-		cin >> i;
-		while (!cin || (new_trim(i) < "1" || new_trim(i) > "4")) {
+		cin.clear();
+		getline(cin, i);
+		while (!cin || (new_trim(i)[0] < '1' || new_trim(i)[0] > '4')) {
 			cout << "输入不合法，请重新输入" << endl;
 			cout << "请输入操作序号: ";
 			cin.clear();
-			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-			cin >> i;
+			getline(cin, i);
 		}
 		switch (int(trim(i)[0] - '0')) {
 		case 1: {
@@ -141,9 +142,9 @@ void User::user_login() {
 	system("cls");
 	string name, key;
 	cout << "请输入用户名: ";
-	cin >> name;
+	getline(cin, name);
 	cout << "请输入密码: ";
-	cin >> key;
+	getline(cin, key);
 	for (auto& ele : u->users) {
 		if (ele->user_name == name) {
 			if (ele->key == key) {
@@ -260,13 +261,13 @@ void User::gover_inform() {
 		cout << "=================================================================================" << endl;
 		cout << "请输入操作序号: ";
 		string i;
-		cin >> i;
-		while (!cin || (trim(i) < "1" || trim(i) > "4")) {
+		cin.clear(); i.clear();
+		getline(cin, i);
+		while (!cin || new_trim(i)[0] < '1' || new_trim(i)[0] > '4') {
 			cout << "输入不合法，请重新输入" << endl;
 			cout << "请输入操作序号: ";
 			cin.clear();
-			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-			cin >> i;
+			getline(cin, i);
 		}
 		switch (int(trim(i)[0] - '0')) {
 		case 1: look_information(); break;
@@ -281,13 +282,13 @@ void User::gover_inform() {
 void User::change_information() {
 	cout << "请选择修改的属性（1、用户名 2、联系方式 3、地址）: ";
 	string i;
-	cin >> i;
-	while (!cin || (trim(i) < "1" || trim(i) > "3")) {
+	cin.clear(); i.clear();
+	getline(cin, i);
+	while (!cin || (new_trim(i)[0] < '1' || new_trim(i)[0] > '3')) {
 		cout << "输入不合法，请重新输入" << endl;
 		cout << "请选择修改的属性（1、用户名 2、联系方式 3、地址）: ";
 		cin.clear();
-		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-		cin >> i;
+		getline(cin, i);
 	}
 	switch (int(trim(i)[0] - '0')) {
 	case 1: {
@@ -303,6 +304,7 @@ void User::change_information() {
 			cin >> temp;
 			ctemp = s_to_ws(temp);
 		}
+		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 		for (auto& ele : u->users) {
 			if (ele->user_name == temp) {
 				system("cls");
@@ -311,6 +313,9 @@ void User::change_information() {
 			}
 		}
 		inform->user_name = temp;
+		vector<string> valus;
+		valus.push_back("用户名 = " + temp);
+		sq->Update(user_file_name, "用户ID = " + inform->user_id, valus);
 		u->write_user();
 		cout << endl << "******修改成功******" << endl;
 		break;
@@ -326,7 +331,11 @@ void User::change_information() {
 			cout << "请输入您的联系方式（不超过20个字符，只由数字组成）: ";
 			cin >> temp;
 		}
+		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 		inform->con = temp;
+		vector<string> valus;
+		valus.push_back("联系方式 = " + temp);
+		sq->Update(user_file_name, "用户ID = " + inform->user_id, valus);
 		u->write_user();
 		cout << endl << "******修改成功******" << endl;
 		break;
@@ -344,7 +353,11 @@ void User::change_information() {
 			cin >> temp;
 			ctemp = s_to_ws(temp);
 		}
+		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 		inform->address = temp;
+		vector<string> valus;
+		valus.push_back("地址 = " + temp);
+		sq->Update(user_file_name, "用户ID = " + inform->user_id, valus);
 		u->write_user();
 		cout << endl << "******修改成功******" << endl;
 		break;
@@ -378,6 +391,7 @@ void User::recharge() {
 		cout << "请输入充值金额（系统将自动为您保留一位小数）: ";
 		cin >> temp;
 	}
+	cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 	Reorder* re = new Reorder;
 	re->user_id = inform->user_id;
 	re->money = exdouble(temp);
@@ -408,12 +422,13 @@ void Seller::seller_menu() {
 		cout << "===============================================================================================" << endl;
 		cout << "请输入操作序号: ";
 		string i;
-		cin >> i;
+		i.clear();
+		cin.clear();
+		getline(cin, i);
 		while (!cin || (new_trim(i) < "1" || new_trim(i) > "6")) {
 			cout << "请输入正确的数字" << endl;
 			cin.clear();
-			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-			cin >> i;
+			getline(cin, i);
 		}
 		switch (int(trim(i)[0] - '0')) {
 		case 1:release(); break;
@@ -475,12 +490,11 @@ void Seller::release() {
 			cout << endl << endl << " !!商品描述不合法，请按要求输入!! " << endl;
 		}
 		cin.clear();
-		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 		cout << "请输入商品描述（不超过100个字符）: ";
 		getline(cin, desc);
 		ctemp = s_to_ws(desc);
 	}
-	t->description = temp;
+	t->description = desc;
 	t->seller_id = inform->user_id;
 	t->sit = "销售中";
 	t->good_id.push_back('M');
@@ -516,8 +530,7 @@ void Seller::release() {
 		cout << "请按要求输入" << endl;
 		cout << "是否将该商品下架(y/n): ";
 		cin.clear();
-		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-		cin >> chos;
+		getline(cin, chos);
 	}
 	if (trim(chos) == "n") {
 		system("cls");
@@ -552,28 +565,26 @@ void Seller::change_information() {
 	string temp, desc;
 	temp.clear();
 	cin.clear();
-	cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 	getline(cin, temp);
 	double new_price;
 	string new_description;
 	while (!cin) {
 		cout << endl << endl << " !!商品ID不合法，请按要求输入!! " << endl;
 		cin.clear();
-		//cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 		cout << endl << endl << "请输入被修改的商品ID: ";
 		getline(cin, temp);
 	}
 	for (auto& ele : g->goods) {
-		if (ele->good_id == trim(temp)) {
+		if (ele->good_id == temp) {
 			if (ele->seller_id != inform->user_id) {
 				system("cls");
+				cout << ele->seller_id << endl;
 				cout << endl << "!!此商品不属于您，您无权对此商品进行操作！！" << endl;
 				return;
 			}
 			cout << "请输入被修改的商品属性（1、价格 2、描述）: ";
 			temp.clear();
 			cin.clear();
-			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			getline(cin, temp);
 			while ((new_trim(temp) != "1" && new_trim(temp) != "2")) {
 				cout << endl << endl << " !!输入不合法，请按要求输入!! " << endl;
@@ -583,14 +594,15 @@ void Seller::change_information() {
 			}
 			switch (int(new_trim(temp)[0] - '0')) {
 			case 1: {
-				cout << "请输入商品价格（系统将为您保留一位小数，即舍去后续小数）: ";
-				cin >> temp;
+				cout << "请输入商品价格（系统将为您保留一位小数，即舍去后续小数!!）: ";
+				temp.clear();
+				cin.clear();
+				getline(cin, temp);
 				while (!cin || dnvalid(temp)) {
 					cout << endl << endl << " !!商品价格不合法，请按要求输入!! " << endl;
 					cin.clear();
-					cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 					cout << "请输入新的商品价格（系统将自动为您保留一位小数）: ";
-					cin >> temp;
+					getline(cin, temp);
 				}
 				new_price = exdouble(temp);
 				cout << "请确定商品修改的商品信息无误！" << endl;
@@ -600,7 +612,6 @@ void Seller::change_information() {
 				cout << "是否确认修改？(y/n)：";
 				temp.clear();
 				cin.clear();
-				cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 				getline(cin, temp);
 				while ((new_trim(temp) != "y" && new_trim(temp) != "n")) {
 					cout << endl << endl << " !!输入不合法，请按要求输入!! " << endl;
@@ -629,7 +640,6 @@ void Seller::change_information() {
 				wstring ctemp;
 				cout << "请输入商品新的描述（不超过100个字符）: ";
 				cin.clear();
-				cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 				getline(cin, desc);
 				ctemp = s_to_ws(desc);
 				while (!cin || ctemp.size() > 100) {
@@ -688,7 +698,8 @@ void Seller::change_information() {
 void Seller::del_good() {
 	cout << endl << "请输入您想要下架的商品ID： ";
 	string i, chos;
-	cin >> i;
+	i.clear(); cin.clear();
+	getline(cin, i);
 	cout << endl << endl << "*********************************************************************************" << endl;
 	int nfind = 0;
 	Good* de = new Good;
@@ -714,13 +725,13 @@ void Seller::del_good() {
 	cout << "*********************************************************************************" << endl << endl << endl;
 	if (nfind == 2) {
 		cout << "是否将该商品下架(y/n): ";
-		cin >> chos;
+		cin.clear(); chos.clear();
+		getline(cin, chos);
 		while (!cin || (new_trim(chos) != "y" && new_trim(chos) != "n")) {
 			cout << "请按要求输入" << endl;
 			cout << "是否将该商品下架(y/n): ";
 			cin.clear();
-			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-			cin >> chos;
+			getline(cin, chos);
 		}
 		if (trim(chos) == "y") {
 			vector<string> valsu;
@@ -775,12 +786,13 @@ void Buyer::buyer_menu() {
 		cout << "===============================================================================================" << endl;
 		cout << "请输入操作序号: ";
 		string i;
-		cin >> i;
+		i.clear();
+		cin.clear();
+		getline(cin, i);
 		while (!cin || (new_trim(i) < "1" || new_trim(i) > "6")) {
 			cout << "请输入正确的选项" << endl;
 			cin.clear();
-			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-			cin >> i;
+			getline(cin, i);
 		}
 		switch (int(trim(i)[0] - '0')) {
 		case 1:look_good(); break;
@@ -808,15 +820,15 @@ void Buyer::look_good() {
 }
 
 void Buyer::buy() {
-	string temp;
+	string temp, num_temp;
 	int buy_number;
 	cout << "请输入商品ID：";
-	cin >> temp;
+	cin.clear(); temp.clear();
+	getline(cin, temp);
 	while (!cin) {
 		cout << "请输入正确的商品ID:" << endl;
 		cin.clear();
-		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-		cin >> temp;
+		getline(cin, temp);
 	}
 
 	for (auto& ele : g->goods) {
@@ -826,15 +838,17 @@ void Buyer::buy() {
 			g->print_good(ele);
 			cout << "*********************************************************************************" << endl << endl << endl;
 			cout << "请输入购买数量: ";
-			cin >> temp;
-			while (!cin || temp[0] == '0' || !nvalid(temp)) {
+			temp.clear(); cin.clear();
+			getline(cin, temp);
+			num_temp = trim(temp);
+			while (!cin || num_temp[0] == '0' || !nvalid(num_temp)) {
 				cout << endl << endl << " !!商品数量不合法，请按要求输入!! " << endl;
 				cin.clear();
-				cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 				cout << "请输入商品数量（数量为正整数且首位不能为0）: ";
-				cin >> temp;
+				getline(cin, temp);
+				num_temp = trim(temp);
 			}
-			buy_number = exint(temp);
+			buy_number = exint(num_temp);
 			if (ele->number < buy_number) {
 				cout << endl << "！！欲购买商品数量超过商品库存，购买失败！！" << endl;
 				return;
@@ -842,15 +856,15 @@ void Buyer::buy() {
 			else if (inform->balance < buy_number * ele->price) {
 				cout << endl << "！！账户余额不足，购买失败！！" << endl;
 				cout << "是否要进入充值界面（y/n）：";
-				cin >> temp;
+				temp.clear(); cin.clear();
+				getline(cin, temp);
 				while (!cin || (trim(temp) != "y" && trim(temp) != "n")) {
 					cout << endl << endl << " !!输入不合法，请按要求输入!! " << endl;
 					cin.clear();
-					cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 					cout << "请输入商品数量（数量为正整数且首位不能为0）: ";
-					cin >> temp;
+					getline(cin, temp);
 				}
-				if (temp == "n") {
+				if (trim(temp) == "n") {
 					system("cls");
 					return;
 				}
@@ -927,30 +941,34 @@ void Buyer::buy() {
 				if (ele->sit == "已下架") valsu.push_back("商品状态 = 已下架");
 				sq->Update(good_file_name, "商品ID = " + paper->good_id, valsu);
 				o->orders.push_back(paper);
-				cout << endl << endl << "******购买成功********" << endl << endl;
+				cout << endl << endl << "******购买成功********" << endl;
 				o->write_order();
-
+				cout << "**************************" << endl << "!!交易提醒!!" << endl << "交易时间：" << paper->deal_time << endl << "交易单价：" << paper->money << endl \
+					<< "交易数量：" << paper->number << endl << "交易状态：交易成功" << endl << "您的余额：" << inform->balance << endl << "**************************" << endl << endl;
+				return;
 			}
 		}
 	}
+	system("cls");
+	cout << endl << "***********没有找到您想要的商品或该商品已下架**********" << endl << endl;
 
 }
 
 void Buyer::search_good() {
 	string s;
 	cout << "请输入您想要查找的商品： ";
-	cin >> s;
+	s.clear(); cin.clear();
+	getline(cin, s);
 	while (!cin) {
 		cout << "请输入正确的商品ID" << endl;
 		cin.clear();
-		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-		cin >> s;
+		getline(cin, s);
 	}
 	sq->Select(good_file_name, true, "名称", s);
 	cout << endl << endl << "*********************************************************************************" << endl;
 	bool nfind = true;
 	for (auto& ele : g->goods) {
-		if (ele->name.find(s) != string::npos && ele->sit != "已下架") {
+		if (ele->name.find(trim(s)) != string::npos && ele->sit != "已下架") {
 			cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 			g->print_good(ele);
 			nfind = false;
@@ -983,12 +1001,13 @@ void Buyer::look_order() {
 void Buyer::look_good_information() {
 	string s;
 	cout << "请输入您想要查找的商品ID： ";
-	cin >> s;
+	cin.clear();
+	s.clear();
+	getline(cin, s);
 	while (!cin) {
 		cout << "请输入正确的商品ID" << endl;
 		cin.clear();
-		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-		cin >> s;
+		getline(cin, s);
 	}
 	sq->Select(good_file_name, true, "商品ID", s);
 	cout << endl << endl << "*********************************************************************************" << endl;
@@ -998,6 +1017,7 @@ void Buyer::look_good_information() {
 			cout << "商品ID：" << ele->good_id << endl << "商品名称：" << ele->name << endl << "商品价格：" << fixed << setprecision(1) << ele->price << endl \
 				<< "上架时间：" << ele->sell_time << endl << "商品描述：" << ele->description << endl << "商品卖家：" << ele->seller_id << endl;
 			cout << "*********************************************************************************" << endl << endl << endl;
+			return;
 		}
 	}
 
