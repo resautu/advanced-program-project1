@@ -78,9 +78,11 @@ void User::user_register() {
 			t->user_id.push_back('0');
 			t->user_id.push_back('0');
 		}
-		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[1]);
-		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[2] + 1);
-		t->user_id.push_back('0');
+		else {
+			t->user_id.push_back(u->users[u->users.size() - 1]->user_id[1]);
+			t->user_id.push_back(u->users[u->users.size() - 1]->user_id[2] + 1);
+			t->user_id.push_back('0');
+		}
 	}
 	else {
 		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[1]);
@@ -97,6 +99,7 @@ void User::user_register() {
 	vals.push_back(t->sit);
 	sq->Insert(user_file_name, vals);
 	u->users.push_back(t);
+	system("cls");
 	cout << endl << endl << "******注册成功********" << endl << endl;
 	u->write_user();
 }
@@ -512,9 +515,11 @@ void Seller::release() {
 			t->good_id.push_back('0');
 			t->good_id.push_back('0');
 		}
-		t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[1]);
-		t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[2] + 1);
-		t->good_id.push_back('0');
+		else {
+			t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[1]);
+			t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[2] + 1);
+			t->good_id.push_back('0');
+		}
 	}
 	else {
 		t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[1]);
@@ -528,7 +533,7 @@ void Seller::release() {
 	getline(cin, chos);
 	while (!cin || (new_trim(chos) != "y" && new_trim(chos) != "n")) {
 		cout << "请按要求输入" << endl;
-		cout << "是否将该商品下架(y/n): ";
+		cout << "请确认要发布商品吗？ (y/n): ";
 		cin.clear();
 		getline(cin, chos);
 	}
@@ -861,7 +866,7 @@ void Buyer::buy() {
 				while (!cin || (trim(temp) != "y" && trim(temp) != "n")) {
 					cout << endl << endl << " !!输入不合法，请按要求输入!! " << endl;
 					cin.clear();
-					cout << "请输入商品数量（数量为正整数且首位不能为0）: ";
+					cout << "是否要进入充值界面（y/n）： ";
 					getline(cin, temp);
 				}
 				if (trim(temp) == "n") {
@@ -918,9 +923,11 @@ void Buyer::buy() {
 						paper->order_id.push_back('0');
 						paper->order_id.push_back('0');
 					}
-					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[1]);
-					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[2] + 1);
-					paper->order_id.push_back('0');
+					else {
+						paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[1]);
+						paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[2] + 1);
+						paper->order_id.push_back('0');
+					}
 				}
 				else {
 					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[1]);
@@ -960,7 +967,7 @@ void Buyer::search_good() {
 	s.clear(); cin.clear();
 	getline(cin, s);
 	while (!cin) {
-		cout << "请输入正确的商品ID" << endl;
+		cout << "请输入正确的商品名称" << endl;
 		cin.clear();
 		getline(cin, s);
 	}

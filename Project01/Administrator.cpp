@@ -65,18 +65,19 @@ void Admin::look_good() {
 void Admin::search_good() {
 	string s;
 	cout << "请输入您想要查找的商品： ";
-	cin >> s;
+	cin.clear(); s.clear();
+	getline(cin, s);
 	while (!cin) {
-		cout << "请输入正确的商品ID" << endl;
+		cout << "请输入正确的商品名称" << endl;
 		cin.clear();
-		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-		cin >> s;
+		s.clear();
+		getline(cin, s);
 	}
 	sq->Select(good_file_name, true, "名称", s);
 	cout << endl << endl << "*********************************************************************************" << endl;
 	bool nfind = true;
 	for (auto& ele : g->goods) {
-		if (ele->name.find(s) != string::npos) {
+		if (ele->name.find(trim(s)) != string::npos) {
 			cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 			g->print_good(ele);
 			nfind = false;
@@ -98,7 +99,7 @@ void Admin::del_good() {                               //this function should wr
 	int nfind = 0;
 	Good* de = new Good;
 	for (auto& ele : g->goods) {
-		if (ele->good_id == trim(i)) {
+		if (ele->good_id == i) {
 			cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 			g->print_good(ele);
 			if (ele->sit == "已下架") {
@@ -124,7 +125,7 @@ void Admin::del_good() {                               //this function should wr
 			cin.clear();
 			getline(cin, chos);
 		}
-		if (chos == "y") {
+		if (trim(chos) == "y") {
 			de->sit = "已下架";
 			g->write_good();
 			cout << "下架成功！" << endl << endl;
@@ -134,7 +135,7 @@ void Admin::del_good() {                               //this function should wr
 			system("cls");
 			cout << endl << "***************下架成功！！！！**********" << endl << endl;
 		}
-		else if (chos == "n") {
+		else if (trim(chos) == "n") {
 			system("cls");
 			cout << endl << "***************下架取消，请重新选择您的操作**********" << endl << endl;
 		}
@@ -173,7 +174,8 @@ void Admin::del_user() {
 	int nfind = 0;
 	User_information* de = new User_information;
 	for (auto& ele : u->users) {
-		if (ele->user_id == trim(i)) {
+		if (ele->user_id == i) {
+			cout << "用户ID " << "    用户名   " << "       密码      " << "    联系方式  " << "          地址   " << "       钱包余额  " << "用户状态 " << endl;
 			u->print_user(ele);
 			if (ele->sit == "封禁") {
 				nfind = 1;
@@ -197,7 +199,7 @@ void Admin::del_user() {
 			cin.clear();
 			getline(cin, chos);
 		}
-		if (chos == "y") {
+		if (trim(chos) == "y") {
 
 			de->sit = "封禁";
 			for (auto& e : g->goods) {
@@ -216,7 +218,7 @@ void Admin::del_user() {
 			system("cls");
 			cout << endl << "***********封禁成功！**************" << endl << endl;
 		}
-		else if (chos == "n") {
+		else if (trim(chos) == "n") {
 			system("cls");
 			cout << endl << "*************封禁取消，请重新选择您的操作************" << endl << endl;
 		}
