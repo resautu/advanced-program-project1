@@ -75,16 +75,16 @@ void Admin::search_good() {
 	}
 	sq->Select(good_file_name, true, "名称", s);
 	cout << endl << endl << "*********************************************************************************" << endl;
+	cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 	bool nfind = true;
 	for (auto& ele : g->goods) {
 		if (ele->name.find(trim(s)) != string::npos) {
-			cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 			g->print_good(ele);
 			nfind = false;
 		}
 	}
 	if (nfind) {
-		cout << "没有找到关键词相关商品,请重新选择操作" << endl;
+		cout << endl << endl << "没有找到关键词相关商品,请重新选择操作" << endl << endl;
 	}
 	cout << "*********************************************************************************" << endl << endl << endl;
 }

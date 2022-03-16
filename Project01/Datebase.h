@@ -21,6 +21,7 @@ class Gooding {
 	friend class Admin;
 	friend class Seller;
 	friend class Buyer;
+	friend class Sqling;
 public:
 	Gooding() {
 		fstream f;
@@ -103,6 +104,7 @@ class Usering {
 	friend class Admin;
 	friend class User;
 	friend class Buyer;
+	friend class Sqling;
 public:
 	Usering() {
 		fstream f;
@@ -174,6 +176,7 @@ public:
 	friend class Seller;
 	friend class Buyer;
 	friend class User;
+	friend class Sqling;
 	Ordering() {
 		fstream f;
 		f.open(order_file, ios::in);
@@ -317,6 +320,7 @@ public:
 			s.append(" WHERE " + col_name + " CONTAINS " + _name);
 		}
 		write_sql(s);
+		selectAnalyze(s);
 	}
 	void Insert(string file_name, vector<string> vals) {
 		string s = "INSERT INTO ";
@@ -328,6 +332,7 @@ public:
 		}
 		s.append(")");
 		write_sql(s);
+		insertAnalyze(s);
 	}
 	void Update(string file_name, string lim, vector<string> vals) {
 		string s;
@@ -337,7 +342,11 @@ public:
 		}
 		s.append(" WHERE " + lim);
 		write_sql(s);
+		updateAnalyze(s);
 	}
+	void selectAnalyze(string cmd, Gooding* g = NULL, Usering* u = NULL, Ordering* o = NULL);
+	void insertAnalyze(string cmd, Gooding* g = NULL, Usering* u = NULL, Ordering* o = NULL);
+	void updateAnalyze(string cmd, Gooding* g = NULL, Usering* u = NULL, Ordering* o = NULL);
 private:
 	void write_sql(string s);
 	vector<string> sqls;
