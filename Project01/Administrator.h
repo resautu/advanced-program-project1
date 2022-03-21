@@ -6,6 +6,7 @@ using namespace std;
 #include<vector>
 #include"Item.h"
 #include"Datebase.h"
+#include"Shoppingtrolley.h"
 class Admin {
 public:
 	Admin(Usering* us, Ordering* ord, Gooding* go, Sqling* s) {
@@ -13,6 +14,7 @@ public:
 		o = ord;
 		g = go;
 		sq = s;
+		st = new Shopttroing;
 	}
 	void admin_login();
 	void admin_menu();
@@ -27,6 +29,7 @@ private:
 	Ordering* o;
 	Gooding* g;
 	Sqling* sq;
+	Shopttroing* st;
 };
 
 #endif

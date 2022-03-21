@@ -31,6 +31,6 @@ string dint_to_string(double d);       //将小数全是0的double保留整数部分
 
 bool side_count(string& s);                //判断字符串中小数点是否超过1，超过则返回true，否则返回false
 
-//string cal_trim(string s);             //专用于计算器的字符串空格处理
+string str_add(string s);              //编号专用的字符串加法
 
 #endif

@@ -3,7 +3,7 @@
 #include "User.h"
 #include "sundry.h"
 #include"Item.h"
-
+#include<regex>
 using namespace std;
 
 void User::user_register() {
@@ -68,26 +68,13 @@ void User::user_register() {
 		string st = "001";
 		t->user_id.append(st);
 	}
-	else if (u->users[u->users.size() - 1]->user_id[3] == '9') {
-		if (u->users[u->users.size() - 1]->user_id[2] == '9') {
-			if (u->users[u->users.size() - 1]->user_id[1] == '9') {
-				cout << "用户数量已经超过文件承载，将返回主菜单" << endl;
-				return;
-			}
-			t->user_id.push_back(u->users[u->users.size() - 1]->user_id[1] + 1);
-			t->user_id.push_back('0');
-			t->user_id.push_back('0');
-		}
-		else {
-			t->user_id.push_back(u->users[u->users.size() - 1]->user_id[1]);
-			t->user_id.push_back(u->users[u->users.size() - 1]->user_id[2] + 1);
-			t->user_id.push_back('0');
-		}
-	}
 	else {
-		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[1]);
-		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[2]);
-		t->user_id.push_back(u->users[u->users.size() - 1]->user_id[3] + 1);
+		string bh = u->users[u->users.size() - 1]->user_id.substr(1);
+		if (bh == "999") {
+			cout << "用户数量已经超过文件承载，将返回主菜单" << endl;
+			return;
+		}
+		t->user_id.append(str_add(bh));
 	}
 	vector<string> vals;
 	vals.push_back(t->user_id);
@@ -121,16 +108,22 @@ void User::user_menu(User_information* information) {
 			cin.clear();
 			getline(cin, i);
 		}
+		Shopttro* st0 = new Shopttro(information->user_id);
 		switch (int(trim(i)[0] - '0')) {
 		case 1: {
 			User* er = new User(u, o, g, r, sq);
 			((Buyer*)er)->inform = information;
+			((Buyer*)er)->st = st0;
+			((Buyer*)er)->mysgs = st0->getsgs();
 			((Buyer*)er)->buyer_menu();
+
 			break;
 		}
 		case 2: {
 			User* er = new User(u, o, g, r, sq);
 			((Seller*)er)->inform = information;
+			((Seller*)er)->st = st0;
+			((Seller*)er)->mysgs = st0->getsgs();
 			((Seller*)er)->seller_menu();
 			break;
 		}
@@ -221,7 +214,7 @@ string User::make_expr() {
 		tes.append("+" + double_to_string(ele));
 	}
 	string StandardExpression = tes.substr(1);
-	cout << StandardExpression << endl;
+	//cout << StandardExpression << endl;
 	for (auto ele : so_dec) {
 		if (ele.first == 1) {
 			stes.append("-" + ele.second.substr(1));
@@ -251,7 +244,7 @@ string User::make_expr() {
 
 	}
 	string SimplyExpression = stes.substr(1);
-	cout << SimplyExpression << endl;
+	//cout << SimplyExpression << endl;
 	return SimplyExpression;
 }
 
@@ -505,26 +498,13 @@ void Seller::release() {
 		string st = "001";
 		t->good_id.append(st);
 	}
-	else if (g->goods[g->goods.size() - 1]->good_id[3] == '9') {
-		if (g->goods[g->goods.size() - 1]->good_id[2] == '9') {
-			if (g->goods[g->goods.size() - 1]->good_id[1] == '9') {
-				cout << "商品数量已经超过文件承载，将返回主菜单" << endl;
-				return;
-			}
-			t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[1] + 1);
-			t->good_id.push_back('0');
-			t->good_id.push_back('0');
-		}
-		else {
-			t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[1]);
-			t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[2] + 1);
-			t->good_id.push_back('0');
-		}
-	}
 	else {
-		t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[1]);
-		t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[2]);
-		t->good_id.push_back(g->goods[g->goods.size() - 1]->good_id[3] + 1);
+		string bh = g->goods[g->goods.size() - 1]->good_id.substr(1);
+		if (bh == "999") {
+			cout << "商品数量已经超过文件承载，将返回主菜单" << endl;
+			return;
+		}
+		t->good_id.append(str_add(bh));
 	}
 	cout << endl << endl << "请确认发布商品无误" << endl << "*********************************************************************************" << endl;
 	cout << "商品名称：" << t->name << endl << "商品价格：" << t->price << endl << "商品数量：" << t->number << endl << "商品描述：" << t->description << endl;
@@ -786,9 +766,9 @@ void Buyer::buyer_menu() {
 	system("cls");
 	while (true) {
 		cout << "Welcome! seller" << endl;
-		cout << "===============================================================================================" << endl;
-		cout << "  1、查看商品列表 2、购买商品 3、搜索商品 4、查看历史订单 5、查看商品详细信息 6、返回用户主界面  " << endl;
-		cout << "===============================================================================================" << endl;
+		cout << "================================================================================================================" << endl;
+		cout << "  1、查看商品列表 2、购买商品 3、搜索商品 4、查看历史订单 5、查看商品详细信息 6、查看购物车 7、返回用户主界面  " << endl;
+		cout << "================================================================================================================" << endl;
 		cout << "请输入操作序号: ";
 		string i;
 		i.clear();
@@ -805,7 +785,8 @@ void Buyer::buyer_menu() {
 		case 3:search_good(); break;
 		case 4:look_order(); break;
 		case 5:look_good_information(); break;
-		case 6:system("cls"); return; break;
+		case 6:TtroBuyMenu(); break;
+		case 7:system("cls"); return; break;
 		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
 		}
 	}
@@ -824,39 +805,44 @@ void Buyer::look_good() {
 	cout << "*********************************************************************************" << endl << endl << endl;
 }
 
-void Buyer::buy() {
+bool Buyer::buy(string _good_id, int num) {
 	string temp, num_temp;
 	int buy_number;
-	cout << "请输入商品ID：";
-	cin.clear(); temp.clear();
-	getline(cin, temp);
-	while (!cin) {
-		cout << "请输入正确的商品ID:" << endl;
-		cin.clear();
+	if (_good_id == "-1") {
+		cout << "请输入商品ID：";
+		cin.clear(); temp.clear();
 		getline(cin, temp);
+		while (!cin) {
+			cout << "请输入正确的商品ID:" << endl;
+			cin.clear();
+			getline(cin, temp);
+		}
 	}
-
+	else { temp = _good_id; }
 	for (auto& ele : g->goods) {
 		if (ele->good_id == temp && ele->sit == "销售中") {
-			cout << endl << endl << "*********************************************************************************" << endl;
-			cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
-			g->print_good(ele);
-			cout << "*********************************************************************************" << endl << endl << endl;
-			cout << "请输入购买数量: ";
-			temp.clear(); cin.clear();
-			getline(cin, temp);
-			num_temp = trim(temp);
-			while (!cin || num_temp[0] == '0' || !nvalid(num_temp)) {
-				cout << endl << endl << " !!商品数量不合法，请按要求输入!! " << endl;
-				cin.clear();
-				cout << "请输入商品数量（数量为正整数且首位不能为0）: ";
+			if (num == -1) {
+				cout << endl << endl << "*********************************************************************************" << endl;
+				cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
+				g->print_good(ele);
+				cout << "*********************************************************************************" << endl << endl << endl;
+				cout << "请输入购买数量: ";
+				temp.clear(); cin.clear();
 				getline(cin, temp);
 				num_temp = trim(temp);
+				while (!cin || num_temp[0] == '0' || !nvalid(num_temp)) {
+					cout << endl << endl << " !!商品数量不合法，请按要求输入!! " << endl;
+					cin.clear();
+					cout << "请输入商品数量（数量为正整数且首位不能为0）: ";
+					getline(cin, temp);
+					num_temp = trim(temp);
+				}
+				buy_number = exint(num_temp);
 			}
-			buy_number = exint(num_temp);
+			else { buy_number = num; }
 			if (ele->number < buy_number) {
 				cout << endl << "！！欲购买商品数量超过商品库存，购买失败！！" << endl;
-				return;
+				return false;
 			}
 			else if (inform->balance < buy_number * ele->price) {
 				cout << endl << "！！账户余额不足，购买失败！！" << endl;
@@ -871,12 +857,12 @@ void Buyer::buy() {
 				}
 				if (trim(temp) == "n") {
 					system("cls");
-					return;
+					return false;
 				}
 				else {
 					system("cls");
 					recharge();
-					return;
+					return false;
 				}
 
 			}
@@ -913,26 +899,14 @@ void Buyer::buy() {
 					string st = "001";
 					paper->order_id.append(st);
 				}
-				else if (o->orders[o->orders.size() - 1]->order_id[3] == '9') {
-					if (o->orders[o->orders.size() - 1]->order_id[2] == '9') {
-						if (o->orders[o->orders.size() - 1]->order_id[1] == '9') {
-							cout << "订单数量已经超过文件承载，将返回主菜单" << endl;
-							return;
-						}
-						paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[1] + 1);
-						paper->order_id.push_back('0');
-						paper->order_id.push_back('0');
-					}
-					else {
-						paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[1]);
-						paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[2] + 1);
-						paper->order_id.push_back('0');
-					}
-				}
+
 				else {
-					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[1]);
-					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[2]);
-					paper->order_id.push_back(o->orders[o->orders.size() - 1]->order_id[3] + 1);
+					string bh = o->orders[o->orders.size() - 1]->order_id.substr(1);
+					if (bh == "999") {
+						cout << endl << "**********订单数量已达上限***********" << endl << endl;
+						return false;
+					}
+					paper->order_id.append(str_add(bh));
 				}
 				vector<string> vals;
 				vals.push_back(paper->order_id);
@@ -952,12 +926,13 @@ void Buyer::buy() {
 				o->write_order();
 				cout << "**************************" << endl << "!!交易提醒!!" << endl << "交易时间：" << paper->deal_time << endl << "交易单价：" << paper->money << endl \
 					<< "交易数量：" << paper->number << endl << "交易状态：交易成功" << endl << "您的余额：" << inform->balance << endl << "**************************" << endl << endl;
-				return;
+				return true;
 			}
 		}
 	}
 	system("cls");
 	cout << endl << "***********没有找到您想要的商品或该商品已下架**********" << endl << endl;
+	return false;
 
 }
 
@@ -1031,4 +1006,165 @@ void Buyer::look_good_information() {
 	cout << "没有找到关键词相关商品或商品已下架,请重新选择操作" << endl;
 
 	cout << "*********************************************************************************" << endl << endl << endl;
+}
+
+void Buyer::TtroBuyOne() {
+	cout << endl << "请输入您想要结算的物品在购物车中的编号ID： ";
+	string i;
+	i.clear(); cin.clear();
+	getline(cin, i);
+	bool nfind = 1;
+	for (auto it = mysgs.begin(); it < mysgs.end(); it++) {
+		if ((*it)->sg_id == i) {
+			if ((*it)->number == 0) {
+				cout << endl << "******该物品库存不足*******" << endl;
+				cout << "请问是否将其从购物车中删除？（y/n）：";
+				string chos;
+				cin.clear(); chos.clear();
+				getline(cin, chos);
+				while (!cin || (new_trim(chos) != "y" && new_trim(chos) != "n")) {
+					cout << "请按要求输入" << endl;
+					cout << "请问是否将其从购物车中删除？(y/n): ";
+					cin.clear();
+					getline(cin, chos);
+				}
+				if (trim(chos) == "y") {
+					mysgs.erase(it);
+					st->TtroDel((*it)->sg_id);
+					return;
+				}
+				else if (trim(chos) == "n") {
+					cout << "删除取消，请重新选择您的操作" << endl << endl;
+					return;
+				}
+			}
+			bool judge = buy((*it)->good_id, (*it)->number);
+			if (!judge) return;
+			st->TtroDel((*it)->sg_id);
+			nfind = 0;
+			return;
+		}
+	}
+	if (nfind) {
+		system("cls");
+		cout << endl << "*********没有在您的购物车中找到您输入编号对应的购物车物品********" << endl << endl;
+	}
+}
+
+void Buyer::TtroBuyOne(string sg_id) {
+	for (auto it = mysgs.begin(); it < mysgs.end(); it++) {
+		buy((*it)->good_id, (*it)->number);
+		st->TtroDel((*it)->sg_id);
+	}
+}
+
+void Buyer::TtroBuyAll() {
+	double sum = 0;
+	for (auto& ele : mysgs) {
+		sum += ele->number = ele->price;
+	}
+	if (sum > inform->balance) {
+		string temp;
+		cout << endl << "！！账户余额不足，购买失败！！" << endl;
+		cout << "是否要进入充值界面（y/n）：";
+		temp.clear(); cin.clear();
+		getline(cin, temp);
+		while (!cin || (trim(temp) != "y" && trim(temp) != "n")) {
+			cout << endl << endl << " !!输入不合法，请按要求输入!! " << endl;
+			cin.clear();
+			cout << "是否要进入充值界面（y/n）： ";
+			getline(cin, temp);
+		}
+		if (trim(temp) == "n") {
+			system("cls");
+			return;
+		}
+		else {
+			system("cls");
+			recharge();
+			return;
+		}
+	}
+	for (auto& ele : mysgs) {
+		TtroBuyOne(ele->sg_id);
+	}
+}
+
+void Buyer::TtroLook() {
+	cout << endl << endl << "*******************************************************************************" << endl;
+	cout << "购物车物品ID 商品名称 商品ID 商品价格 商品数量 卖家ID" << endl;
+	for (auto& ele : mysgs) {
+		st->Ttroprint(ele);
+	}
+	cout << "*******************************************************************************" << endl << endl;
+}
+
+void Buyer::TtroAdd() {
+	regex m("^([0][0-9]*)$");
+	ShopGood* temp = new ShopGood;
+	string id, num;
+	cout << endl << "请输入您想要添加的商品ID： ";
+	id.clear(); cin.clear();
+	getline(cin, id);
+	cout << endl << "请输入您想要添加的商品数量： ";
+	num.clear(); cin.clear();
+	getline(cin, num);
+	num = trim(num);
+	while (!cin || regex_match(num, m)) {
+		system("cls");
+		cout << endl << "请按要求输入(商品数量必须为正整数)" << endl << endl;
+		id.clear(); num.clear(); cin.clear();
+		return;
+	}
+	Good* temporary = new Good;
+	bool nfind = 1;
+	for (auto& ele : g->goods) {
+		if (ele->good_id == id) {
+			nfind = 0;
+			if (ele->number < exint(num)) {
+				system("cls");
+				cout << endl << "商品数量超过当前库存" << endl << endl;
+				return;
+			}
+			temporary = ele;
+		}
+	}
+	if (nfind) {
+		system("cls");
+		cout << endl << "*********没有在您的购物车中找到您输入编号对应的购物车物品********" << endl << endl;
+		return;
+	}
+	temp->buyer_id = inform->user_id; temp->good_id = temporary->good_id; temp->good_name = temporary->name; temp->number = exint(num);
+	temp->price = temporary->price; temp->seller_id = temporary->seller_id;
+	st->TtroInsert(temp);
+}
+
+void Buyer::TtroBuyMenu() {
+	system("cls");
+	while (true) {
+		cout << "Welcome to shoppingtrolley" << endl;
+		cout << "===============================================================================================" << endl;
+		cout << "  1、查看购物车 2、添加商品 3、删除商品 4、结算单件商品 5、清空购物车（全部结算） 6、返回买家主界面  " << endl;
+		cout << "===============================================================================================" << endl;
+		cout << "请输入操作序号: ";
+		string i;
+		i.clear();
+		cin.clear();
+		getline(cin, i);
+		while (!cin || (new_trim(i) < "1" || new_trim(i) > "6")) {
+			cout << "请输入正确的选项" << endl;
+			cin.clear();
+			getline(cin, i);
+		}
+		switch (int(trim(i)[0] - '0')) {
+		case 1: TtroLook(); break;
+		case 2: TtroAdd(); break;
+		case 3: st->TtroDel(); break;
+		case 4: TtroBuyOne(); break;
+		case 5: TtroBuyAll(); break;
+		case 6:system("cls"); return; break;
+		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
+		}
+		mysgs = st->getsgs();
+	}
 }

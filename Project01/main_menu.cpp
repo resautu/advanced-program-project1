@@ -6,9 +6,12 @@
 #include"User.h"
 #include <string>
 #include"calculator.h"
+#include"Shoppingtrolley.h"
 using namespace std;
 
 void main_menu() {
+	system("md datebase");
+	system("cls");
 	Usering* u = new Usering;
 	Ordering* o = new Ordering;
 	Gooding* g = new Gooding;

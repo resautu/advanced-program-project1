@@ -10,6 +10,7 @@
 #include<time.h>
 #include"calculator.h"
 #include<map>
+#include"Shoppingtrolley.h"
 using namespace std;
 class User {
 public:
@@ -20,6 +21,10 @@ public:
 		g = go;
 		r = re;
 		sq = s;
+		if (inform) {
+			st = new Shopttro(inform->user_id);
+			mysgs = st->getsgs();
+		}
 	}
 	void user_menu(User_information* information);
 	void user_login();
@@ -37,17 +42,24 @@ protected:
 	Reordering* r;
 	User_information* inform;
 	Sqling* sq;
+	Shopttro* st;
+	vector<ShopGood*> mysgs;
 };
 
 class Buyer :public User {
 public:
 	void buyer_menu();
-	void buy();
+	bool buy(string _good_id = "-1", int num = -1);
 	void look_good();
 	void look_good_information();
 	void search_good();
 	void look_order();
-
+	void TtroBuyMenu();
+	void TtroBuyOne();
+	void TtroBuyOne(string sg_id);
+	void TtroBuyAll();
+	void TtroLook();
+	void TtroAdd();
 };
 
 class Seller :public User {

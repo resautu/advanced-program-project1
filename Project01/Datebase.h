@@ -96,6 +96,7 @@ public:
 	}
 	void write_good();
 	void check_good();
+	vector<Good*> get_good() const;
 private:
 	vector<Good*> goods;
 };

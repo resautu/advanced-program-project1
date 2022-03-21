@@ -200,7 +200,7 @@ void Admin::del_user() {
 			getline(cin, chos);
 		}
 		if (trim(chos) == "y") {
-
+			int count = 0;
 			de->sit = "·â½û";
 			for (auto& e : g->goods) {
 				if (e->seller_id == de->user_id) {
@@ -211,6 +211,7 @@ void Admin::del_user() {
 					g->write_good();
 				}
 			}
+			st->DelSeller(de->user_id);
 			vector<string> valsu;
 			valsu.push_back("ÓÃ»§×´Ì¬ = ·â½û");
 			sq->Update(user_file_name, "ÓÃ»§ID = " + de->user_id, valsu);

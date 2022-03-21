@@ -121,3 +121,26 @@ bool side_count(string& s) {
 	}
 	return false;
 }
+
+string str_add(string s) {
+	string temp;
+	temp.clear();
+	if (s[2] == '9') {
+		if (s[1] == '9') {
+			temp.push_back(s[0] + 1);
+			temp.push_back('0');
+			temp.push_back('0');
+		}
+		else {
+			temp.push_back(s[0]);
+			temp.push_back(s[1] + 1);
+			temp.push_back('0');
+		}
+	}
+	else {
+		temp.push_back(s[0]);
+		temp.push_back(s[1]);
+		temp.push_back(s[2] + 1);
+	}
+	return temp;
+}

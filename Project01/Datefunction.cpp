@@ -2,11 +2,11 @@
 #include <iostream>
 #include "Datebase.h"
 using namespace std;
-string good_file = "D:/proj1/commodity.txt";
-string user_file = "D:/proj1/user.txt";
-string order_file = "D:/proj1/order.txt";
-string reorder_file = "D:/proj1/reorder.txt";
-string sql_file = "D:/proj1/commands.txt";
+string good_file = "datebase/commodity.txt";
+string user_file = "datebase/user.txt";
+string order_file = "datebase/order.txt";
+string reorder_file = "datebase/reorder.txt";
+string sql_file = "datebase/commands.txt";
 string good_file_name = "commodity";
 string user_file_name = "user";
 string order_file_name = "order";
@@ -70,6 +70,10 @@ void Gooding::check_good() {
 	}
 	write_good();
 
+}
+
+vector<Good*> Gooding::get_good() const {
+	return goods;
 }
 
 void Usering::balance_change(string id, double money) {
