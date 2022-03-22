@@ -214,10 +214,10 @@ string User::make_expr() {
 		tes.append("+" + double_to_string(ele));
 	}
 	string StandardExpression = tes.substr(1);
-	//cout << StandardExpression << endl;
+	cout << StandardExpression << endl;
 	for (auto ele : so_dec) {
 		if (ele.first == 1) {
-			stes.append("-" + ele.second.substr(1));
+			stes.append("-(" + ele.second.substr(1) + ")");
 		}
 		else {
 			if (side_count(ele.second)) {
@@ -244,7 +244,7 @@ string User::make_expr() {
 
 	}
 	string SimplyExpression = stes.substr(1);
-	//cout << SimplyExpression << endl;
+	cout << SimplyExpression << endl;
 	return SimplyExpression;
 }
 
@@ -774,7 +774,7 @@ void Buyer::buyer_menu() {
 		i.clear();
 		cin.clear();
 		getline(cin, i);
-		while (!cin || (new_trim(i) < "1" || new_trim(i) > "6")) {
+		while (!cin || (new_trim(i) < "1" || new_trim(i) > "7")) {
 			cout << "请输入正确的选项" << endl;
 			cin.clear();
 			getline(cin, i);
@@ -1061,7 +1061,7 @@ void Buyer::TtroBuyOne(string sg_id) {
 void Buyer::TtroBuyAll() {
 	double sum = 0;
 	for (auto& ele : mysgs) {
-		sum += ele->number = ele->price;
+		sum += ele->number * ele->price;
 	}
 	if (sum > inform->balance) {
 		string temp;
@@ -1092,7 +1092,7 @@ void Buyer::TtroBuyAll() {
 
 void Buyer::TtroLook() {
 	cout << endl << endl << "*******************************************************************************" << endl;
-	cout << "购物车物品ID 商品名称 商品ID 商品价格 商品数量 卖家ID" << endl;
+	cout << "购物车物品ID       商品名称  商品ID  商品价格  商品数量  卖家ID" << endl;
 	for (auto& ele : mysgs) {
 		st->Ttroprint(ele);
 	}
@@ -1117,13 +1117,19 @@ void Buyer::TtroAdd() {
 		return;
 	}
 	Good* temporary = new Good;
-	bool nfind = 1;
+	bool nfind = 1; int max_num = -1;
+	for (auto& ele : mysgs) {
+		if (ele->good_id == id) {
+			max_num = exint(num) + ele->number;
+			break;
+		}
+	}
 	for (auto& ele : g->goods) {
 		if (ele->good_id == id) {
 			nfind = 0;
-			if (ele->number < exint(num)) {
+			if (ele->number < exint(num) || ele->number < max_num) {
 				system("cls");
-				cout << endl << "商品数量超过当前库存" << endl << endl;
+				cout << endl << "*******添加失败！！欲添加商品数量或与购物车中已添加的数量之和超过该商品的当前库存*******" << endl << endl;
 				return;
 			}
 			temporary = ele;
@@ -1131,7 +1137,7 @@ void Buyer::TtroAdd() {
 	}
 	if (nfind) {
 		system("cls");
-		cout << endl << "*********没有在您的购物车中找到您输入编号对应的购物车物品********" << endl << endl;
+		cout << endl << "*********没有找到您想添加的商品********" << endl << endl;
 		return;
 	}
 	temp->buyer_id = inform->user_id; temp->good_id = temporary->good_id; temp->good_name = temporary->name; temp->number = exint(num);

@@ -26,8 +26,8 @@ Shopttroing::Shopttroing() {
 		if (shopin.length() == 0 || !f) break;
 		ShopGood* temp = new ShopGood;
 		temp->sg_id = shopin; shopin.clear();
-		getline(f, temp->good_id, ',');
 		getline(f, temp->good_name, ',');
+		getline(f, temp->good_id, ',');
 		getline(f, temp->buyer_id, ',');
 		getline(f, temp->seller_id, ',');
 		getline(f, shopin, ','); temp->number = exint(shopin); shopin.clear();
@@ -43,6 +43,7 @@ Shopttroing::Shopttroing() {
 			}
 		}
 	}
+	write_st();
 }
 void Shopttroing::DelGood(string sg_id) {
 	auto it = sgings.begin();
@@ -88,21 +89,31 @@ void Shopttroing::write_st() {
 void Shopttroing::ChangeGood(string sg_id, int num) {
 	for (auto& ele : sgings) {
 		if (ele->sg_id == sg_id) {
-			ele->number += num;
+			ele->number = num;
 			break;
 		}
 	}
 	write_st();
 }
 void  Shopttroing::DelSeller(string seller_id) {
-	int count = 0;
+	int count = 0, count1 = 0;
 	for (auto& ele : sgings) {
 		if (ele->seller_id == seller_id) count++;
+		if (ele->buyer_id == seller_id && ele->seller_id != seller_id) count1++;
 	}
 	for (int i = 0; i < count; i++) {
 		for (auto it = sgings.begin(); it < sgings.end(); it++) {
 			if ((*it)->seller_id == seller_id) {
 				sgings.erase(it);
+				break;
+			}
+		}
+	}
+	for (int i = 0; i < count1; i++) {
+		for (auto it = sgings.begin(); it < sgings.end(); it++) {
+			if ((*it)->buyer_id == seller_id) {
+				sgings.erase(it);
+				break;
 			}
 		}
 	}
@@ -122,7 +133,10 @@ vector<ShopGood*> Shopttro::getsgs() const {
 	return sgs;
 }
 void Shopttro::TtroInsert(ShopGood* sg) {
-	sg->sg_id = str_add((*(sgings.end() - 1))->sg_id);
+	if (sgings.empty()) { sg->sg_id = "C001"; }
+	else {
+		sg->sg_id = "C" + str_add((*(sgings.end() - 1))->sg_id.substr(1));
+	}
 	for (auto& ele : sgs) {
 		if (ele->good_id == sg->good_id) {
 			ele->number += sg->number;
@@ -164,12 +178,13 @@ void Shopttro::TtroDel(string sg_id) {
 	for (auto it = sgs.begin(); it < sgs.end(); it++) {
 		if ((*it)->sg_id == sg_id) {
 			sgs.erase(it);
+			DelGood(sg_id);
 			break;
 		}
 	}
 
 }
 void Shopttro::Ttroprint(ShopGood* sg) {
-	cout << left << setw(8) << sg->sg_id << setw(15) << sg->good_name << setw(10) << sg->good_id << setw(11) << fixed << setprecision(1) << sg->price \
+	cout << left << setw(15) << sg->sg_id << setw(15) << sg->good_name << setw(10) << sg->good_id << setw(11) << fixed << setprecision(1) << sg->price \
 		<< setw(8) << sg->number << sg->seller_id << endl;
 }
