@@ -339,3 +339,9 @@ void Sqling::updateAnalyze(string cmd, Gooding* g, Usering* u, Ordering* o) {
 	}
 }
 
+bool Usering::find_user(string user_id) {
+	for (auto& ele : users) {
+		if (ele->user_id == user_id) return true;
+	}
+	return false;
+}

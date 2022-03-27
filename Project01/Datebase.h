@@ -167,6 +167,7 @@ public:
 	}
 	void write_user();
 	void balance_change(string id, double money);
+	bool find_user(string user_id);
 private:
 	vector< User_information* > users;
 };

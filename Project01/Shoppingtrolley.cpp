@@ -34,6 +34,7 @@ Shopttroing::Shopttroing() {
 		getline(f, shopin); temp->price = exdouble(shopin); shopin.clear();
 		sgings.push_back(temp);
 	}
+	f.close();
 	Gooding* g = new Gooding;
 	for (auto& ele : sgings) {
 		for (auto& goodings : g->get_good()) {
