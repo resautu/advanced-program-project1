@@ -11,6 +11,7 @@
 #include"calculator.h"
 #include<map>
 #include"Shoppingtrolley.h"
+#include"Message.h"
 using namespace std;
 class User {
 public:
@@ -23,6 +24,7 @@ public:
 		sq = s;
 		if (inform) {
 			st = new Shopttro(inform->user_id);
+			prm = new PrMessageStore(inform->user_id);
 			mysgs = st->getsgs();
 		}
 	}
@@ -34,6 +36,8 @@ public:
 	void gover_inform();
 	void look_information();
 	void change_information();
+	void message_menu();
+	void del_message_menu();
 	string make_expr();
 protected:
 	Usering* u;
@@ -44,6 +48,7 @@ protected:
 	Sqling* sq;
 	Shopttro* st;
 	vector<ShopGood*> mysgs;
+	PrMessageStore* prm;
 };
 
 class Buyer :public User {

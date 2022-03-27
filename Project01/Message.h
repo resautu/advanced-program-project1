@@ -18,10 +18,6 @@ struct Message {
 class MessageStore {
 public:
 	MessageStore();
-	void DelAllMessage();
-	void DelMessage();
-	void LookMessage();
-	void SendMessage();
 	void write_mes();
 protected:
 	vector<Message*> mes;
@@ -30,8 +26,18 @@ protected:
 class PrMessageStore :public MessageStore {
 public:
 	PrMessageStore(string user_id);
-	void Send(string sender_id);
+	void Send();
+	void Lookrecieve();
+	void Looksend();
+	void Lookmessage();
+	void SimplePrintRe(Message* m);
+	void SimplePrintSe(Message* m);
+	void DelSingleMessage();
+	void DelAllSend();
+	void DelReadedMessage();
+	void DelAllMessage();
 private:
+	string user_id;
 	vector<Message*> sen, rec;
 };
 #endif

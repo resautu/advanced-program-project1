@@ -96,19 +96,20 @@ void User::user_menu(User_information* information) {
 	while (true) {
 		cout << "Welcome! user" << endl;
 		cout << "=================================================================================" << endl;
-		cout << "  1、我是买家 2、我是卖家 3、个人信息管理 4、注销登录  " << endl;
+		cout << "  1、我是买家 2、我是卖家 3、个人信息管理 4、查看留言 5、注销登录  " << endl;
 		cout << "=================================================================================" << endl;
 		cout << "请输入操作序号: ";
 		string i;
 		cin.clear();
 		getline(cin, i);
-		while (!cin || (new_trim(i)[0] < '1' || new_trim(i)[0] > '4')) {
+		while (!cin || (new_trim(i)[0] < '1' || new_trim(i)[0] > '5')) {
 			cout << "输入不合法，请重新输入" << endl;
 			cout << "请输入操作序号: ";
 			cin.clear();
 			getline(cin, i);
 		}
 		Shopttro* st0 = new Shopttro(information->user_id);
+		//maybe have error
 		switch (int(trim(i)[0] - '0')) {
 		case 1: {
 			User* er = new User(u, o, g, r, sq);
@@ -128,7 +129,8 @@ void User::user_menu(User_information* information) {
 			break;
 		}
 		case 3:gover_inform(); break;
-		case 4:system("cls"); return; break;
+		case 4:message_menu(); break;
+		case 5:system("cls"); return; break;
 		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
 		}
 	}
@@ -151,6 +153,7 @@ void User::user_login() {
 				}
 				cout << endl << endl << "------登录成功，欢迎您------" << endl << endl;
 				inform = ele;
+				prm = new PrMessageStore(inform->user_id);
 				user_menu(ele);
 				return;
 			}
@@ -407,6 +410,63 @@ void User::recharge() {
 	inform->balance += exdouble(temp);
 	u->write_user();
 	cout << endl << endl << "**************充值成功**************" << endl << endl << endl;
+}
+
+void User::message_menu() {
+	system("cls");
+	while (true) {
+		cout << "Welcome to shoppingtrolley" << endl;
+		cout << "===============================================================================================" << endl;
+		cout << "  1、发送留言 2、查看发件箱 3、查看收件箱 4、查看留言详情 5、删除留言 6、返回买家主界面  " << endl;
+		cout << "===============================================================================================" << endl;
+		cout << "请输入操作序号: ";
+		string i;
+		i.clear();
+		cin.clear();
+		getline(cin, i);
+		while (!cin || (new_trim(i) < "1" || new_trim(i) > "6")) {
+			cout << "请输入正确的选项" << endl;
+			cin.clear();
+			getline(cin, i);
+		}
+		switch (int(trim(i)[0] - '0')) {
+		case 1: prm->Send(); break;
+		case 2: prm->Looksend(); break;
+		case 3: prm->Lookrecieve(); break;
+		case 4: prm->Lookmessage(); break;
+		case 5: del_message_menu(); break;
+		case 6:system("cls"); return; break;
+		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
+		}
+	}
+}
+
+void User::del_message_menu() {
+	system("cls");
+	while (true) {
+		cout << "Welcome to shoppingtrolley" << endl;
+		cout << "===============================================================================================" << endl;
+		cout << "  1、清空已读留言 2、清空收件箱 3、清空发件箱 4、删除指定留言 5、返回买家主界面  " << endl;
+		cout << "===============================================================================================" << endl;
+		cout << "请输入操作序号: ";
+		string i;
+		i.clear();
+		cin.clear();
+		getline(cin, i);
+		while (!cin || (new_trim(i) < "1" || new_trim(i) > "5")) {
+			cout << "请输入正确的选项" << endl;
+			cin.clear();
+			getline(cin, i);
+		}
+		switch (int(trim(i)[0] - '0')) {
+		case 1: prm->DelReadedMessage(); break;
+		case 2: prm->DelAllMessage(); break;
+		case 3: prm->DelAllSend(); break;
+		case 4: prm->DelSingleMessage(); break;
+		case 5:system("cls"); return; break;
+		default:system("cls"); cout << "请按要求输入正确的数字" << endl << endl; break;
+		}
+	}
 }
 
 void Seller::seller_menu() {
