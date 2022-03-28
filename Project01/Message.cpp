@@ -49,7 +49,7 @@ void MessageStore::write_mes() {
 
 PrMessageStore::PrMessageStore(string user_id) {
 	for (auto& ele : mes) {
-		if (ele->sender == user_id && ele->reciever_sit.find("ÒÑÉ¾³ý") == string::npos) {
+		if (ele->sender == user_id && ele->sender_sit.find("ÒÑÉ¾³ý") == string::npos) {
 			sen.push_back(ele);
 		}
 		else if (ele->reciever == user_id && ele->reciever_sit.find("ÒÑÉ¾³ý") == string::npos) {
@@ -192,7 +192,7 @@ void PrMessageStore::DelSingleMessage() {
 
 void PrMessageStore::DelAllSend() {
 	for (auto& ele : sen) {
-		if (ele->reciever_sit.find("ÒÑ¶Á")) { ele->sender_sit = "ÒÑÉ¾³ý"; }
+		if (ele->reciever_sit.find("ÒÑ¶Á") != string::npos) { ele->sender_sit = "ÒÑÉ¾³ý"; }
 		else if (ele->reciever_sit.find("Î´¶Á") != string::npos) {
 			ele->sender_sit = "ÒÑÉ¾³ý";
 			ele->reciever_sit = "Î´¶ÁÒÑÉ¾³ý";

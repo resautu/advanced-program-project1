@@ -279,20 +279,20 @@ void User::gover_inform() {
 }
 
 void User::change_information() {
-	cout << "请选择修改的属性（1、用户名 2、联系方式 3、地址）: ";
+	cout << "请选择修改的属性（1、用户名 2、联系方式 3、地址 4、密码）: ";
 	string i;
 	cin.clear(); i.clear();
 	getline(cin, i);
-	while (!cin || (new_trim(i)[0] < '1' || new_trim(i)[0] > '3')) {
+	while (!cin || (new_trim(i)[0] < '1' || new_trim(i)[0] > '4')) {
 		cout << "输入不合法，请重新输入" << endl;
-		cout << "请选择修改的属性（1、用户名 2、联系方式 3、地址）: ";
+		cout << "请选择修改的属性（1、用户名 2、联系方式 3、地址 4、密码）: ";
 		cin.clear();
 		getline(cin, i);
 	}
 	switch (int(trim(i)[0] - '0')) {
 	case 1: {
 		cout << "请输入您的用户名（不超过10个字符，中文汉字或英文字母）: ";
-		string temp;
+		string temp; temp.clear();
 		cin >> temp;
 		wstring ctemp = s_to_ws(temp);
 		while (!cin || ctemp.size() > 10 || !cevalid(ctemp)) {
@@ -320,7 +320,7 @@ void User::change_information() {
 		break;
 	}
 	case 2: {
-		string temp;
+		string temp; temp.clear();
 		cout << "请输入您的联系方式（不超过20个字符，只由数字组成）: ";
 		cin >> temp;
 		while (!cin || temp.size() > 20 || !nvalid(temp)) {
@@ -340,7 +340,7 @@ void User::change_information() {
 		break;
 	}
 	case 3: {
-		string temp;
+		string temp; temp.clear();
 		cout << "请输入您的地址（不超过40个字符，只由数字组成）: ";
 		cin >> temp;
 		wstring ctemp = s_to_ws(temp);
@@ -356,6 +356,26 @@ void User::change_information() {
 		inform->address = temp;
 		vector<string> valus;
 		valus.push_back("地址 = " + temp);
+		sq->Update(user_file_name, "用户ID = " + inform->user_id, valus);
+		u->write_user();
+		cout << endl << "******修改成功******" << endl;
+		break;
+	}
+	case 4: {
+		string temp; temp.clear();
+		cout << "请输入您的密码（不超过20个字符，只由小写字母和数字组成）: ";
+		cin >> temp;
+		while (!cin || temp.size() > 20 || !nevalid(temp)) {
+			cout << endl << endl << " !!密码不合法，请按要求输入!! " << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+			cout << "请输入您的密码（不超过20个字符，只由小写字母和数字组成）: ";
+			cin >> temp;
+		}
+		cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+		inform->key = temp;
+		vector<string> valus;
+		valus.push_back("密码 = " + temp);
 		sq->Update(user_file_name, "用户ID = " + inform->user_id, valus);
 		u->write_user();
 		cout << endl << "******修改成功******" << endl;
@@ -417,7 +437,7 @@ void User::message_menu() {
 	while (true) {
 		cout << "Welcome to shoppingtrolley" << endl;
 		cout << "===============================================================================================" << endl;
-		cout << "  1、发送留言 2、查看发件箱 3、查看收件箱 4、查看留言详情 5、删除留言 6、返回买家主界面  " << endl;
+		cout << "  1、发送留言 2、查看发件箱 3、查看收件箱 4、查看留言详情 5、删除留言 6、返回用户主界面  " << endl;
 		cout << "===============================================================================================" << endl;
 		cout << "请输入操作序号: ";
 		string i;
@@ -446,7 +466,7 @@ void User::del_message_menu() {
 	while (true) {
 		cout << "Welcome to shoppingtrolley" << endl;
 		cout << "===============================================================================================" << endl;
-		cout << "  1、清空已读留言 2、清空收件箱 3、清空发件箱 4、删除指定留言 5、返回买家主界面  " << endl;
+		cout << "  1、清空已读留言 2、清空收件箱 3、清空发件箱 4、删除指定留言 5、返回用户主界面  " << endl;
 		cout << "===============================================================================================" << endl;
 		cout << "请输入操作序号: ";
 		string i;
