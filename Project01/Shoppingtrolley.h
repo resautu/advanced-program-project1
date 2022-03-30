@@ -22,7 +22,6 @@ public:
 	void DelSeller(string seller_id);
 	void ClearGood(string buyer_id);
 	void InsertGood(ShopGood* sg);
-	void ChangeGood(string sg_id, int num);
 	void write_st();
 protected:
 	vector<ShopGood*>sgings;

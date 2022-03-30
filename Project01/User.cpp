@@ -96,7 +96,7 @@ void User::user_menu(User_information* information) {
 	while (true) {
 		cout << "Welcome! user" << endl;
 		cout << "=================================================================================" << endl;
-		cout << "  1、我是买家 2、我是卖家 3、个人信息管理 4、查看留言 5、注销登录  " << endl;
+		cout << "  1、我是买家 2、我是卖家 3、个人信息管理 4、留言菜单 5、注销登录  " << endl;
 		cout << "=================================================================================" << endl;
 		cout << "请输入操作序号: ";
 		string i;
@@ -117,7 +117,7 @@ void User::user_menu(User_information* information) {
 			((Buyer*)er)->st = st0;
 			((Buyer*)er)->mysgs = st0->getsgs();
 			((Buyer*)er)->buyer_menu();
-
+			delete er;
 			break;
 		}
 		case 2: {
@@ -126,6 +126,7 @@ void User::user_menu(User_information* information) {
 			((Seller*)er)->st = st0;
 			((Seller*)er)->mysgs = st0->getsgs();
 			((Seller*)er)->seller_menu();
+			delete er;
 			break;
 		}
 		case 3:gover_inform(); break;
@@ -435,7 +436,7 @@ void User::recharge() {
 void User::message_menu() {
 	system("cls");
 	while (true) {
-		cout << "Welcome to shoppingtrolley" << endl;
+		cout << "Welcome to messagebox" << endl;
 		cout << "===============================================================================================" << endl;
 		cout << "  1、发送留言 2、查看发件箱 3、查看收件箱 4、查看留言详情 5、删除留言 6、返回用户主界面  " << endl;
 		cout << "===============================================================================================" << endl;
@@ -464,7 +465,7 @@ void User::message_menu() {
 void User::del_message_menu() {
 	system("cls");
 	while (true) {
-		cout << "Welcome to shoppingtrolley" << endl;
+		cout << "please look out the message you want to delete" << endl;
 		cout << "===============================================================================================" << endl;
 		cout << "  1、清空已读留言 2、清空收件箱 3、清空发件箱 4、删除指定留言 5、返回用户主界面  " << endl;
 		cout << "===============================================================================================" << endl;

@@ -36,6 +36,7 @@ bool hide_op(string& s) {
 			}
 		}
 	}
+	return true;
 }
 
 bool space_match(string& s) {
@@ -103,7 +104,7 @@ string calculator_menu(string s) {
 		te.clear();
 		cin.clear();
 		getline(cin, te);
-		while (!expr_valid(te)) {
+		while (!expr_valid(te) || te.empty()) {
 			cout << "请输入您要计算的表达式" << endl;
 			cin.clear();
 			te.clear();
@@ -129,11 +130,13 @@ string calculator_menu(string s) {
 	if (res == divede_zero) {
 		cout << endl << res << endl << endl;
 		calculator_menu("-1");
+		te.clear();
 		return "-1";
 	}
 	else if (res == single_op) {
 		cout << endl << res << endl << endl;
 		calculator_menu("-1");
+		te.clear();
 		return "-1";
 	}
 	else {
@@ -141,8 +144,10 @@ string calculator_menu(string s) {
 			cout << endl << endl << "计算结果为：";
 			cout << res << endl;
 		}
+		te.clear();
 		return res;
 	}
+	te.clear();  
 	return "0";
 }
 

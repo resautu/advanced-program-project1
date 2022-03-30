@@ -87,15 +87,6 @@ void Shopttroing::write_st() {
 	}
 	f.close();
 }
-void Shopttroing::ChangeGood(string sg_id, int num) {
-	for (auto& ele : sgings) {
-		if (ele->sg_id == sg_id) {
-			ele->number = num;
-			break;
-		}
-	}
-	write_st();
-}
 void  Shopttroing::DelSeller(string seller_id) {
 	int count = 0, count1 = 0;
 	for (auto& ele : sgings) {
@@ -141,7 +132,8 @@ void Shopttro::TtroInsert(ShopGood* sg) {
 	for (auto& ele : sgs) {
 		if (ele->good_id == sg->good_id) {
 			ele->number += sg->number;
-			ChangeGood(ele->sg_id, ele->number);
+			//ChangeGood(ele->sg_id, ele->number);
+			write_st();
 			system("cls");
 			cout << endl << "*********Ìí¼Ó³É¹¦***********" << endl << endl;
 			return;

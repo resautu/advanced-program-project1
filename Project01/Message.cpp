@@ -94,16 +94,16 @@ void PrMessageStore::Send() {
 }
 
 void PrMessageStore::SimplePrintRe(Message* m) {
-	cout << left << m->mes_id << m->send_time << m->sender << m->reciever_sit << endl;
+	cout << left << setw(10) << m->mes_id << setw(30) << m->send_time << setw(12) << m->sender << setw(8) << m->reciever_sit << endl;
 }
 
 void PrMessageStore::SimplePrintSe(Message* m) {
-	cout << left << m->mes_id << m->send_time << m->sender << m->sender_sit << endl;
+	cout << left << setw(10) << m->mes_id << setw(30) << m->send_time << setw(12) << m->sender << setw(8) << m->sender_sit << endl;
 }
 
 void PrMessageStore::Lookrecieve() {
 	cout << "*********************************************************************" << endl;
-	cout << "ÁôÑÔ±àºÅ  ÁôÑÔÊ±¼ä  ÁôÑÔÕßID  ÁôÑÔ×´Ì¬" << endl;
+	cout << "ÁôÑÔ±àºÅ" << "           ÁôÑÔÊ±¼ä           ÁôÑÔÕßID     ÁôÑÔ×´Ì¬" << endl;
 	for (auto& ele : rec) {
 		SimplePrintRe(ele);
 	}
@@ -112,7 +112,7 @@ void PrMessageStore::Lookrecieve() {
 
 void PrMessageStore::Looksend() {
 	cout << "*********************************************************************" << endl;
-	cout << "ÁôÑÔ±àºÅ  ÁôÑÔÊ±¼ä  ½ÓÊÕÕßID  ÁôÑÔ×´Ì¬" << endl;
+	cout << "ÁôÑÔ±àºÅ" << "           ÁôÑÔÊ±¼ä           ½ÓÊÕÕßID     ÁôÑÔ×´Ì¬" << endl;
 	for (auto& ele : sen) {
 		SimplePrintSe(ele);
 	}
@@ -126,6 +126,7 @@ void PrMessageStore::Lookmessage() {
 	for (auto& ele : rec) {
 		if (ele->mes_id == id) {
 			ele->reciever_sit = "ÒÑ¶Á";
+			if (ele->sender_sit == "ÒÑ·¢ËÍ") { ele->sender_sit = "ÒÑ¶Á"; }
 			write_mes();
 			cout << "************************************" << endl;
 			cout << "ÁôÑÔ±àºÅ£º" << ele->mes_id << endl;
