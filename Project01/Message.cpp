@@ -76,6 +76,7 @@ void PrMessageStore::Send() {
 	}
 	string content; content.clear(); cin.clear();
 	cout << "ÇëÊäÈëÄúµÄÁôÑÔ:";   getline(cin, content);
+	_replace(content, ',', '`');
 	Message* message = new Message;
 	if (mes.empty()) { message->mes_id = "L001"; }
 	else {

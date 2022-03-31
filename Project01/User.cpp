@@ -108,14 +108,10 @@ void User::user_menu(User_information* information) {
 			cin.clear();
 			getline(cin, i);
 		}
-		Shopttro* st0 = new Shopttro(information->user_id);
-		//maybe have error
 		switch (int(trim(i)[0] - '0')) {
 		case 1: {
 			User* er = new User(u, o, g, r, sq);
 			((Buyer*)er)->inform = information;
-			((Buyer*)er)->st = st0;
-			((Buyer*)er)->mysgs = st0->getsgs();
 			((Buyer*)er)->buyer_menu();
 			delete er;
 			break;
@@ -123,8 +119,6 @@ void User::user_menu(User_information* information) {
 		case 2: {
 			User* er = new User(u, o, g, r, sq);
 			((Seller*)er)->inform = information;
-			((Seller*)er)->st = st0;
-			((Seller*)er)->mysgs = st0->getsgs();
 			((Seller*)er)->seller_menu();
 			delete er;
 			break;
@@ -846,7 +840,7 @@ void Seller::look_good() {
 void Buyer::buyer_menu() {
 	system("cls");
 	while (true) {
-		cout << "Welcome! seller" << endl;
+		cout << "Welcome! buyer" << endl;
 		cout << "================================================================================================================" << endl;
 		cout << "  1、查看商品列表 2、购买商品 3、搜索商品 4、查看历史订单 5、查看商品详细信息 6、查看购物车 7、返回用户主界面  " << endl;
 		cout << "================================================================================================================" << endl;
@@ -1206,7 +1200,7 @@ void Buyer::TtroAdd() {
 		}
 	}
 	for (auto& ele : g->goods) {
-		if (ele->good_id == id) {
+		if (ele->good_id == id && ele->sit!="已下架") {
 			nfind = 0;
 			if (ele->number < exint(num) || ele->number < max_num) {
 				system("cls");
@@ -1214,6 +1208,7 @@ void Buyer::TtroAdd() {
 				return;
 			}
 			temporary = ele;
+			break;
 		}
 	}
 	if (nfind) {
@@ -1228,6 +1223,8 @@ void Buyer::TtroAdd() {
 
 void Buyer::TtroBuyMenu() {
 	system("cls");
+	st = new Shopttro(inform->user_id);
+	mysgs = st->getsgs();
 	while (true) {
 		cout << "Welcome to shoppingtrolley" << endl;
 		cout << "===============================================================================================" << endl;
