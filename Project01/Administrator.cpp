@@ -3,6 +3,7 @@
 #include"Administrator.h"
 #include <fstream>
 #include <iomanip>
+#include"sundry.h"
 using namespace std;
 
 void Admin::admin_login() {
@@ -78,7 +79,8 @@ void Admin::search_good() {
 	cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 	bool nfind = true;
 	for (auto& ele : g->goods) {
-		if (ele->name.find(trim(s)) != string::npos) {
+		//if (ele->name.find(trim(s)) != string::npos) {
+		if (fuzzy_mathing(trim(s),ele->name)) {
 			g->print_good(ele);
 			nfind = false;
 		}

@@ -144,3 +144,31 @@ string str_add(string s) {
 	}
 	return temp;
 }
+
+bool fuzzy_mathing(string sub, string mot) {
+	if (mot.find(sub) != string::npos) return true;    //基本直接查找
+	wstring mother = s_to_ws(mot), substring=s_to_ws(sub);
+	if (substring.length() == 1) return false;         //对于长度大于一的子串进行模糊比对,排除长度为1的子串
+	
+	if (substring.length() >= (mother.length() / 3)) {  //将长度大于母串1/3的子串均分进行模糊比对
+		int half_length = substring.length() / 2;
+
+		if (mother.find(substring.substr(0, half_length)) != wstring::npos) return true;        
+		if (mother.find(substring.substr(half_length, substring.length())) != wstring::npos) return true;
+	}
+
+	if (substring.length() >= (mother.length() / 2)) {     //对于长度大于等于母串长度一半的子串进行模糊比对，通过计算差异值来匹配
+		int count = 0;
+		for (auto& ch1 : substring) {
+			for (auto& ch2 : mother) {
+				if (ch1 == ch2) {
+					count++;
+					break;
+				}
+			}
+		}
+		if (count >= mother.length() / 2) return true;
+	}
+	
+	return false;
+}

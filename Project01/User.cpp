@@ -1032,7 +1032,7 @@ void Buyer::search_good() {
 	cout << "商品ID " << "       名称   " << "       价格  " << "     上架时间  " << " 库存数量  " << "卖家ID  " << "商品状态 " << endl;
 	bool nfind = true;
 	for (auto& ele : g->goods) {
-		if (ele->name.find(trim(s)) != string::npos && ele->sit != "已下架") {
+		if (fuzzy_mathing(trim(s),ele->name) && ele->sit != "已下架") {
 			g->print_good(ele);
 			nfind = false;
 		}

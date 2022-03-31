@@ -33,4 +33,6 @@ bool side_count(string& s);                //判断字符串中小数点是否超过1，超过则
 
 string str_add(string s);              //编号专用的字符串加法
 
+bool fuzzy_mathing(string sub, string mot);    //模糊匹配
+
 #endif
